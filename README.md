@@ -1,8 +1,9 @@
 # 🧊 导航魔方 NaviCube
 
-**[🌐 官网](https://www.shidao.biz/navicube)** · **[📥 下载](navicube.html)** · **[📄 文档](#-使用说明)**
+**[🌐 官网](https://www.shidao.biz/navicube)**   · **[📄 文档](#-使用说明)**
 
 一个功能丰富的个人导航站管理工具，**单文件、零依赖、即开即用**。双击 HTML 文件即可运行，所有数据存储在浏览器本地，无需服务器。
+
 
 ## 🔄 编辑 → 发布 → 再编辑，一个文件搞定
 
@@ -120,8 +121,7 @@ npx serve .
 | 服务商 | 接口类型 | API Endpoint | 模型 |
 |--------|----------|-------------|------|
 | DeepSeek | OpenAI 兼容 | `https://api.deepseek.com` | `deepseek-chat` |
-| 火山引擎 Coding Plan | OpenAI 兼容 | `https://ark.cn-beijing.volces.com/api/coding/v3` | `doubao-seed-2.0-code` |
-| 火山引擎 Coding Plan | Anthropic 兼容 | `https://ark.cn-beijing.volces.com/api/coding` | `doubao-seed-2.0-code` |
+
 
 > ⚠️ 火山引擎等部分服务商不支持浏览器直接调用（CORS 限制），需启动本地代理：
 > ```bash
@@ -231,12 +231,8 @@ navicube/
 
 本项目基于 [MIT License](LICENSE) 开源。
 
-## 📮 联系方式
-
 - **官网** — [https://www.shidao.biz/navicube](https://www.shidao.biz/navicube)
-- **邮箱** — [xuhaoyuan12@tsinghua.org.cn](mailto:xuhaoyuan12@tsinghua.org.cn)
-- **Issues** — [提交问题或建议](https://github.com/xu-hao-yuan/navicube/issues)
-- **Discussions** — [参与讨论](https://github.com/xu-hao-yuan/navicube/discussions)
+
 
 ---
 
