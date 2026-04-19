@@ -1037,7 +1037,7 @@
 			<div class="toolbar-footer">
             <a href="https://github.com/xu-hao-yuan/navicube"_blank" rel="noopener noreferrer">使用说明</a>
             <span class="footer-separator">·</span>
-            <a href="javascript:void(0)" id="show-copyright-btn" data-lang="copyrightTitle">版权信息</a>
+            <a href="javascript:void(0)" id="show-copyright-btn">版权信息</a>
             </div>
 
         </aside>
@@ -1737,10 +1737,7 @@
             'pds5_desc': { zh: 'Y Combinator 旗下的科技新闻社区。', en: 'A tech news community by Y Combinator.' },
             'pds6_desc': { zh: '企业级软件开发领域知识传播高端社区。', en: 'A high-end community for enterprise software development knowledge.' },
             'pds7_desc': { zh: 'Adobe 旗下设计师作品分享平台。', en: 'A platform for designers to share their work, powered by Adobe.' },
-            'pds8_desc': { zh: '可免费商用的高质量图片素材库。', en: 'A library of high-quality, free-to-use images.' },
-            // Copyright / About
-            copyrightTitle: { zh: '版权信息', en: 'About' },
-            copyrightInfo: { zh: '技术支持：AI Coding  \n邮箱：xuhaoyuan12@tsinghua.org.cn\n© 2026 NaviCube', en: 'Tech Support: AI Coding  \nEmail: xuhaoyuan12@tsinghua.org.cn\n© 2026 NaviCube' }
+            'pds8_desc': { zh: '可免费商用的高质量图片素材库。', en: 'A library of high-quality, free-to-use images.' }
         };
 
         // --- DOM Elements ---
@@ -5925,7 +5922,7 @@ body{margin:0;font-family:var(--font-family);background-color:var(--bg-color);co
         const showCopyrightBtn = document.getElementById('show-copyright-btn');
         if (showCopyrightBtn) {
             showCopyrightBtn.addEventListener('click', () => {
-                showAlert(t('copyrightInfo'), t('copyrightTitle'));
+                showAlert('技术支持：AI Coding  \n邮箱：xuhaoyuan12@tsinghua.org.cn\n© 2026 NaviCube', '版权信息');
             });
         }
         })();
