@@ -1,92 +1,112 @@
-# 🧊 导航魔方 NaviCube
+# 🧊 NaviCube
 
-**[🌐 官网](https://www.shidao.biz/navicube)**   · **[📄 文档](#-使用说明)**
+<!-- HERO SECTION -->
+<div align="center">
 
-一个功能丰富的个人导航站管理工具，**单文件、零依赖、即开即用**。双击 HTML 文件即可运行，所有数据存储在浏览器本地，无需服务器。
+![NaviCube Banner](https://raw.githubusercontent.com/xu-hao-yuan/navicube/main/assets/navicube-banner.png)
 
+**A feature-rich personal navigation site manager — single file, zero dependencies, ready to run.**
 
-## 🔄 编辑 → 发布 → 再编辑，一个文件搞定
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub Release](https://img.shields.io/github/v/release/xu-hao-yuan/navicube?include_prereleases&label=Release)](https://github.com/xu-hao-yuan/navicube/releases)
+[![HTML5](https://img.shields.io/badge/HTML5-Document-orange.svg)](navicube.html)
 
-NaviCube 最精妙的设计在于：**它既是编辑器，也是导航页本身**。
+🌐 [Official Website](https://www.shidao.biz/navicube) · 📖 [中文文档](README.zh-CN.md)
+
+</div>
+
+---
+
+## ✨ What is NaviCube?
+
+**Edit → Generate → Publish → Re-edit — all in one file.**
+
+NaviCube's genius is that it is *both* the editor and the navigation page itself.
 
 ```
-┌─────────────┐     生成导航页      ┌─────────────┐
-│   编辑器     │ ──────────────────→ │  独立导航页   │
-│ navicube.html│                     │  .html 文件  │
-└─────────────┘ ←────────────────── └─────────────┘
-                  拖回即可再编辑
+┌─────────────┐     Generate      ┌─────────────┐
+│   Editor    │ ───────────────→ │  Standalone  │
+│ navicube.html│                    │  .html File  │
+└─────────────┘ ←─────────────── └─────────────┘
+                  Drag back to edit
 ```
 
-- **一键生成导航页** — 在编辑器中整理好分类和站点，点击「生成导航页」，即刻得到一个功能完备的独立 HTML 文件：自带搜索、分类目录、响应式布局，直接部署到任意静态托管即可上线
-- **拖回来继续改** — 把生成的导航页 HTML 文件拖回编辑器，所有数据完整还原，继续增删改，无需手动维护 JSON 或数据库
-- **文件即数据** — 导航页 HTML 文件本身就是数据源，不需要额外的配置文件或数据库。分享文件就是分享导航站，收到文件的人既能直接使用，也能拖进编辑器二次定制
+- **One-click Navigation Page** — Organize your categories and sites in the editor, click "Generate", and get a fully-functional standalone HTML file: built-in search, category navigation, responsive layout — deploy to any static host instantly
+- **Drag Back to Keep Editing** — Drag the generated HTML back into the editor and all data is fully restored — continue adding, editing, deleting without maintaining JSON or databases manually
+- **File is Data** — The HTML file *is* the data source; no extra config files or databases needed. Sharing the file shares the entire navigation site — recipients can use it directly or drag it back into the editor to customize further
 
-> 💡 **简单说：编辑器里搭积木，生成出来就是成品网页，想改？拖回来接着搭。**
+> 💡 **In short: build with blocks in the editor, export as a ready web page, drag back to keep building.**
 
-## 🔒 安全与隐私
+---
 
-NaviCube 将你的数据安全放在首位：
+## 🔑 Key Features
 
-- **🌐 纯本地运行** — 无需服务器，无需注册账号，双击 HTML 文件即可使用
-- **💾 数据存于浏览器** — 所有分类、站点、配置均存储在浏览器 localStorage 中，不经过任何第三方服务器
-- **🔑 密钥本地保管** — API Key 等敏感信息仅保存在你的浏览器中，不会上传到任何云端
-- **🚫 无数据采集** — 不收集任何用户数据、行为统计或使用追踪
-- **📦 数据完全自主** — 随时导出 JSON 备份，数据迁移自由，不锁定平台
-- **👁️ 代码透明** — 单文件 HTML，所有代码可审查，无隐藏行为
+### 📋 Core Features
+- **Category Management** — Create, edit, delete, drag-and-drop reorder categories
+- **Site Management** — Add, edit, delete sites with drag-and-drop and cross-category moving
+- **Auto-fetch Site Info** — Enter a URL and automatically get title, description, and favicon
+- **Multi-region Nodes** — Support for Mainland China / Hong Kong / US nodes with automatic connectivity detection and switching
+- **Local Search** — Real-time filtering with debounce optimization
 
-## ✨ 功能特点
+### 🤖 AI Features
+- **One-click Smart Organize** — AI analyzes site content and re-categorizes automatically
+- **One-click Content Generate** — Enter a topic, AI generates category system and site content
+- **Multi-model Support** — Compatible with OpenAI and Anthropic API protocols
+- **Connection Test** — 4-step diagnostic test to precisely locate connectivity issues
 
-### 📋 核心功能
-- **分类管理** — 创建、编辑、删除、拖拽排序分类
-- **站点管理** — 录入、编辑、删除站点，支持拖拽排序和跨分类移动
-- **信息自动获取** — 输入网址自动获取标题、描述和图标
-- **多地域节点** — 支持大陆/香港/美国节点，自动检测连通性并切换
-- **本地搜索** — 实时过滤分类和站点，支持防抖优化
+### 📦 Data Management
+- **Import/Export** — Supports JSON and HTML formats, merge or replace import options
+- **Link Validity Check** — Batch detect site availability, mark broken links
+- **Data Reset** — Selectively clear categories, sites, AI config, UI settings, detection cache
+- **Storage Alert** — Auto-detect storage usage, warn when approaching limits
+- **Version Migration** — Auto-migrate on data structure upgrades, backward compatible
 
-### 🤖 AI 功能
-- **一键智能整理** — AI 自动分析站点内容，重新归类整理
-- **一键生成内容** — 输入主题，AI 自动生成分类体系和站点内容
-- **多模型支持** — 兼容 OpenAI 和 Anthropic 接口协议
-- **连接测试** — 4 步诊断式测试，精确定位连接问题
+### 🎨 Interface Customization
+- **Bilingual** — Full i18n support with one-click language switch (EN / 中文)
+- **Card Size Slider** — Control site card size with a slider
+- **Custom Search Engine** — Preset mainstream engines, add custom engines
+- **Bing Wallpaper** — Daily auto-updating Bing beautiful image backgrounds
+- **Search Bar Styling** — Customize search button and search bar background colors
 
-### 📦 数据管理
-- **导入/导出** — 支持 JSON 和 HTML 格式，可覆盖或追加导入
-- **失效检测** — 批量检测站点可用性，标记失效链接
-- **数据重置** — 可选清理分类站点、AI 配置、界面设置、检测缓存
-- **容量预警** — 自动检测存储空间使用情况，接近上限时提醒备份
-- **版本迁移** — 数据结构升级时自动迁移，向后兼容
+### ⚡ Performance
+- **Incremental Rendering** — Add/edit/delete only touches local DOM, no full re-renders
+- **Search Debounce** — 300ms debounce reduces unnecessary DOM operations
+- **Lazy Icon Loading** — Icons outside viewport load lazily for faster first screen
+- **Error Boundaries** — Independent try-catch in render functions prevents single-point white screens
 
-### 🎨 界面定制
-- **中英双语** — 完整的国际化支持，一键切换语言
-- **卡片宽度调节** — 滑块控制站点卡片大小
-- **自定义搜索引擎** — 预置主流引擎，支持添加自定义引擎
-- **必应壁纸** — 每日自动更换必应美图作为背景
-- **搜索栏配色** — 自定义搜索按钮和搜索栏背景颜色
+---
 
-### ⚡ 性能优化
-- **增量渲染** — 增删改站点时只操作局部 DOM，避免全量重渲染
-- **搜索防抖** — 300ms 防抖减少不必要的 DOM 操作
-- **图标懒加载** — 视口外的图标延迟加载，加速首屏
-- **错误边界** — 渲染函数独立 try-catch，防止单点错误导致白屏
+## 🔒 Security & Privacy
 
-## 🚀 快速开始
+NaviCube puts your data security first:
 
-### 安装
+- **🌐 Pure Local Run** — No server needed, no account registration, double-click HTML to start
+- **💾 Browser-local Storage** — All categories, sites, and config stored in browser localStorage — never touches third-party servers
+- **🔑 Keys Stay Local** — API keys and sensitive info only saved in your browser, never uploaded to the cloud
+- **🚫 No Data Collection** — No user data, analytics, or usage tracking
+- **📦 Full Data Ownership** — Export JSON backup anytime, migrate freely, no platform lock-in
+- **👁️ Transparent Code** — Single-file HTML, all code reviewable, no hidden behavior
 
-无需安装任何依赖，只需下载 `navicube.html` 文件：
+---
+
+## 🚀 Quick Start
+
+### Install
+
+No dependencies required — just download the `navicube.html` file:
 
 ```bash
 git clone https://github.com/xu-hao-yuan/navicube.git
 cd navicube
 ```
 
-或直接下载 [navicube.html](navicube.html) 文件。
+Or download [navicube.html](navicube.html) directly.
 
-### 运行
+### Run
 
-双击 `navicube.html` 文件即可在浏览器中打开使用。
+Double-click `navicube.html` to open in browser.
 
-也可以使用任意 HTTP 服务器：
+Or use any HTTP server:
 
 ```bash
 # Python
@@ -96,144 +116,148 @@ python -m http.server 8080
 npx serve .
 ```
 
-然后访问 `http://localhost:8080/navicube.html`。
+Then visit `http://localhost:8080/navicube.html`.
 
-## 📖 使用说明
+---
 
-### 基础操作
+## 📖 Usage Guide
 
-1. **添加分类** — 点击右侧面板「+ 分类」按钮
-2. **添加站点** — 点击分类标题旁的「+」按钮，或点击右侧「+ 站点」按钮
-3. **自动获取** — 在站点表单中输入网址，点击「自动获取」按钮填充标题和描述
-4. **拖拽排序** — 拖拽分类或站点卡片调整顺序，支持跨分类移动
-5. **搜索** — 在搜索栏输入关键词，实时过滤匹配的分类和站点
+### Basic Operations
 
-### AI 功能配置
+1. **Add Category** — Click the "+ Category" button in the right panel
+2. **Add Site** — Click "+" next to a category title, or use the "+ Site" button in the right panel
+3. **Auto-fetch** — Enter a URL in the site form and click "Auto-fetch" to populate title and description
+4. **Drag to Reorder** — Drag category or site cards to adjust order, supports cross-category moving
+5. **Search** — Type keywords in the search bar for real-time filtering
 
-1. 点击右侧面板「AI 大模型配置」
-2. 选择接口类型（OpenAI 兼容 / Anthropic 兼容）
-3. 填写 API Endpoint、API Key、模型名称等参数
-4. 点击「测试连接」验证配置
-5. 配置成功后即可使用「一键智能整理」和「一键生成内容」
+### AI Configuration
 
-#### 推荐配置
+1. Click "AI Model Config" in the right panel
+2. Choose API type (OpenAI Compatible / Anthropic Compatible)
+3. Fill in API Endpoint, API Key, model name and other parameters
+4. Click "Test Connection" to verify
+5. After successful config, use "One-click Smart Organize" and "One-click Content Generate"
 
-| 服务商 | 接口类型 | API Endpoint | 模型 |
-|--------|----------|-------------|------|
-| DeepSeek | OpenAI 兼容 | `https://api.deepseek.com` | `deepseek-chat` |
+#### Recommended Config
 
+| Provider | API Type | API Endpoint | Model |
+|----------|----------|---------------|-------|
+| DeepSeek | OpenAI Compatible | `https://api.deepseek.com` | `deepseek-chat` |
 
-> ⚠️ 火山引擎等部分服务商不支持浏览器直接调用（CORS 限制），需启动本地代理：
+> ⚠️ Some providers like Volcano Engine don't support browser direct calls (CORS restriction). Start a local proxy:
 > ```bash
 > node cors-proxy.js
 > ```
-> 然后在 Anthropic 配置的「CORS 代理」字段填入 `http://localhost:8080/`
+> Then fill `http://localhost:8080/` in the "CORS Proxy" field of the Anthropic config.
 
-### 信息自动获取配置
+### Site Info Auto-fetch Config
 
-1. 点击右侧面板「API 配置」
-2. 填写开发者 ID 和通讯密钥（来自 [API盒子](https://www.apihz.cn)）
-3. 选择节点地域（大陆/香港/美国）
-4. 点击「测试地域」检测各节点连通性
-5. 配置成功后，录入站点时可自动获取标题、描述和图标
+1. Click "API Config" in the right panel
+2. Fill in Developer ID and Communication Key (from [API盒子](https://www.apihz.cn))
+3. Select region (Mainland / Hong Kong / US)
+4. Click "Test Region" to check connectivity
+5. After successful config, URL entry can auto-fetch title, description and icon
 
-### 数据管理
+---
 
-- **导出** — 支持 JSON 格式（可重新导入编辑）和 HTML 格式（可分享的静态导航页）
-- **导入** — 支持 JSON 文件导入，可选择覆盖或追加模式
-- **重置** — 可选择性清理分类站点、AI 配置、界面设置、失效检测缓存
-- **备份** — 数据接近存储上限时自动提醒导出备份
+## 🔌 API Reference
 
-## 🔌 API 文档
+### Site Info API
 
-### 信息获取 API
+This project uses [API盒子](https://www.apihz.cn) for site information retrieval:
 
-本项目使用 [API盒子](https://www.apihz.cn) 的站点信息获取接口：
+**Endpoint:** `https://cn.apihz.cn/api/wangzhan/getdata.php`
 
-**请求地址：** `https://cn.apihz.cn/api/wangzhan/getdata.php`
+**Method:** GET
 
-**请求方式：** GET
+**Parameters:**
 
-**参数说明：**
+| Param | Required | Description |
+|-------|----------|-------------|
+| `id` | Yes | Developer ID |
+| `key` | Yes | Developer Key |
+| `url` | Yes | Target URL (`&` replace with `@`) |
+| `type` | No | Region: 1=China, 2=HK, 3=US |
 
-| 参数 | 必填 | 说明 |
-|------|------|------|
-| `id` | 是 | 开发者 ID |
-| `key` | 是 | 开发者通讯密钥 |
-| `url` | 是 | 目标网址（`&` 需替换为 `@`） |
-| `type` | 否 | 节点地域：1=国内，2=香港，3=美国 |
-
-**返回示例：**
+**Response Example:**
 ```json
 {
   "code": 200,
   "ico": "www.example.com/favicon.ico",
-  "title": "网站标题",
-  "keywords": "关键词",
-  "description": "网站描述"
+  "title": "Site Title",
+  "keywords": "Keywords",
+  "description": "Site Description"
 }
 ```
 
-### AI 大模型接口
+### AI Model API
 
-支持 OpenAI 和 Anthropic 两种兼容接口协议，请求格式遵循各自标准：
+Supports OpenAI and Anthropic compatible protocols:
 
-- **OpenAI 兼容** — `POST {endpoint}/chat/completions`
-- **Anthropic 兼容** — `POST {endpoint}/v1/messages`
-
-## 🛠️ 技术架构
-
-| 技术 | 用途 |
-|------|------|
-| HTML5 + CSS3 + Vanilla JS | 核心技术栈，无框架依赖 |
-| CSS Custom Properties | 主题变量系统 |
-| localStorage | 本地数据持久化 |
-| SortableJS (CDN) | 拖拽排序（唯一外部依赖） |
-| Fetch API | 网络请求 |
-| AbortController | 请求超时控制 |
-
-### 项目结构
-
-```
-navicube/
-├── navicube.html      # 主应用文件（单文件包含 HTML/CSS/JS）
-├── cors-proxy.js      # CORS 代理脚本（可选，用于解决浏览器跨域限制）
-├── README.md          # 项目文档
-├── LICENSE            # 开源许可协议
-└── .gitignore         # Git 忽略规则
-```
-
-## 🤝 贡献指南
-
-欢迎贡献代码！请遵循以下步骤：
-
-1. **Fork** 本仓库
-2. 创建功能分支：`git checkout -b feature/your-feature`
-3. 提交更改：`git commit -m 'Add some feature'`
-4. 推送分支：`git push origin feature/your-feature`
-5. 提交 **Pull Request**
-
-### 开发注意事项
-
-- 本项目为单文件 HTML 应用，所有代码在 `navicube.html` 中
-- 修改时请确保保持「单文件、零依赖、即开即用」的核心定位
-- 新增功能需提供中英文双语支持（`data-lang` 属性 + 翻译表）
-- 请在提交前测试所有现有功能是否正常
-
-### 代码风格
-
-- JavaScript 使用 `const`/`let`，不使用 `var`
-- CSS 使用 CSS Custom Properties 管理主题变量
-- HTML 使用语义化标签
-- 国际化文本使用 `data-lang` 属性标记
-
-## 📄 开源许可
-
-本项目基于 [MIT License](LICENSE) 开源。
-
-- **官网** — [https://www.shidao.biz/navicube](https://www.shidao.biz/navicube)
-
+- **OpenAI Compatible** — `POST {endpoint}/chat/completions`
+- **Anthropic Compatible** — `POST {endpoint}/v1/messages`
 
 ---
 
-<p align="center">如果这个项目对你有帮助，请给个 ⭐ Star 支持一下！</p>
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| HTML5 + CSS3 + Vanilla JS | Core tech, no framework dependencies |
+| CSS Custom Properties | Theme variable system |
+| localStorage | Local data persistence |
+| SortableJS (CDN) | Drag-and-drop sorting (only external dependency) |
+| Fetch API | Network requests |
+| AbortController | Request timeout control |
+
+### Project Structure
+
+```
+navicube/
+├── navicube.html      # Main application (single-file HTML/CSS/JS)
+├── cors-proxy.js      # CORS proxy script (optional, for browser cross-origin)
+├── README.md          # English documentation
+├── README.zh-CN.md    # Chinese documentation
+├── LICENSE            # MIT License
+└── .gitignore         # Git ignore rules
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! Please follow these steps:
+
+1. **Fork** this repository
+2. Create feature branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m 'Add some feature'`
+4. Push branch: `git push origin feature/your-feature`
+5. Submit a **Pull Request**
+
+### Development Notes
+
+- This project is a single-file HTML app, all code lives in `navicube.html`
+- Please maintain the "single file, zero dependencies, ready to run" core principle
+- New features need bilingual support (`data-lang` attribute + translation table)
+- Please test all existing features before submitting
+
+### Code Style
+
+- JavaScript uses `const`/`let`, no `var`
+- CSS uses CSS Custom Properties for theme variables
+- HTML uses semantic tags
+- i18n text uses `data-lang` attribute markers
+
+---
+
+## 📄 License
+
+This project is open source under [MIT License](LICENSE).
+
+---
+
+<p align="center">
+
+If this project is helpful to you, please give a ⭐ Star to show support!
+
+</p>
