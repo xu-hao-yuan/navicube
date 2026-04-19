@@ -3,7 +3,7 @@
 <!-- HERO SECTION -->
 <div align="center">
 
-![NaviCube Banner](https://raw.githubusercontent.com/xu-hao-yuan/navicube/main/assets/navicube-banner.png)
+![NaviCube Banner](https://raw.githubusercontent.com/xu-hao-yuan/navicube/main/assets/navicube-banner.svg)
 
 **一个功能丰富的个人导航站管理工具 — 单文件、零依赖、即开即用。**
 

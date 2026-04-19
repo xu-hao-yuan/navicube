@@ -3,7 +3,7 @@
 <!-- HERO SECTION -->
 <div align="center">
 
-![NaviCube Banner](https://raw.githubusercontent.com/xu-hao-yuan/navicube/main/assets/navicube-banner.png)
+![NaviCube Banner](https://raw.githubusercontent.com/xu-hao-yuan/navicube/main/assets/navicube-banner.svg)
 
 **A feature-rich personal navigation site manager — single file, zero dependencies, ready to run.**
 
