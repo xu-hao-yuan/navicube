@@ -5,6 +5,13 @@
 
 ---
 
+## [v1.4] - 2026-04-20
+
+### Fixed | 修复
+- **Toast on Mobile** — Fixed toast notification being blocked by mobile toolbar on small screens. Position adjusted to avoid overlap.
+
+---
+
 ## [v1.3] - 2026-04-20
 
 ### Added | 新增

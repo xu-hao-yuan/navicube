@@ -442,9 +442,9 @@
         .card-actions { position: absolute; top: 8px; right: 8px; gap: 4px; background-color: var(--card-bg); padding: 4px; border-radius: 8px; }
         .card-action-btn { cursor: pointer; font-size: 14px; padding: 4px; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1000; display: none; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 10000; display: none; }
 		#confirm-modal {
-            z-index: 2100;
+            z-index: 10100;
         }
         .modal {
             background-color: var(--bg-color);
@@ -553,7 +553,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.4);
-            z-index: 1999;
+            z-index: 10001;
             display: none;
             transition: background-color 0.3s, filter 0.3s;
         }
@@ -562,7 +562,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 2000;
+            z-index: 10002;
             width: 90%;
             max-width: 450px;
             background-color: var(--bg-color);
@@ -981,7 +981,7 @@
                 min-height: 32px;
             }
             #toast-message {
-                top: 10px !important;
+                top: 60px !important;
                 right: 10px !important;
                 left: 10px !important;
                 width: auto !important;
@@ -5447,9 +5447,9 @@ body{margin:0;font-family:var(--font-family);background-color:var(--bg-color);co
 .local-search-empty-results{text-align:center;padding:50px;color:var(--text-secondary-color);font-size:1.2em;display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 64px);max-width:800px;z-index:5}
 .custom-select-container{transition:all .3s ease-in-out}
 .hidden{display:none!important}
-.category-drawer{position:fixed;top:0;right:0;width:300px;max-width:80vw;height:100%;background-color:var(--bg-color);box-shadow:-10px 0 30px rgba(0,0,0,0.1);z-index:1010;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .4s cubic-bezier(0.25,0.8,0.25,1)}
+.category-drawer{position:fixed;top:0;right:0;width:300px;max-width:80vw;height:100%;background-color:var(--bg-color);box-shadow:-10px 0 30px rgba(0,0,0,0.1);z-index:10010;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .4s cubic-bezier(0.25,0.8,0.25,1)}
 .category-drawer.is-open{transform:translateX(0)}
-.drawer-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.2);z-index:1005;opacity:0;transition:opacity .4s ease;pointer-events:none}
+.drawer-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.2);z-index:10005;opacity:0;transition:opacity .4s ease;pointer-events:none}
 .drawer-overlay.is-open{opacity:1;pointer-events:auto}
 .drawer-header{padding:16px;border-bottom:1px solid var(--border-color);flex-shrink:0}
 .drawer-header input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border-color);background-color:var(--bg-color);box-sizing:border-box;font-size:15px}
