@@ -623,7 +623,79 @@
             text-decoration: underline;
         }
 
+        .mobile-toolbar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 6px 12px;
+            align-items: center;
+            justify-content: space-between;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+            height: 52px;
+            box-sizing: border-box;
+        }
+        .mobile-toolbar-logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent-color);
+            pointer-events: none;
+        }
+        .mobile-toolbar-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 20px;
+            padding: 6px 12px;
+            cursor: pointer;
+            color: var(--text-color);
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .mobile-toolbar-btn:active {
+            background-color: var(--bg-light);
+            transform: scale(0.95);
+        }
+        .mobile-toolbar-btn:hover {
+            background-color: var(--border-color);
+        }
+        .mobile-drawer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+            z-index: 49;
+        }
+        .mobile-drawer-overlay.active {
+            display: block;
+        }
+        .mobile-only-btn {
+            display: none;
+        }
+
         @media (max-width: 850px) {
+            .mobile-toolbar {
+                display: flex;
+            }
+            body {
+                padding-top: 52px;
+            }
+            .mobile-only-btn {
+                display: block;
+            }
             .app-container {
                 display: flex;
                 flex-direction: column;
@@ -631,49 +703,143 @@
                 min-width: unset;
             }
             .sidebar, .right-toolbar {
-                width: 100%;
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                width: 80vw;
+                max-width: 320px;
+                height: 100%;
                 box-sizing: border-box;
-                height: auto;
-                box-shadow: none;
-                border-right: none;
-                border-left: none;
-                border-bottom: 1px solid var(--border-color);
-                overflow-y: visible;
+                box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+                overflow-y: auto;
+                z-index: 50;
+                transition: transform 0.3s ease;
+            }
+            .sidebar {
+                left: 0;
+                border-right: 1px solid var(--border-color);
+                border-bottom: none;
+                transform: translateX(-100%);
+            }
+            .sidebar.drawer-open {
+                transform: translateX(0);
+            }
+            .right-toolbar {
+                right: 0;
+                left: auto;
+                border-left: 1px solid var(--border-color);
+                border-bottom: none;
+                transform: translateX(100%);
+            }
+            .right-toolbar.drawer-open {
+                transform: translateX(0);
             }
             .main-content {
-                padding: 16px;
+                padding: 12px;
                 overflow-y: initial;
+                width: 100%;
+                flex: 1;
+                box-sizing: border-box;
+            }
+            .sidebar .logo {
+                display: none;
             }
             .search-bar-container {
                 flex-wrap: wrap;
+                z-index: 20;
+                position: relative;
             }
             .search-engine-dropdown {
-                order: 3;
-                width: 100%;
-                margin-top: 8px;
-                margin-right: 0;
+                flex-shrink: 0;
+            }
+            .back-to-top-btn {
+                right: 20px;
+                bottom: 20px;
+                width: 44px;
+                height: 44px;
+                line-height: 40px;
+                font-size: 20px;
             }
         }
         
         @media (max-width: 768px) {
             .search-bar-container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 8px;
-                padding: 12px;
+                flex-wrap: wrap;
+                gap: 6px;
+                padding: 10px;
+                margin-left: 0;
+                margin-right: 0;
+                max-width: 100%;
+                box-sizing: border-box;
             }
             
             .search-mode-toggle {
-                align-self: flex-start;
+                padding: 8px;
+                font-size: 18px;
                 margin-right: 0;
+                flex-shrink: 0;
+            }
+            
+            .search-engine-dropdown {
+                order: unset;
+                width: auto;
+                margin-right: 0;
+                flex-shrink: 0;
+                max-width: 40%;
+            }
+            .search-engine-trigger {
+                min-width: 56px;
+                padding: 6px 20px 6px 8px;
+                font-size: 14px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .search-engine-arrow {
+                font-size: 10px;
+            }
+            .search-engine-options {
+                min-width: 160px;
+                z-index: 999;
+                left: 0;
+                right: auto;
             }
             
             .search-input {
-                width: 100%;
+                flex: 1;
+                min-width: 100px;
+                padding: 8px;
+                font-size: 16px;
             }
             
+            .search-btn {
+                padding: 8px;
+                font-size: 16px;
+                margin-left: 0;
+                flex-shrink: 0;
+            }
+            .search-settings-btn {
+                padding: 8px;
+                font-size: 18px;
+                flex-shrink: 0;
+            }
             .main-search-action-btn {
                 margin-left: 0;
+                flex-shrink: 0;
+            }
+            
+            .search-settings-popup {
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 50%;
+                transform: translateX(-50%);
+                right: auto;
+                width: calc(100vw - 32px);
+                max-width: 300px;
+                max-height: 75vh;
+                overflow-y: auto;
+                z-index: 999;
+                border-radius: 16px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             }
             
             .category-title {
@@ -722,6 +888,109 @@
                 padding: 8px 12px;
                 font-size: 14px;
             }
+
+            .category-item .actions {
+                display: block;
+                opacity: 0.5;
+            }
+            .category-item:hover .actions {
+                opacity: 1;
+            }
+            .editor-view .card-actions {
+                display: flex;
+                opacity: 0.5;
+            }
+            .editor-view .site-card:hover .card-actions {
+                opacity: 1;
+            }
+            .category-title .quick-add-site-btn {
+                opacity: 0.5;
+                visibility: visible;
+                transform: scale(1);
+            }
+            .category-title:hover .quick-add-site-btn {
+                opacity: 1;
+            }
+            .tidy-cat-item .tidy-cat-item-edit-btn {
+                display: inline;
+                opacity: 0.5;
+            }
+            .tidy-cat-item:hover .tidy-cat-item-edit-btn {
+                opacity: 1;
+            }
+
+            #tidy-preview-body,
+            #generate-preview-body {
+                flex-direction: column;
+            }
+            #tidy-preview-cats,
+            #generate-preview-cats {
+                width: 100%;
+                flex-shrink: 1;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-right: 0;
+                padding-bottom: 12px;
+                max-height: 150px;
+                overflow-y: auto;
+            }
+            #tidy-preview-cats ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            #generate-preview-cats ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            .tidy-cat-item {
+                flex-shrink: 0;
+                padding: 6px 12px;
+                margin-bottom: 0;
+            }
+
+            .modal-form-group input,
+            .modal-form-group select,
+            .modal-form-group textarea {
+                font-size: 16px;
+            }
+            .category-search-input {
+                font-size: 16px;
+            }
+            .card-action-btn {
+                min-width: 36px;
+                min-height: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 6px;
+            }
+            .quick-add-site-btn {
+                width: 36px;
+                height: 36px;
+                line-height: 34px;
+            }
+            .pagination-controls button {
+                min-height: 36px;
+                padding: 6px 14px;
+            }
+            #delete-all-failed-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+                min-height: 32px;
+            }
+            #toast-message {
+                top: 10px !important;
+                right: 10px !important;
+                left: 10px !important;
+                width: auto !important;
+                text-align: center;
+                pointer-events: none;
+            }
+            #toast-message[style*="opacity: 1"] {
+                pointer-events: auto;
+            }
         }
 		.back-to-top-btn {
             position: fixed;
@@ -753,10 +1022,62 @@
             transform: translateY(0);
         }
 
-        @media (max-width: 850px) {
-            .back-to-top-btn {
-                right: 30px;
-                bottom: 30px;
+        @media (max-width: 480px) {
+            .sites-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+            .site-card {
+                padding: 10px;
+            }
+            .site-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+                margin-right: 8px;
+            }
+            .site-name {
+                font-size: 14px;
+            }
+            .site-desc {
+                font-size: 11px;
+            }
+            .category-title {
+                font-size: 20px;
+            }
+            .mobile-toolbar {
+                padding: 6px 8px;
+            }
+            .mobile-toolbar-logo {
+                font-size: 16px;
+            }
+            .mobile-toolbar-btn {
+                font-size: 18px;
+                padding: 4px 10px;
+            }
+            .sidebar, .right-toolbar {
+                width: 85vw;
+            }
+            .search-bar-container {
+                padding: 8px;
+                gap: 4px;
+            }
+            .search-engine-dropdown {
+                max-width: 35%;
+            }
+            .search-engine-trigger {
+                padding: 4px 16px 4px 6px;
+                font-size: 13px;
+            }
+            .search-input {
+                min-width: 80px;
+            }
+            .main-content {
+                padding: 8px;
+            }
+            .button {
+                padding: 8px 10px;
+                font-size: 13px;
             }
         }
         
@@ -919,8 +1240,47 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
+    <div class="mobile-toolbar">
+        <button id="mobile-sidebar-toggle" class="mobile-toolbar-btn" title="分类管理" onclick="toggleMobileSidebar()">☰</button>
+        <span class="mobile-toolbar-logo">NaviCube</span>
+        <button id="mobile-tools-toggle" class="mobile-toolbar-btn" title="工具箱" onclick="toggleMobileTools()">🔧</button>
+    </div>
+    <div id="mobile-drawer-overlay" class="mobile-drawer-overlay" onclick="closeAllDrawers()"></div>
+    <script>
+    function closeAllDrawers() {
+        var sb = document.getElementById('sidebar');
+        var rt = document.getElementById('right-toolbar');
+        var ov = document.getElementById('mobile-drawer-overlay');
+        if (sb) sb.classList.remove('drawer-open');
+        if (rt) rt.classList.remove('drawer-open');
+        if (ov) ov.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    function toggleMobileSidebar() {
+        var sb = document.getElementById('sidebar');
+        var ov = document.getElementById('mobile-drawer-overlay');
+        var isOpen = sb && sb.classList.contains('drawer-open');
+        closeAllDrawers();
+        if (!isOpen && sb) {
+            sb.classList.add('drawer-open');
+            if (ov) ov.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    function toggleMobileTools() {
+        var rt = document.getElementById('right-toolbar');
+        var ov = document.getElementById('mobile-drawer-overlay');
+        var isOpen = rt && rt.classList.contains('drawer-open');
+        closeAllDrawers();
+        if (!isOpen && rt) {
+            rt.classList.add('drawer-open');
+            if (ov) ov.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    </script>
     <div class="app-container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="logo">NaviCube</div>
             <button id="add-site-btn" class="button" style="margin-bottom: 8px;" data-lang="addSite">录入站点</button>
             <button id="add-category-btn" class="button" data-lang="addCategory">新建分类</button>
@@ -975,7 +1335,7 @@
             </div>
         </main>
 
-        <aside class="right-toolbar">
+        <aside class="right-toolbar" id="right-toolbar">
             <div class="toolbar-group">
                 <h4 data-lang="appearanceSettings">外观设置</h4>
                 <label class="toggle-switch-label" style="margin-bottom: 20px;">
@@ -1004,6 +1364,7 @@
                 <div id="html-import-drop-area" class="html-import-drop-area" data-lang="dragHtmlNavPage">
                     <p data-lang="dragHtmlPrompt">将导航页拖入此处编辑</p>
                     <p data-lang="orClickUpload">或点击此处上传</p>
+                    <button type="button" id="mobile-html-import-btn" class="button button-secondary mobile-only-btn" style="margin-top: 8px; font-size: 14px;" data-lang="selectFile">选择文件</button>
                     <p data-lang="htmlImportInfo">导入的导航页必须是NaviCube生成的源文件。</p>
                     <a href="https://shidao.biz/navicube" target="_blank" data-lang="htmlImportLearnMore">NaviCube</a>
                     <input type="file" id="html-nav-file-importer" class="hidden" accept=".html">
@@ -1035,9 +1396,9 @@
             </div>
 			
 			<div class="toolbar-footer">
-            <a href="https://github.com/xu-hao-yuan/navicube"_blank" rel="noopener noreferrer">使用说明</a>
+            <a href="https://github.com/xu-hao-yuan/navicube" target="_blank" rel="noopener noreferrer" data-lang="userGuide">使用说明</a>
             <span class="footer-separator">·</span>
-            <a href="javascript:void(0)" id="show-copyright-btn">版权信息</a>
+            <a href="javascript:void(0)" id="show-copyright-btn" data-lang="copyrightInfo">版权信息</a>
             </div>
 
         </aside>
@@ -1203,11 +1564,11 @@
                         </div>
                         <div class="modal-form-group">
                             <label for="llm-openai-max-tokens-input">Max Tokens</label>
-                            <input type="number" id="llm-openai-max-tokens-input" value="1000" min="1">
+                            <input type="number" id="llm-openai-max-tokens-input" value="4000" min="1">
                         </div>
                         <div class="modal-form-group">
                             <label for="llm-openai-timeout-input">超时设置 (毫秒)</label>
-                            <input type="number" id="llm-openai-timeout-input" value="30000" min="1000">
+                            <input type="number" id="llm-openai-timeout-input" value="120000" min="1000">
                         </div>
                         <div class="modal-form-group">
                             <label for="llm-openai-system-prompt-input">System Prompt</label>
@@ -1240,11 +1601,11 @@
                         </div>
                         <div class="modal-form-group">
                             <label for="llm-anthropic-max-tokens-input">Max Tokens</label>
-                            <input type="number" id="llm-anthropic-max-tokens-input" value="1000" min="1">
+                            <input type="number" id="llm-anthropic-max-tokens-input" value="4000" min="1">
                         </div>
                         <div class="modal-form-group">
                             <label for="llm-anthropic-timeout-input">超时设置 (毫秒)</label>
-                            <input type="number" id="llm-anthropic-timeout-input" value="30000" min="1000">
+                            <input type="number" id="llm-anthropic-timeout-input" value="120000" min="1000">
                         </div>
                         <div class="modal-form-group">
                             <label for="llm-anthropic-system-prompt-input">System Prompt</label>
@@ -1402,7 +1763,7 @@
     </div>
     
     <!-- 操作结果反馈 -->
-    <div id="toast-message" style="position: fixed; top: 20px; right: 20px; padding: 16px 24px; border-radius: 8px; color: white; font-weight: 500; z-index: 9999; transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(-20px);">
+    <div id="toast-message" style="position: fixed; top: 20px; right: 20px; padding: 16px 24px; border-radius: 8px; color: white; font-weight: 500; z-index: 9998; transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(-20px); pointer-events: none;">
     </div>
 
     <div id="smart-tidy-preview-modal" class="modal-overlay">
@@ -1488,7 +1849,8 @@
             dragHtmlPrompt: { zh: '将导航页拖入此处', en: 'Drag navigation page here' }, 
             orClickUpload: { zh: '或点击此处上传', en: 'Or click to upload' }, 
             htmlImportInfo: { zh: '导入的导航页必须是NaviCube生成的源文件。', en: 'Imported navigation page must be a source file generated by NaviCube.' }, 
-            htmlImportLearnMore: { zh: 'NaviCube', en: 'NaviCube' }, 
+            htmlImportLearnMore: { zh: 'NaviCube', en: 'NaviCube' },
+            selectFile: { zh: '选择文件', en: 'Select File' }, 
 
 
             dataManagement: { zh: '数据管理', en: 'Data Management' },
@@ -1536,6 +1898,8 @@
             applyForLlmApi: { zh: '申请豆包 API 密钥', en: 'Apply for Doubao API Key'},
             llmApiConfigSaved: { zh: 'AI 模型配置已保存并激活！', en: 'AI Model configuration saved and activated!'},
             llmFetchUrlError: { zh: '获取失败, 请检查当前激活模型的API密钥或网络。', en: 'Failed to fetch. Please check the API key for the active model or your network.'},
+            aiResponseTruncated: { zh: 'AI响应被截断，数据量过大超出了模型输出限制。建议减少衔接数量或在设置中增大最大Token数。', en: 'AI response was truncated. Data volume exceeds model output limit. Consider reducing sites or increasing Max Tokens in settings.'},
+            aiRetrying: { zh: '重试中...', en: 'Retrying...' },
             saveAndActivate: { zh: '保存并激活', en: 'Save & Activate' },
             llmProvider: { zh: 'AI 服务商', en: 'AI Provider' },
             llmModelName: { zh: '模型名称', en: 'Model Name' },
@@ -1718,6 +2082,11 @@
             generateContentReplaceLabel: { zh: '替换现有内容', en: 'Replace Existing' },
             generateContentAppliedSuccess: { zh: '内容生成成功！已添加到您的导航站。', en: 'Content generated! Added to your navigation site.' },
             generateContentNoTheme: { zh: '请输入主题或分类要求。', en: 'Please enter a theme or category requirements.' },
+
+            userGuide: { zh: '使用说明', en: 'User Guide' },
+            copyrightInfo: { zh: '版权信息', en: 'Copyright' },
+            copyrightTitle: { zh: '版权信息', en: 'Copyright' },
+            copyrightContent: { zh: '技术支持：AI Coding\n邮箱：xuhaoyuan12@tsinghua.org.cn\n© 2026 NaviCube', en: 'Technical Support: AI Coding\nEmail: xuhaoyuan12@tsinghua.org.cn\n© 2026 NaviCube' },
 
             // Default Data Translations (by ID)
             'c1': { zh: '效率工具', en: 'Productivity' },
@@ -1950,15 +2319,25 @@
                                 if (!this.state.ai.models) {
                                     this.state.ai.models = JSON.parse(JSON.stringify(DEFAULT_STATE.ai.models));
                                 } else {
+                                    const defaultOpenai = DEFAULT_STATE.ai.models.openai;
                                     if (!this.state.ai.models.openai) {
-                                        this.state.ai.models.openai = JSON.parse(JSON.stringify(DEFAULT_STATE.ai.models.openai));
-                                    } else if (!this.state.ai.models.openai.corsProxy) {
-                                        this.state.ai.models.openai.corsProxy = '';
+                                        this.state.ai.models.openai = JSON.parse(JSON.stringify(defaultOpenai));
+                                    } else {
+                                        for (const key of Object.keys(defaultOpenai)) {
+                                            if (this.state.ai.models.openai[key] === undefined || this.state.ai.models.openai[key] === null) {
+                                                this.state.ai.models.openai[key] = defaultOpenai[key];
+                                            }
+                                        }
                                     }
+                                    const defaultAnthropic = DEFAULT_STATE.ai.models.anthropic;
                                     if (!this.state.ai.models.anthropic) {
-                                        this.state.ai.models.anthropic = JSON.parse(JSON.stringify(DEFAULT_STATE.ai.models.anthropic));
-                                    } else if (!this.state.ai.models.anthropic.corsProxy) {
-                                        this.state.ai.models.anthropic.corsProxy = '';
+                                        this.state.ai.models.anthropic = JSON.parse(JSON.stringify(defaultAnthropic));
+                                    } else {
+                                        for (const key of Object.keys(defaultAnthropic)) {
+                                            if (this.state.ai.models.anthropic[key] === undefined || this.state.ai.models.anthropic[key] === null) {
+                                                this.state.ai.models.anthropic[key] = defaultAnthropic[key];
+                                            }
+                                        }
                                     }
                                 }
                                 if (this.state.ai.activeModel === undefined) this.state.ai.activeModel = '';
@@ -2059,11 +2438,11 @@
         const AI_TASK_PROMPTS = {
             smartTidy: `你是专业的分类编辑，你的任务是分析给出的网站列表，并为它们创建一套简洁、逻辑化的全新分类方案。
 规则：
-1.全面分析所有衔接的名称和简介，了解衔接背景信息，理解此网站开设的目的。
+1.全面分析所有衔接的名称，了解衔接背景信息，理解此网站开设的目的。
 2.设计一套全新的、逻辑清晰、遵循MECE原则的分类体系。分类数量一般在5到20个之间。不创建仅含1个衔接的分类。
 3.分类名应简洁且聚焦一个主题。分类下所有衔接的主题都高度相关。
 4.分配所有衔接到新分类中,不要遗漏任何衔接。
-5.你将收到一个 JSON,包含 \`cats\` 和 \`sites\` 。\`cats\` 是一个数组,每个元素是 \`[id,name]\`, \`sites\` 是一个数组,每个元素是 \`[id,name,desc]\`
+5.你将收到一个 JSON,包含 \`sites\` 。\`sites\` 是一个数组,每个元素是 \`[id,name]\`
 6.你的回答必须是且仅是一个严格的JSON对象("cats"全新分类列表,每个元素是 \`[数字临时ID,分类名]\`, "map":衔接映射表,key 是原始衔接ID,value 新分类的数字临时ID)
 格式为：
 {
@@ -2141,8 +2520,8 @@
                         apiEndpoint: 'https://api.openai.com/v1/chat/completions',
                         model: 'gpt-4o',
                         temperature: 0.5,
-                        maxTokens: 1000,
-                        timeout: 30000,
+                        maxTokens: 4000,
+                        timeout: 120000,
                         systemPrompt: 'You are a helpful assistant.',
                         corsProxy: ''
                     },
@@ -2151,8 +2530,8 @@
                         apiEndpoint: 'https://api.anthropic.com/v1/messages',
                         model: 'claude-3-opus-20240229',
                         temperature: 0.5,
-                        maxTokens: 1000,
-                        timeout: 30000,
+                        maxTokens: 4000,
+                        timeout: 120000,
                         systemPrompt: 'You are a helpful assistant.',
                         corsProxy: ''
                     }
@@ -2193,6 +2572,56 @@
          * AI适配器对象，用于处理不同AI模型的API调用
          * 每个适配器包含一个generate方法，负责调用对应AI模型的API
          */
+        const repairTruncatedJson = (text) => {
+            if (!text || typeof text !== 'string') return text;
+            let str = text.trim();
+            try { JSON.parse(str); return str; } catch {}
+            const jsonBlockMatch = str.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
+            if (jsonBlockMatch) {
+                str = jsonBlockMatch[1].trim();
+                try { JSON.parse(str); return str; } catch {}
+            }
+            const braceStart = str.indexOf('{');
+            if (braceStart === -1) return text;
+            str = str.substring(braceStart);
+            try { JSON.parse(str); return str; } catch {}
+            let depth = 0;
+            let inStr = false;
+            let escape = false;
+            for (let i = 0; i < str.length; i++) {
+                const ch = str[i];
+                if (escape) { escape = false; continue; }
+                if (ch === '\\' && inStr) { escape = true; continue; }
+                if (ch === '"') { inStr = !inStr; continue; }
+                if (inStr) continue;
+                if (ch === '{' || ch === '[') depth++;
+                else if (ch === '}' || ch === ']') depth--;
+            }
+            if (inStr) str += '"';
+            while (depth > 0) { str += '}'; depth--; }
+            try { JSON.parse(str); return str; } catch {}
+            const lastMapEntry = str.lastIndexOf('",');
+            if (lastMapEntry > 0) {
+                let partial = str.substring(0, lastMapEntry + 1);
+                let pDepth = 0;
+                let pInStr = false;
+                let pEscape = false;
+                for (let i = 0; i < partial.length; i++) {
+                    const ch = partial[i];
+                    if (pEscape) { pEscape = false; continue; }
+                    if (ch === '\\' && pInStr) { pEscape = true; continue; }
+                    if (ch === '"') { pInStr = !pInStr; continue; }
+                    if (pInStr) continue;
+                    if (ch === '{' || ch === '[') pDepth++;
+                    else if (ch === '}' || ch === ']') pDepth--;
+                }
+                if (pInStr) partial += '"';
+                while (pDepth > 0) { partial += '}'; pDepth--; }
+                try { JSON.parse(partial); return partial; } catch {}
+            }
+            return str;
+        };
+
         const extractJsonFromText = (text) => {
             if (!text || typeof text !== 'string') return text;
             const trimmed = text.trim();
@@ -2245,7 +2674,14 @@
                  * @returns {Promise<string>} - 生成的响应内容
                  */
                 generate: async (basePrompt, context, config) => {
-                    const { apiKey, apiEndpoint, model, temperature, maxTokens, timeout, systemPrompt, corsProxy } = config;
+                    const apiKey = config.apiKey;
+                    const apiEndpoint = config.apiEndpoint || 'https://api.openai.com/v1/chat/completions';
+                    const model = config.model || 'gpt-4o';
+                    const temperature = parseFloat(config.temperature) || 0.5;
+                    const maxTokens = parseInt(config.maxTokens) || 4000;
+                    const timeout = parseInt(config.timeout) || 120000;
+                    const systemPrompt = config.systemPrompt || '';
+                    const corsProxy = config.corsProxy || '';
                     let requestUrl = buildRequestUrl(apiEndpoint, 'openai');
                     if (corsProxy && corsProxy.trim()) {
                         const proxyBase = corsProxy.trim().replace(/\/+$/, '');
@@ -2274,9 +2710,17 @@
                             throw new Error(`OpenAI API Error (${response.status}): ${errorDetail}`);
                         }
                         const data = await response.json();
-                        return extractJsonFromText(data.choices[0].message.content);
+                        const choice = data.choices[0];
+                        const content = choice.message.content;
+                        if (choice.finish_reason === 'length') {
+                            const repaired = repairTruncatedJson(content);
+                            try { JSON.parse(repaired); return repaired; } catch {}
+                            throw new Error('AI_RESPONSE_TRUNCATED');
+                        }
+                        return extractJsonFromText(content);
                     } catch (error) {
                         clearTimeout(timeoutId);
+                        if (error.message === 'AI_RESPONSE_TRUNCATED') throw error;
                         throw error;
                     }
                 }
@@ -2293,7 +2737,14 @@
                  * @returns {Promise<string>} - 生成的响应内容
                  */
                 generate: async (basePrompt, context, config) => {
-                    const { apiKey, apiEndpoint, model, temperature, maxTokens, timeout, systemPrompt, corsProxy } = config;
+                    const apiKey = config.apiKey;
+                    const apiEndpoint = config.apiEndpoint || 'https://api.anthropic.com/v1/messages';
+                    const model = config.model || 'claude-3-opus-20240229';
+                    const temperature = parseFloat(config.temperature) || 0.5;
+                    const maxTokens = parseInt(config.maxTokens) || 4000;
+                    const timeout = parseInt(config.timeout) || 120000;
+                    const systemPrompt = config.systemPrompt || '';
+                    const corsProxy = config.corsProxy || '';
                     let requestUrl = buildRequestUrl(apiEndpoint, 'anthropic');
                     if (corsProxy && corsProxy.trim()) {
                         const proxyBase = corsProxy.trim().replace(/\/+$/, '');
@@ -2328,9 +2779,16 @@
                             throw new Error(`Anthropic API Error (${response.status}): ${errorDetail}`);
                         }
                         const data = await response.json();
-                        return extractJsonFromText(data.content[0].text);
+                        const content = data.content[0].text;
+                        if (data.stop_reason === 'max_tokens') {
+                            const repaired = repairTruncatedJson(content);
+                            try { JSON.parse(repaired); return repaired; } catch {}
+                            throw new Error('AI_RESPONSE_TRUNCATED');
+                        }
+                        return extractJsonFromText(content);
                     } catch (error) {
                         clearTimeout(timeoutId);
+                        if (error.message === 'AI_RESPONSE_TRUNCATED') throw error;
                         throw error;
                     }
                 }
@@ -2341,14 +2799,7 @@
          * AI管理器，负责管理AI模型的调用
          */
         const AIManager = {
-            /**
-             * 生成AI响应
-             * @param {string} context - 上下文信息
-             * @param {string} taskType - 任务类型
-             * @returns {Promise<string>} - 生成的响应内容
-             * @throws {Error} - 如果模型未配置或适配器未找到
-             */
-            async generate(context, taskType) {
+            async generate(context, taskType, retryCount = 0) {
                 const activeModelKey = StateManager.state.ai.activeModel;
                 const modelConfig = StateManager.state.ai.models[activeModelKey];
                 const adapter = AIAdapters[activeModelKey];
@@ -2362,8 +2813,25 @@
                     throw new Error(`Prompt for task "${taskType}" not found.`);
                 }
                 
-                // 调用适配器的generate方法
-                return adapter.generate(basePrompt, context, modelConfig);
+                const enhancedConfig = { ...modelConfig };
+                if (taskType === 'smartTidy') {
+                    enhancedConfig.maxTokens = parseInt(modelConfig.maxTokens) || 4000;
+                    enhancedConfig.timeout = Math.max(parseInt(modelConfig.timeout) || 120000, 300000);
+                }
+                
+                try {
+                    return await adapter.generate(basePrompt, context, enhancedConfig);
+                } catch (error) {
+                    if (error.message === 'AI_RESPONSE_TRUNCATED' && retryCount < 2) {
+                        return await AIManager.generate(context, taskType, retryCount + 1);
+                    }
+                    const isMaxTokensError = error.message && error.message.includes('Invalid max_tokens');
+                    if (isMaxTokensError && retryCount < 1) {
+                        enhancedConfig.maxTokens = Math.min(parseInt(enhancedConfig.maxTokens) || 4000, 4096);
+                        return await adapter.generate(basePrompt, context, enhancedConfig);
+                    }
+                    throw error;
+                }
             }
         };
 
@@ -2650,11 +3118,12 @@
             // 显示toast
             toast.style.opacity = '1';
             toast.style.transform = 'translateY(0)';
+            toast.style.pointerEvents = 'auto';
             
-            // 自动隐藏
             setTimeout(() => {
                 toast.style.opacity = '0';
                 toast.style.transform = 'translateY(-20px)';
+                toast.style.pointerEvents = 'none';
             }, duration);
         };
         
@@ -3123,6 +3592,7 @@
         
         const openModal = (modalEl, mode, data) => { 
             if (StateManager.appStatus === 'checking') return;
+            closeAllDrawers();
             modalEl.style.display = 'flex'; 
             const form = modalEl.querySelector('form'); 
             if(form) form.reset(); 
@@ -3338,55 +3808,81 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(cleanedHtml, "text/html");
                 const result = {
-                    ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
                     categories: [],
                     sites: []
                 };
                 
                 let categoryOrder = 1;
+                let idCounter = 0;
+                function genId(prefix) {
+                    idCounter++;
+                    return prefix + Date.now() + '_' + idCounter + '_' + Math.random().toString(36).substr(2, 6);
+                }
 
-                function parseDl(dlElement, parentCategoryId = null) {
-                    const children = Array.from(dlElement.children);
-                    let siteOrder = 1;
+                function findNestedDl(dtElement, siblings, currentIndex) {
+                    var inside = dtElement.querySelector(':scope > dl');
+                    if (inside) return inside;
+                    for (var j = currentIndex + 1; j < siblings.length; j++) {
+                        var sib = siblings[j];
+                        if (sib.tagName === 'DL') return sib;
+                        if (sib.tagName === 'DT') break;
+                    }
+                    return null;
+                }
 
-                    for (let i = 0; i < children.length; i++) {
-                        const node = children[i];
-                        if (node.tagName !== 'DT') continue;
+                function isBookmarkBar(h3) {
+                    if (h3.hasAttribute('personal_toolbar_folder')) return true;
+                    var name = h3.textContent.trim().toLowerCase();
+                    return ['bookmarks bar', 'bookmarks bar', '书签栏', 'bookmark bar', 'bookmark toolbar', 'bookmarks toolbar', 'barra de marcadores', 'barre de favoris', 'lesezeichen-leiste', 'barra dei segnalibri'].includes(name);
+                }
 
-                        const h3 = node.querySelector('h3');
-                        const a = node.querySelector('a');
+                function parseDl(dlElement, parentCategoryId) {
+                    var dts = dlElement.querySelectorAll(':scope > dt');
+                    var allChildren = Array.from(dlElement.children);
+                    var siteOrder = 1;
 
-                        if (h3) { // 这是一个文件夹/分类
-                            const categoryName = h3.textContent.trim();
-                            const nestedDl = children[i + 1];
+                    for (var i = 0; i < dts.length; i++) {
+                        var dt = dts[i];
+                        var h3 = null;
+                        var a = null;
+                        for (var c = 0; c < dt.children.length; c++) {
+                            var child = dt.children[c];
+                            if (child.tagName === 'H3' && !h3) h3 = child;
+                            if (child.tagName === 'A' && !a) a = child;
+                        }
 
-                            if ((['bookmarks bar', '书签栏'].includes(categoryName.toLowerCase()) || h3.hasAttribute('personal_toolbar_folder')) && nestedDl && nestedDl.tagName === 'DL') {
-                                parseDl(nestedDl, null); // 递归解析顶层文件夹的内容
-                                i++; // 跳过这个DL
+                        if (h3) {
+                            var categoryName = h3.textContent.trim();
+                            var nestedDl = findNestedDl(dt, allChildren, allChildren.indexOf(dt));
+
+                            if (isBookmarkBar(h3) && nestedDl) {
+                                parseDl(nestedDl, parentCategoryId);
                                 continue;
                             }
                             
-                            const newCategory = {
-                                id: 'c' + Date.now() + Math.random(),
+                            var newCategory = {
+                                id: genId('c'),
                                 name: categoryName,
                                 order: categoryOrder++
                             };
                             result.categories.push(newCategory);
-                            siteOrder = 1; 
+                            siteOrder = 1;
 
-                            if (nestedDl && nestedDl.tagName === 'DL') {
+                            if (nestedDl) {
                                 parseDl(nestedDl, newCategory.id);
-                                i++; 
                             }
-                        } else if (a && parentCategoryId) { // 这是一个书签/站点 (且必须在分类内部)
-                            let description = '';
-                            const nextElement = children[i + 1];
-                            if (nextElement && nextElement.tagName === 'DD') {
-                                description = nextElement.textContent.trim();
-                                i++; // 跳过DD
+                        } else if (a) {
+                            if (!parentCategoryId) continue;
+                            var description = '';
+                            var dtIndex = allChildren.indexOf(dt);
+                            if (dtIndex >= 0 && dtIndex + 1 < allChildren.length) {
+                                var nextEl = allChildren[dtIndex + 1];
+                                if (nextEl.tagName === 'DD') {
+                                    description = nextEl.textContent.trim();
+                                }
                             }
                             result.sites.push({
-                                id: 's' + Date.now() + Math.random(),
+                                id: genId('s'),
                                 name: a.textContent.trim(),
                                 url: a.href,
                                 desc: description,
@@ -3398,31 +3894,14 @@
                     }
                 }
 
-                const firstDl = doc.querySelector('body > dl');
+                var firstDl = doc.querySelector('body > dl');
                 if (firstDl) {
                     parseDl(firstDl, null);
                 }
 
                 if (result.categories.length === 0 && result.sites.length === 0) {
-                    // 如果解析后什么都没有，尝试解析没有顶层文件夹的格式（兼容旧的导出文件）
-                     const allH3s = doc.querySelectorAll('body > dl > dt > h3');
-                     if (allH3s.length > 0) {
-                         const dl = doc.querySelector('body > dl');
-                         parseDl(dl, "root"); // 虚拟一个根ID，让第一层文件夹能被解析
-                         // 如果分类被创建了，但站点没有，说明站点不在分类内，这不符合数据结构，判定为无效文件。
-                         if(result.categories.length > 0 && result.sites.length === 0) {
-                            // 查找是否存在顶级链接
-                             const topLevelLinks = doc.querySelectorAll('body > dl > dt > a');
-                             if(topLevelLinks.length > 0) {
-                                // 这是一个没有分类的扁平文件，不符合App要求
-                                showAlert('importInvalidFile', 'importFailedTitle');
-                                return null;
-                             }
-                         }
-                     } else {
-                        showAlert('importInvalidFile', 'importFailedTitle');
-                        return null;
-                     }
+                    showAlert('importInvalidFile', 'importFailedTitle');
+                    return null;
                 }
 
                 return result;
@@ -3488,9 +3967,15 @@
         };
         
         const handleOverwriteImport = (dataToImport) => {
+            const preservedAi = JSON.parse(JSON.stringify(StateManager.state.ai));
+            const preservedApiConfig = JSON.parse(JSON.stringify(StateManager.state.apiConfig));
+
             StateManager.state = { ...JSON.parse(JSON.stringify(DEFAULT_STATE)), ...JSON.parse(JSON.stringify(dataToImport)) };
-            if (!StateManager.state.ai) StateManager.state.ai = JSON.parse(JSON.stringify(DEFAULT_STATE.ai));
-            else {
+
+            const importedAiHasRealKey = StateManager.state.ai?.models?.openai?.apiKey || StateManager.state.ai?.models?.anthropic?.apiKey;
+            if (!StateManager.state.ai || !importedAiHasRealKey) {
+                StateManager.state.ai = preservedAi;
+            } else {
                 if (!StateManager.state.ai.models) StateManager.state.ai.models = JSON.parse(JSON.stringify(DEFAULT_STATE.ai.models));
                 else {
                     if (!StateManager.state.ai.models.openai) StateManager.state.ai.models.openai = JSON.parse(JSON.stringify(DEFAULT_STATE.ai.models.openai));
@@ -3498,7 +3983,12 @@
                 }
                 if (StateManager.state.ai.activeModel === undefined) StateManager.state.ai.activeModel = '';
             }
-            if (!StateManager.state.apiConfig) StateManager.state.apiConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.apiConfig));
+
+            const importedApiConfigHasRealKey = StateManager.state.apiConfig && StateManager.state.apiConfig.key && StateManager.state.apiConfig.key !== '88888888';
+            if (!StateManager.state.apiConfig || !importedApiConfigHasRealKey) {
+                StateManager.state.apiConfig = preservedApiConfig;
+            }
+
             clearLinkCheckResults();
             StateManager.state.sites.forEach(site => { if (site.order === undefined) site.order = 999; });
             StateManager.state.categories.forEach(cat => { if (cat.order === undefined) cat.order = 999; });
@@ -4288,10 +4778,96 @@
             StateManager.originalStateBackup = JSON.parse(JSON.stringify(StateManager.state));
             openModal(loadingTidyModal);
 
+            const tidyProgressText = document.querySelector('#loading-tidy-modal p');
+            const originalText = tidyProgressText ? tidyProgressText.textContent : '';
+
+            const updateProgress = (batchIdx, totalBatches, retrying) => {
+                if (tidyProgressText) {
+                    const base = `${originalText} (${batchIdx + 1}/${totalBatches})`;
+                    tidyProgressText.textContent = retrying ? `${base} - ${t('aiRetrying')}` : base;
+                }
+            };
+
+            const generateWithRetry = async (payload, batchIdx, totalBatches) => {
+                const MAX_RETRIES = 2;
+                let lastError;
+                for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+                    try {
+                        if (attempt > 0) {
+                            updateProgress(batchIdx, totalBatches, true);
+                            await new Promise(r => setTimeout(r, 2000 * attempt));
+                        }
+                        const blueprintRaw = await AIManager.generate(JSON.stringify(payload), 'smartTidy');
+                        const blueprint = JSON.parse(blueprintRaw);
+                        if (!blueprint.cats || !blueprint.map) {
+                            throw new Error("Invalid blueprint format from AI");
+                        }
+                        return blueprint;
+                    } catch (error) {
+                        lastError = error;
+                        console.warn(`Smart Tidy batch ${batchIdx + 1} attempt ${attempt + 1} failed:`, error.message);
+                        if (error.message === 'AI_RESPONSE_TRUNCATED') {
+                            continue;
+                        }
+                        if (error.name === 'AbortError') {
+                            continue;
+                        }
+                        if (error.message && error.message.includes('429')) {
+                            continue;
+                        }
+                        if (error.message && (error.message.includes('500') || error.message.includes('502') || error.message.includes('503'))) {
+                            continue;
+                        }
+                        break;
+                    }
+                }
+                throw lastError;
+            };
+
             try {
-                const payload = prepareDataForTidy();
-                const blueprintRaw = await AIManager.generate(JSON.stringify(payload), 'smartTidy');
-                StateManager.aiBlueprint = JSON.parse(blueprintRaw);
+                const allSites = StateManager.originalStateBackup.sites;
+                const BATCH_SIZE = 40;
+
+                if (allSites.length <= BATCH_SIZE) {
+                    updateProgress(0, 1, false);
+                    const payload = prepareDataForTidy(allSites);
+                    StateManager.aiBlueprint = await generateWithRetry(payload, 0, 1);
+                } else {
+                    const batches = [];
+                    for (let i = 0; i < allSites.length; i += BATCH_SIZE) {
+                        batches.push(allSites.slice(i, i + BATCH_SIZE));
+                    }
+
+                    let mergedCats = [];
+                    let mergedMap = {};
+                    let tempIdCounter = 1;
+
+                    for (let batchIdx = 0; batchIdx < batches.length; batchIdx++) {
+                        updateProgress(batchIdx, batches.length, false);
+                        const batchSites = batches[batchIdx];
+                        const payload = prepareDataForTidy(batchSites);
+                        const batchBlueprint = await generateWithRetry(payload, batchIdx, batches.length);
+
+                        const catIdMapping = {};
+                        batchBlueprint.cats.forEach(([oldTempId, catName]) => {
+                            const existingCat = mergedCats.find(c => c[1] === catName);
+                            if (existingCat) {
+                                catIdMapping[oldTempId] = existingCat[0];
+                            } else {
+                                const newTempId = tempIdCounter++;
+                                catIdMapping[oldTempId] = newTempId;
+                                mergedCats.push([newTempId, catName]);
+                            }
+                        });
+
+                        for (const [siteId, oldCatId] of Object.entries(batchBlueprint.map)) {
+                            mergedMap[siteId] = catIdMapping[oldCatId] || oldCatId;
+                        }
+                    }
+
+                    StateManager.aiBlueprint = { cats: mergedCats, map: mergedMap };
+                }
+
                 StateManager.previewState = parseAiBlueprint(StateManager.aiBlueprint);
                 
                 closeModal(loadingTidyModal);
@@ -4301,15 +4877,26 @@
             } catch (error) {
                 console.error("AI Smart Tidy Error:", error);
                 closeModal(loadingTidyModal);
-                const errMsg = error.name === 'AbortError' ? t('testConnTimeout') : (error.message || t('llmFetchUrlError'));
-                showAlertWithDetail(t('testConnectionFail'), t('llmFetchUrlError') + '\n\n' + errMsg);
+                let errMsg;
+                if (error.message === 'AI_RESPONSE_TRUNCATED') {
+                    errMsg = t('aiResponseTruncated');
+                } else if (error.name === 'AbortError') {
+                    errMsg = t('testConnTimeout');
+                } else if (error.message) {
+                    errMsg = error.message;
+                } else {
+                    errMsg = t('llmFetchUrlError');
+                }
+                showAlertWithDetail(t('testConnectionFail'), errMsg);
             }
         }
 
-        function prepareDataForTidy() {
-            const cats = StateManager.originalStateBackup.categories.map(c => [c.id, c.name]);
-            const sites = StateManager.originalStateBackup.sites.map(s => [s.id, s.name, s.desc]);
-            return { cats, sites };
+        function prepareDataForTidy(sites) {
+            const simplifiedSites = sites.map(s => {
+                const name = (s.name || '').substring(0, 30);
+                return [s.id, name];
+            });
+            return { sites: simplifiedSites };
         }
 
         function parseAiBlueprint(blueprint) {
@@ -5537,6 +6124,7 @@ body{margin:0;font-family:var(--font-family);background-color:var(--bg-color);co
             } else if (i) { 
                 const g = document.getElementById(`cat-group-${i.dataset.id}`); 
                 if (g) g.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+                closeAllDrawers();
             }
         });
         
@@ -5678,7 +6266,17 @@ body{margin:0;font-family:var(--font-family);background-color:var(--bg-color);co
         jsonFileImporter.addEventListener('change', (e) => importDataFromFile(e, 'json'));
         bookmarkFileImporter.addEventListener('change', (e) => importDataFromFile(e, 'bookmark'));
 
-        htmlImportDropArea.addEventListener('click', () => htmlNavFileImporter.click());
+        htmlImportDropArea.addEventListener('click', (e) => {
+            if (e.target.closest('#mobile-html-import-btn')) return;
+            htmlNavFileImporter.click();
+        });
+        const mobileHtmlImportBtn = document.getElementById('mobile-html-import-btn');
+        if (mobileHtmlImportBtn) {
+            mobileHtmlImportBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                htmlNavFileImporter.click();
+            });
+        }
         htmlNavFileImporter.addEventListener('change', (e) => importDataFromFile(e, 'html-nav'));
         htmlImportDropArea.addEventListener('dragover', (e) => { e.preventDefault(); e.stopPropagation(); htmlImportDropArea.classList.add('dragover'); });
         htmlImportDropArea.addEventListener('dragleave', (e) => { e.preventDefault(); e.stopPropagation(); htmlImportDropArea.classList.remove('dragover'); });
@@ -5922,7 +6520,7 @@ body{margin:0;font-family:var(--font-family);background-color:var(--bg-color);co
         const showCopyrightBtn = document.getElementById('show-copyright-btn');
         if (showCopyrightBtn) {
             showCopyrightBtn.addEventListener('click', () => {
-                showAlert('技术支持：AI Coding  \n邮箱：xuhaoyuan12@tsinghua.org.cn\n© 2026 NaviCube', '版权信息');
+                showAlert('copyrightContent', 'copyrightTitle');
             });
         }
         })();
