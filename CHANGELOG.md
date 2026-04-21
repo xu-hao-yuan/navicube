@@ -5,6 +5,16 @@
 
 ---
 
+## [v1.5] - 2026-04-21
+
+### Fixed | 修复
+- **Bookmark Export** — Fixed data export to support browser bookmark format (Netscape Bookmark HTML format).
+
+### Added | 新增
+- **SEO Settings** — New page SEO configuration modal. Supports custom page title, meta description, keywords, and author. These will be embedded when generating the navigation page.
+
+---
+
 ## [v1.4] - 2026-04-20
 
 ### Fixed | 修复

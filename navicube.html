@@ -1373,7 +1373,8 @@
 
             <div class="toolbar-group">
                 <h4 data-lang="dataManagement">数据管理</h4>
-                <button id="import-data-btn" class="button button-secondary" data-lang="importData">导入数据</button>
+                <button id="seo-config-btn" class="button button-secondary" data-lang="seoSettings">SEO 设置</button>
+                <button id="import-data-btn" class="button button-secondary" style="margin-top: 8px;" data-lang="importData">导入数据</button>
                 <button id="export-data-btn" class="button button-secondary" style="margin-top: 8px;" data-lang="exportData">导出数据</button>
                 <button id="check-links-btn" class="button button-secondary" style="margin-top: 8px;" data-lang="checkLinks">失效检测</button>
                 <button id="smart-tidy-btn" class="button" style="margin-top: 8px; background-color: #5856d6;" data-lang="smartTidy" title="请先配置并启用大模型API" disabled>一键智能整理</button>
@@ -1404,6 +1405,36 @@
         </aside>
     </div>
     
+    <div id="seo-config-modal" class="modal-overlay">
+        <div class="modal">
+            <h3 data-lang="seoSettings">SEO 设置</h3>
+            <form id="seo-config-form">
+                <div class="modal-body">
+                    <div class="modal-form-group">
+                        <label for="seo-title-input" data-lang-prop="textContent" data-lang="seoTitle">页面标题</label>
+                        <input type="text" id="seo-title-input" data-lang-prop="placeholder" data-lang="seoTitlePlaceholder" placeholder="留空使用默认标题">
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="seo-description-input" data-lang-prop="textContent" data-lang="seoDescription">页面描述</label>
+                        <textarea id="seo-description-input" rows="3" data-lang-prop="placeholder" data-lang="seoDescriptionPlaceholder" placeholder="搜索引擎显示的简介..."></textarea>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="seo-keywords-input" data-lang-prop="textContent" data-lang="seoKeywords">关键词</label>
+                        <input type="text" id="seo-keywords-input" data-lang-prop="placeholder" data-lang="seoKeywordsPlaceholder" placeholder="用逗号分隔">
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="seo-author-input" data-lang-prop="textContent" data-lang="seoAuthor">作者</label>
+                        <input type="text" id="seo-author-input">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button button-secondary" id="cancel-seo-config-modal" data-lang="cancel">取消</button>
+                    <button type="submit" class="button" data-lang="save">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="category-modal" class="modal-overlay"> <div class="modal"> <h3 id="category-modal-title">新建分类</h3> <form id="category-form"> <div class="modal-body"> <input type="hidden" id="category-id-input"> <div class="modal-form-group"> <label for="category-name-input" data-lang-prop="textContent" data-lang="categoryName">分类名称</label> <input type="text" id="category-name-input" required> </div> </div> <div class="modal-actions"> <button type="button" class="button button-secondary" id="cancel-category-modal" data-lang="cancel">取消</button> <button type="submit" class="button" data-lang="save">保存</button> </div> </form> </div> </div>
 
     <div id="custom-engine-modal" class="modal-overlay">
@@ -1844,6 +1875,14 @@
             cardSize: { zh: '卡片大小', en: 'Card Size' },
             bgImage: { zh: '背景图片', en: 'Background Image' },
             generateSite: { zh: '站点管理', en: 'Site Management' },
+            seoSettings: { zh: 'SEO 设置', en: 'SEO Settings' },
+            seoTitle: { zh: '页面标题', en: 'Page Title' },
+            seoTitlePlaceholder: { zh: '留空使用默认标题', en: 'Leave empty for default' },
+            seoDescription: { zh: '页面描述', en: 'Description' },
+            seoDescriptionPlaceholder: { zh: '搜索引擎显示的简介...', en: 'Search result description...' },
+            seoKeywords: { zh: '关键词', en: 'Keywords' },
+            seoKeywordsPlaceholder: { zh: '用逗号分隔', en: 'Comma separated' },
+            seoAuthor: { zh: '作者', en: 'Author' },
             generateNavPage: { zh: '生成导航页', en: 'Generate Nav Page' },
             dragHtmlNavPage: { zh: '将导航页拖入此处编辑', en: 'Drag navigation page here to edit' }, 
             dragHtmlPrompt: { zh: '将导航页拖入此处', en: 'Drag navigation page here' }, 
@@ -2269,6 +2308,15 @@
         const restoreGeneratePreviewBtn = document.getElementById('restore-generate-preview-btn');
         const applyGenerateContentBtn = document.getElementById('apply-generate-content-btn');
         
+        const seoTitleInput = document.getElementById('seo-title-input');
+        const seoDescriptionInput = document.getElementById('seo-description-input');
+        const seoKeywordsInput = document.getElementById('seo-keywords-input');
+        const seoAuthorInput = document.getElementById('seo-author-input');
+        const seoConfigBtn = document.getElementById('seo-config-btn');
+        const seoConfigModal = document.getElementById('seo-config-modal');
+        const seoConfigForm = document.getElementById('seo-config-form');
+        const cancelSeoConfigModalBtn = document.getElementById('cancel-seo-config-modal');
+        
         const backToTopBtn = document.getElementById('back-to-top-btn');
         const mainContent = document.querySelector('.main-content');
 
@@ -2358,6 +2406,10 @@
                             if (!Array.isArray(this.state.categories)) this.state.categories = [];
                             if (!Array.isArray(this.state.sites)) this.state.sites = [];
                             if (!Array.isArray(this.state.customEngines)) this.state.customEngines = [];
+                            
+                            if (!this.state.seo) {
+                                this.state.seo = JSON.parse(JSON.stringify(DEFAULT_STATE.seo));
+                            }
                             
                             this.state.version = DATA_VERSION;
                         }
@@ -2537,7 +2589,13 @@
                     }
                 }
             },
-            lastBackupTime: 0 // 上次备份时间戳
+            lastBackupTime: 0,
+            seo: {
+                title: '',
+                description: '',
+                keywords: '',
+                author: ''
+            }
         };
 
         /**
@@ -3179,6 +3237,14 @@
                 document.body.style.backgroundImage = initialBodyBackground;
                 navigationContainer.classList.remove('light-text-on-dark');
             }
+        };
+        
+        const initSeoUI = () => {
+            const seo = StateManager.state.seo || {};
+            seoTitleInput.value = seo.title || '';
+            seoDescriptionInput.value = seo.description || '';
+            seoKeywordsInput.value = seo.keywords || '';
+            seoAuthorInput.value = seo.author || '';
         };
         
         const applyUiSettings = () => {
@@ -4036,15 +4102,49 @@
         };
 
         const exportBookmarkData = () => {
-            const htmlContent = convertJsonToHtml(JSON.stringify(StateManager.state));
-            if (htmlContent) {
-                const fileName = `nav-cube-bookmarks-${new Date().toISOString().slice(0,10)}.html`;
-                downloadFile(htmlContent, fileName, "text/html; charset=utf-8", "json-export-success-modal", "htmlExportSuccessMsg", jsonExportFilename); 
-                document.getElementById("json-export-success-modal").querySelector("h3").textContent = t('htmlExportSuccessTitle');
-                document.getElementById("json-export-success-modal").querySelector("p:first-of-type").textContent = t('htmlExportSuccessMsg');
+            const state = StateManager.state;
+            const sortedCategories = [...(state.categories || [])].sort((a, b) => a.order - b.order);
+            const sites = state.sites || [];
 
+            let bookmarkHtml = '<!DOCTYPE NETSCAPE-Bookmark-file-1>\n';
+            bookmarkHtml += '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">\n';
+            bookmarkHtml += `<TITLE>${sanitize(state.seo?.title || 'NaviCube Bookmarks')}</TITLE>\n`;
+            bookmarkHtml += '<H1>Bookmarks</H1>\n';
+            bookmarkHtml += '<DL><p>\n';
+
+            sortedCategories.forEach(cat => {
+                bookmarkHtml += `    <DT><H3>${sanitize(cat.name)}</H3>\n`;
+                bookmarkHtml += '    <DL><p>\n';
+                const catSites = sites.filter(s => s.categoryId === cat.id).sort((a, b) => a.order - b.order);
+                catSites.forEach(site => {
+                    bookmarkHtml += `        <DT><A HREF="${sanitize(site.url)}" ADD_DATE="0">${sanitize(site.name)}</A>\n`;
+                    if (site.desc) {
+                        bookmarkHtml += `        <DD>${sanitize(site.desc)}\n`;
+                    }
+                });
+                bookmarkHtml += '    </DL><p>\n';
+            });
+
+            const uncategorizedSites = sites.filter(s => !sortedCategories.find(c => c.id === s.categoryId));
+            if (uncategorizedSites.length > 0) {
+                bookmarkHtml += '    <DT><H3>Uncategorized</H3>\n';
+                bookmarkHtml += '    <DL><p>\n';
+                uncategorizedSites.forEach(site => {
+                    bookmarkHtml += `        <DT><A HREF="${sanitize(site.url)}" ADD_DATE="0">${sanitize(site.name)}</A>\n`;
+                    if (site.desc) {
+                        bookmarkHtml += `        <DD>${sanitize(site.desc)}\n`;
+                    }
+                });
+                bookmarkHtml += '    </DL><p>\n';
             }
-            closeModal(exportChoiceModal); 
+
+            bookmarkHtml += '</DL><p>\n';
+
+            const fileName = `navicube-bookmarks-${new Date().toISOString().slice(0,10)}.html`;
+            downloadFile(bookmarkHtml, fileName, "text/html; charset=utf-8", "json-export-success-modal", "htmlExportSuccessMsg", jsonExportFilename);
+            document.getElementById("json-export-success-modal").querySelector("h3").textContent = t('htmlExportSuccessTitle');
+            document.getElementById("json-export-success-modal").querySelector("p:first-of-type").textContent = t('htmlExportSuccessMsg');
+            closeModal(exportChoiceModal);
         };
 
         const sanitize = (str) => { if (str === null || str === undefined) return ''; const temp = document.createElement('div'); temp.textContent = str; return temp.innerHTML; };
@@ -5410,8 +5510,29 @@
 				noMatchingCategories: { zh: '没有匹配的分类。', en: 'No matching categories.' },
             };
 
+            const seoConfig = StateManager.state.seo || {};
+            const pageTitle = sanitize(seoConfig.title) || '我的导航';
+            const pageDescription = sanitize(seoConfig.description);
+            const pageKeywords = sanitize(seoConfig.keywords);
+            const pageAuthor = sanitize(seoConfig.author);
+
+            let seoMetaTags = '';
+            if (pageDescription) seoMetaTags += `<meta name="description" content="${pageDescription}">`;
+            if (pageKeywords) seoMetaTags += `<meta name="keywords" content="${pageKeywords}">`;
+            if (pageAuthor) seoMetaTags += `<meta name="author" content="${pageAuthor}">`;
+            seoMetaTags += `<meta name="robots" content="index, follow">`;
+            seoMetaTags += `<meta property="og:title" content="${pageTitle}">`;
+            if (pageDescription) seoMetaTags += `<meta property="og:description" content="${pageDescription}">`;
+            seoMetaTags += `<meta property="og:type" content="website">`;
+            seoMetaTags += `<meta name="twitter:card" content="summary">`;
+            seoMetaTags += `<meta name="twitter:title" content="${pageTitle}">`;
+            if (pageDescription) seoMetaTags += `<meta name="twitter:description" content="${pageDescription}">`;
+            const jsonLdData = { "@context": "https://schema.org", "@type": "WebSite", "name": pageTitle };
+            if (pageDescription) jsonLdData.description = pageDescription;
+            seoMetaTags += `<script type="application/ld+json">${JSON.stringify(jsonLdData)}<\/script>`;
+
             let template = `
-<!DOCTYPE html><html lang="${StateManager.state.language}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>我的导航</title><style>
+<!DOCTYPE html><html lang="${StateManager.state.language}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${seoMetaTags}<style>
 :root{--bg-color:#f2f2f7;--card-bg:${cardBgValue};--text-color:#1d1d1f;--text-secondary-color:#6e6e73;--border-color:rgba(0,0,0,0.1);--accent-color:#007aff;--shadow:0 8px 32px rgba(0,0,0,0.1);--font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif;--card-border-radius:16px;--icon-border-radius:10px}
 html{scroll-behavior:smooth;}
 body{margin:0;font-family:var(--font-family);background-color:var(--bg-color);color:var(--text-color);padding-top:16px;${bodyStyle}background-attachment:fixed}
@@ -5900,6 +6021,27 @@ body{margin:0;font-family:var(--font-family);background-color:var(--bg-color);co
         siteForm.addEventListener('submit', handleSiteFormSubmit);
         alertOkBtn.addEventListener('click', () => closeModal(alertModal));
         closeJsonExportModalBtn.addEventListener('click', () => closeModal(jsonExportSuccessModal));
+
+        seoConfigBtn.addEventListener('click', () => {
+            initSeoUI();
+            seoConfigModal.style.display = 'flex';
+        });
+        cancelSeoConfigModalBtn.addEventListener('click', () => {
+            seoConfigModal.style.display = 'none';
+        });
+        seoConfigForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!StateManager.state.seo) {
+                StateManager.state.seo = {};
+            }
+            StateManager.state.seo.title = seoTitleInput.value.trim();
+            StateManager.state.seo.description = seoDescriptionInput.value.trim();
+            StateManager.state.seo.keywords = seoKeywordsInput.value.trim();
+            StateManager.state.seo.author = seoAuthorInput.value.trim();
+            StateManager.saveState();
+            seoConfigModal.style.display = 'none';
+            showToast(t('saveSuccess'), 'success');
+        });
 
         apiConfigBtn.addEventListener('click', () => {
             const currentConfig = StateManager.state.apiConfig || DEFAULT_STATE.apiConfig;
