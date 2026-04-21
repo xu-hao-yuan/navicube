@@ -526,6 +526,14 @@
             flex-shrink: 0;
         }
         .toolbar-group { margin-bottom: 24px; }
+        .storage-indicator { margin-bottom: 20px; padding: 12px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); backdrop-filter: blur(10px); }
+        .storage-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .storage-label { font-size: 13px; font-weight: 500; color: var(--text-secondary-color); }
+        .storage-size { font-size: 13px; font-weight: 600; color: var(--text-color); font-variant-numeric: tabular-nums; }
+        .storage-bar-track { width: 100%; height: 6px; background-color: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; }
+        .storage-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease, background-color 0.4s ease; background-color: var(--accent-color); }
+        .storage-bar-fill.warning { background-color: #f39c12; }
+        .storage-bar-fill.danger { background-color: var(--danger-color); }
         .toolbar-group h4 { margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; font-weight: 600; }
         .toolbar-group label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
         .hidden { display: none !important; }
@@ -1336,6 +1344,16 @@
         </main>
 
         <aside class="right-toolbar" id="right-toolbar">
+            <div class="storage-indicator" id="storage-indicator">
+                <div class="storage-info">
+                    <span class="storage-label" data-lang="storageUsage">数据存储</span>
+                    <span class="storage-size" id="storage-size-text">0 KB</span>
+                </div>
+                <div class="storage-bar-track">
+                    <div class="storage-bar-fill" id="storage-bar-fill"></div>
+                </div>
+            </div>
+
             <div class="toolbar-group">
                 <h4 data-lang="appearanceSettings">外观设置</h4>
                 <label class="toggle-switch-label" style="margin-bottom: 20px;">
@@ -1870,6 +1888,7 @@
             categoryList: { zh: '分类列表', en: 'Categories' },
             deleteAllFailed: { zh: '删除所有失效', en: 'Delete All Failed'},
             // Right Toolbar
+            storageUsage: { zh: '数据存储', en: 'Storage' },
             appearanceSettings: { zh: '外观设置', en: 'Appearance' },
             language: { zh: '语言 (中/EN)', en: 'Language (CN/EN)' },
             cardSize: { zh: '卡片大小', en: 'Card Size' },
@@ -2318,6 +2337,8 @@
         const cancelSeoConfigModalBtn = document.getElementById('cancel-seo-config-modal');
         
         const backToTopBtn = document.getElementById('back-to-top-btn');
+        const storageSizeText = document.getElementById('storage-size-text');
+        const storageBarFill = document.getElementById('storage-bar-fill');
         const mainContent = document.querySelector('.main-content');
 
         /**
@@ -3247,6 +3268,28 @@
             seoAuthorInput.value = seo.author || '';
         };
         
+        const updateStorageIndicator = () => {
+            const serialized = JSON.stringify(StateManager.state);
+            const sizeBytes = new Blob([serialized]).size;
+            const sizeKB = Math.round(sizeBytes / 1024);
+            const maxKB = 5120;
+            const percent = Math.min((sizeKB / maxKB) * 100, 100);
+            let displaySize;
+            if (sizeKB >= 1024) {
+                displaySize = (sizeBytes / (1024 * 1024)).toFixed(1) + ' MB';
+            } else {
+                displaySize = sizeKB + ' KB';
+            }
+            storageSizeText.textContent = displaySize;
+            storageBarFill.style.width = percent + '%';
+            storageBarFill.classList.remove('warning', 'danger');
+            if (sizeKB > 4096) {
+                storageBarFill.classList.add('danger');
+            } else if (sizeKB > 3072) {
+                storageBarFill.classList.add('warning');
+            }
+        };
+        
         const applyUiSettings = () => {
             try {
             document.documentElement.style.setProperty('--card-min-width', `${StateManager.state.cardWidth || 240}px`);
@@ -3306,6 +3349,7 @@
             try { renderNavigationLayout(navigationContainer, StateManager.state, true); } catch (e) { console.error('renderNavigationLayout error:', e); }
             try { renderLinkCheckResults(); } catch (e) { console.error('renderLinkCheckResults error:', e); }
             try { applyUiSettings(); } catch (e) { console.error('applyUiSettings error:', e); }
+            try { updateStorageIndicator(); } catch (e) { console.error('updateStorageIndicator error:', e); }
             try { updateAllUIText(); } catch (e) { console.error('updateAllUIText error:', e); }
             try {
                 if (StateManager.state.searchMode === 'local' && searchInput.value.trim() !== '') {

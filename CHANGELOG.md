@@ -5,6 +5,17 @@
 
 ---
 
+## [v1.6] - 2026-04-21
+
+### Added | 新增
+- **Storage Indicator** — New data storage size indicator in the right toolbar. Shows usage with a color-coded progress bar:
+  - 🟦 Blue (normal): < 3MB
+  - 🟨 Yellow (warning): 3MB ~ 4MB  
+  - 🟥 Red (danger): > 4MB
+  (5MB used as localStorage upper limit reference)
+
+---
+
 ## [v1.5] - 2026-04-21
 
 ### Fixed | 修复
