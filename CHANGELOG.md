@@ -5,6 +5,24 @@
 
 ---
 
+## [v1.7] - 2026-04-23
+
+### Added | 新增
+- **Style Settings Module** — New comprehensive style configuration panel for exported navigation pages. Includes:
+  - Layout styles: Immersive, Standard, Compact
+  - Header styles: Hero, Minimal, Centered, Banner, Split
+  - Theme presets: Light/Dark with accent color options
+  - Search bar styles: Default, Underline, Pill
+  - Category styles: Default, Divider, Badge, Poster
+  - Color customization: Accent, Card, Background, Border
+  - Card layout: Size, Padding, Gap, Rounded corners
+
+### Improved | 优化
+- **UI Refinement** — Unified visual design with refined gradients, shadows, border-radius and spacing. Improved button styles with depth and hierarchy. Better backdrop blur effects. Overall more polished and professional appearance.
+- **Code Architecture** — Comprehensive refactoring of internal code logic for better maintainability and performance.
+
+---
+
 ## [v1.6] - 2026-04-21
 
 ### Added | 新增
