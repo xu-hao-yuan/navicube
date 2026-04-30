@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1624,6 +1624,19 @@
                 flex-wrap: nowrap;
                 overflow-x: auto;
                 padding-bottom: 2px;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x proximity;
+            }
+            .export-style-tabs::-webkit-scrollbar {
+                display: none;
+            }
+            .export-style-tab {
+                flex: 0 0 auto;
+                min-width: max-content;
+                padding: 10px 14px;
+                scroll-snap-align: start;
             }
             .style-option-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1724,8 +1737,10 @@
                 font-size: clamp(22px, 6vw, 28px);
             }
             .main-content.export-preview-active .sites-grid {
-                grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
-                gap: 16px;
+                --site-card-width: var(--mobile-grid-min-width, var(--grid-min-width, 160px));
+                grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--site-card-width)), min(100%, var(--site-card-width))));
+                justify-content: center;
+                gap: 12px;
             }
             .sidebar .logo {
                 display: none;
@@ -1749,6 +1764,10 @@
         }
         
         @media (max-width: 768px) {
+            .export-style-tab {
+                font-size: 12px;
+                padding: 9px 12px;
+            }
             .search-bar-container {
                 flex-wrap: wrap;
                 gap: 6px;
@@ -1980,25 +1999,31 @@
         }
 		.back-to-top-btn {
             position: fixed;
-            bottom: 40px;
-            right: calc(240px + 40px); 
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: red;
-            border: 2px solid gold;
+            right: 24px;
+            bottom: 24px;
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
+            border: 2px dashed rgba(255, 188, 32, 0.98);
+            background: linear-gradient(180deg, rgba(255, 250, 218, 0.98), rgba(255, 227, 134, 0.94));
+            box-shadow:
+                0 0 0 4px rgba(255, 210, 84, 0.22),
+                0 16px 32px rgba(182, 123, 0, 0.28),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            color: #7f5200;
             font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            line-height: 46px;
+            font-weight: 800;
+            line-height: 1;
             cursor: pointer;
             z-index: 100;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s, box-shadow 0.2s ease, border-color 0.2s ease;
             transform: translateY(20px);
         }
 
@@ -2006,6 +2031,14 @@
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
+        }
+
+        .back-to-top-btn:hover {
+            border-color: rgba(255, 205, 69, 1);
+            box-shadow:
+                0 0 0 5px rgba(255, 218, 102, 0.28),
+                0 18px 36px rgba(182, 123, 0, 0.32),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.88);
         }
 
         @media (max-width: 480px) {
@@ -3128,13 +3161,8 @@
         .back-to-top-btn {
             right: 24px;
             bottom: 24px;
-            width: 46px;
-            height: 46px;
-            line-height: 42px;
-            border: 1px solid var(--border-default);
-            background: var(--bg-surface);
-            color: var(--text-primary);
-            box-shadow: var(--shadow-sm);
+            width: 52px;
+            height: 52px;
         }
 
         .mobile-toolbar {
@@ -3263,7 +3291,7 @@
                 <button id="search-mode-toggle-btn" class="search-mode-toggle" data-search-mode="web">🌐</button>
                 <div id="search-engine-dropdown" class="search-engine-dropdown">
                     <div id="search-engine-trigger" class="search-engine-trigger">
-                        <span id="search-engine-selected-name">百度</span>
+                        <span id="search-engine-selected-name">Google</span>
                         <span class="search-engine-arrow">▾</span>
                     </div>
                     <div id="search-engine-options" class="search-engine-options hidden"></div>
@@ -3647,8 +3675,8 @@
                     <div class="modal-form-group">
                         <label for="llm-provider-select" data-lang="llmProvider">AI 服务商</label>
                         <select id="llm-provider-select">
-                            <option value="openai">OpenAI 兼容接口</option>
-                            <option value="anthropic">Anthropic 兼容接口</option>
+                            <option value="openai" data-lang="llmProviderOpenaiCompatible">OpenAI 兼容接口</option>
+                            <option value="anthropic" data-lang="llmProviderAnthropicCompatible">Anthropic 兼容接口</option>
                         </select>
                     </div>
                     
@@ -3679,7 +3707,7 @@
                             <input type="number" id="llm-openai-max-tokens-input" value="4000" min="1">
                         </div>
                         <div class="modal-form-group">
-                            <label for="llm-openai-timeout-input">超时设置 (毫秒)</label>
+                            <label for="llm-openai-timeout-input" data-lang="timeoutMilliseconds">超时设置 (毫秒)</label>
                             <input type="number" id="llm-openai-timeout-input" value="120000" min="1000">
                         </div>
                         <div class="modal-form-group">
@@ -3716,7 +3744,7 @@
                             <input type="number" id="llm-anthropic-max-tokens-input" value="4000" min="1">
                         </div>
                         <div class="modal-form-group">
-                            <label for="llm-anthropic-timeout-input">超时设置 (毫秒)</label>
+                            <label for="llm-anthropic-timeout-input" data-lang="timeoutMilliseconds">超时设置 (毫秒)</label>
                             <input type="number" id="llm-anthropic-timeout-input" value="120000" min="1000">
                         </div>
                         <div class="modal-form-group">
@@ -4048,8 +4076,11 @@
             aiRetrying: { zh: '重试中...', en: 'Retrying...' },
             saveAndActivate: { zh: '保存并激活', en: 'Save & Activate' },
             llmProvider: { zh: 'AI 服务商', en: 'AI Provider' },
+            llmProviderOpenaiCompatible: { zh: 'OpenAI 兼容接口', en: 'OpenAI Compatible API' },
+            llmProviderAnthropicCompatible: { zh: 'Anthropic 兼容接口', en: 'Anthropic Compatible API' },
             llmModelName: { zh: '模型名称', en: 'Model Name' },
             llmModelVersion: { zh: '模型版本号', en: 'Model Version' }, // This key is kept for compatibility but is not used on new labels
+            timeoutMilliseconds: { zh: '超时设置 (毫秒)', en: 'Timeout (ms)' },
             deactivate: { zh: '停用', en: 'Deactivate' },
             llmApiDeactivated: { zh: 'AI 大模型已停用。', en: 'AI Model has been deactivated.' },
 
@@ -4168,10 +4199,18 @@
             importConfirm: { zh: '这将覆盖您当前的全部数据，确定要导入吗？', en: 'This will overwrite all your current data. Are you sure you want to import?' },
             importPremiumConfirm: { zh: '导入数据后将覆盖当前数据信息，请做好当前数据备份。', en: 'Importing will overwrite current data. Please ensure you have a backup.' },
             importSuccess: { zh: '数据导入成功！', en: 'Data imported successfully!' },
-            importInvalidFile: { zh: '文件格式无效！', fn: 'Invalid file format!' },
+            importInvalidFile: { zh: '文件格式无效！', en: 'Invalid file format!' },
             importReadFileFailed: { zh: '读取文件失败，请确保是正确的 JSON 格式。', en: 'Failed to read file. Please ensure it is a valid JSON format.' },
             fillRequiredFields: { zh: '请填写所有必填项！', en: 'Please fill in all required fields!' },
             mobileAlert: { zh: '建议使用大屏幕设备访问和操作', en: 'For the best experience, please use a larger screen device.' },
+            saveSuccess: { zh: '保存成功！', en: 'Saved successfully!' },
+            backupReminder: { zh: '您已经超过7天没有备份数据了，建议您导出备份以防数据丢失！', en: 'It has been over 7 days since your last backup. Export a backup to prevent data loss.' },
+            categorySaveSuccess: { zh: '分类保存成功！', en: 'Category saved successfully!' },
+            siteSaveSuccess: { zh: '站点保存成功！', en: 'Link saved successfully!' },
+            siteInfoFetchSuccess: { zh: '站点信息获取成功！', en: 'Site info fetched successfully!' },
+            noSitesToTidy: { zh: '没有可供整理的衔接。', en: 'There are no links available to organize.' },
+            processingPleaseWait: { zh: '处理中，请稍候...', en: 'Processing, please wait...' },
+            fetchingSiteInfoTitle: { zh: '正在获取站点信息...', en: 'Fetching site info...' },
             // Export
             exportSuccessTitle: { zh: '生成成功', en: 'Generated Successfully' },
             exportFailed: { zh: '生成导航页失败，请重试', en: 'Failed to generate navigation page, please retry' },
@@ -4566,9 +4605,9 @@
                                 this.state.seo = JSON.parse(JSON.stringify(DEFAULT_STATE.seo));
                             }
                             
-                            this.state.version = DATA_VERSION;
-                        }
-                        
+                        this.state.version = DATA_VERSION;
+                    }
+                    this.state.language = normalizeLanguageCode(this.state.language, defaultCopy.language);
                     } catch (e) {
                         console.error('Failed to parse saved state, using default:', e);
                         this.state = defaultCopy;
@@ -4576,6 +4615,7 @@
                 } else {
                     this.state = defaultCopy;
                 }
+                this.state.language = normalizeLanguageCode(this.state.language, defaultCopy.language);
                 applyExportAppearanceState(this.state);
                 this.saveState();
             },
@@ -4633,14 +4673,16 @@
         const CATEGORY_TAGS_PER_PAGE = 27;
 
 
-        const SEARCH_ENGINES = { baidu: '百度', bing: '必应', google: 'google', sogou: '搜狗' };
-        const SEARCH_ENGINES_EN = { baidu: 'Baidu', bing: 'Bing', google: 'Google', sogou: 'Sogou' };
-        const BUILTIN_ENGINE_IDS = ['baidu', 'bing', 'google', 'sogou'];
+        const DEFAULT_SEARCH_ENGINE = 'google';
+        const SEARCH_ENGINES = { google: 'Google', bing: 'Bing', yandex: 'Yandex', baidu: 'Baidu', naver: 'Naver' };
+        const SEARCH_ENGINES_EN = { google: 'Google', bing: 'Bing', yandex: 'Yandex', baidu: 'Baidu', naver: 'Naver' };
+        const BUILTIN_ENGINE_IDS = ['google', 'bing', 'yandex', 'baidu', 'naver'];
         const BUILTIN_ENGINE_URLS = {
-            baidu: 'https://www.baidu.com/s?wd=%s',
-            bing: 'https://www.bing.com/search?q=%s',
             google: 'https://www.google.com/search?q=%s',
-            sogou: 'https://www.sogou.com/web?query=%s'
+            bing: 'https://www.bing.com/search?q=%s',
+            yandex: 'https://yandex.com/search/?text=%s',
+            baidu: 'https://www.baidu.com/s?wd=%s',
+            naver: 'https://search.naver.com/search.naver?query=%s'
         };
         
         // [NEW] Centralized prompt templates
@@ -5111,7 +5153,7 @@
 
         const DEFAULT_STATE = {
             version: DATA_VERSION,
-            language: 'zh', // 默认语言
+            language: 'en', // 默认语言
             categories: [ // 默认分类
                 { id: 'c1', name: '效率工具', order: 1 },
                 { id: 'c2', name: '设计灵感', order: 2 }
@@ -5122,7 +5164,7 @@
                 { id: 's3', name: 'Dribbble', url: 'https://dribbble.com/', desc: '全球设计师作品分享平台。', categoryId: 'c2', order: 1, icon: ''}
             ],
             cardWidth: 240, // 默认卡片宽度
-            searchEngine: 'baidu', // 默认搜索引擎
+            searchEngine: DEFAULT_SEARCH_ENGINE, // 默认搜索引擎
             customEngines: [], // 自定义 [{id, name, url}]
             searchBtnColor: 'rgba(135, 206, 250, 1)', // 默认搜索按钮颜色
             searchBarBgColor: 'rgba(255, 255, 255, 0.7)', // 默认搜索栏背景颜色
@@ -5189,7 +5231,7 @@
                 { id: 'pds8', name: 'Unsplash', url: 'https://unsplash.com/', desc: '可免费商用的高质量图片素材库。', categoryId: 'pdc4', order: 2, icon: ''}
             ],
             cardWidth: 240, // 默认卡片宽度
-            searchEngine: 'baidu', // 默认搜索引擎
+            searchEngine: DEFAULT_SEARCH_ENGINE, // 默认搜索引擎
             searchBtnColor: 'rgba(39, 174, 96, 1)', // 默认搜索按钮颜色
             searchBarBgColor: 'rgba(255, 255, 255, 0.7)', // 默认搜索栏背景颜色
             useBingWallpaper: false, // 是否使用Bing壁纸
@@ -5690,8 +5732,16 @@
         // --- ALL FUNCTION DEFINITIONS ---
         // ========================================================================
 
+        const normalizeLanguageCode = (value, fallback = 'zh') => {
+            if (typeof value !== 'string') return fallback;
+            const normalized = value.trim().toLowerCase();
+            if (normalized.startsWith('en')) return 'en';
+            if (normalized.startsWith('zh')) return 'zh';
+            return fallback;
+        };
+
         const t = (key, replacements = {}) => {
-            const lang = StateManager.state.language || 'zh';
+            const lang = normalizeLanguageCode(StateManager.state.language, 'zh');
             let text = translations[key]?.[lang] || translations[key]?.['zh'] || key;
             for (const [placeholder, value] of Object.entries(replacements)) {
                 text = text.replace(`{${placeholder}}`, value);
@@ -5700,6 +5750,7 @@
         };
         
         const updateAllUIText = () => {
+            StateManager.state.language = normalizeLanguageCode(StateManager.state.language, DEFAULT_STATE.language);
             document.documentElement.lang = StateManager.state.language;
             document.querySelectorAll('[data-lang]').forEach(el => {
                 const key = el.dataset.lang;
@@ -5759,7 +5810,7 @@
          * 显示加载状态
          * @param {string} message - 加载信息
          */
-        const showLoading = (message = '处理中，请稍候...') => {
+        const showLoading = (message = t('processingPleaseWait')) => {
             const loadingModal = document.getElementById('loading-modal');
             const loadingMessage = document.getElementById('loading-message');
             loadingMessage.textContent = message;
@@ -5821,7 +5872,7 @@
             
             // 如果超过7天没有备份，提醒用户
             if (daysSinceBackup > 7) {
-                showToast('您已经超过7天没有备份数据了，建议您导出备份以防数据丢失！', 'info', 5000);
+                showToast(t('backupReminder'), 'info', 5000);
             }
         };
         
@@ -5931,7 +5982,7 @@
             }
 
             bingWallpaperToggle.checked = !!StateManager.state.useBingWallpaper;
-            languageToggle.checked = StateManager.state.language === 'en';
+            languageToggle.checked = normalizeLanguageCode(StateManager.state.language, DEFAULT_STATE.language) === 'zh';
             
             updateBackground();
             renderSearchEngineTags();
@@ -6080,7 +6131,31 @@
             categoryTitleOffsetFrameId = requestAnimationFrame(() => {
                 categoryTitleOffsetFrameId = null;
                 syncCategoryTitleOffsets(root);
+                syncBackToTopButtonPosition();
             });
+        };
+
+        const syncBackToTopButtonPosition = () => {
+            if (!backToTopBtn || !mainContent) return;
+            const contentRect = mainContent.getBoundingClientRect();
+            const visibleCards = Array.from(navigationContainer.querySelectorAll('.site-card')).filter(card => {
+                const styles = window.getComputedStyle(card);
+                if (styles.display === 'none' || styles.visibility === 'hidden') return false;
+                const rect = card.getBoundingClientRect();
+                return rect.width > 0 && rect.height > 0;
+            });
+            const buttonWidth = backToTopBtn.offsetWidth || 54;
+            const rightMostEdge = visibleCards.length
+                ? Math.max(...visibleCards.map(card => card.getBoundingClientRect().right))
+                : contentRect.left + (contentRect.width * 0.7);
+            const boundaryRight = contentRect.right;
+            const centerX = rightMostEdge + Math.max(0, boundaryRight - rightMostEdge) / 2;
+            const clampedLeft = Math.min(
+                Math.max(contentRect.left + 12, centerX - buttonWidth / 2),
+                boundaryRight - buttonWidth - 12
+            );
+            backToTopBtn.style.left = `${Math.round(clampedLeft)}px`;
+            backToTopBtn.style.right = 'auto';
         };
 
         const reindexOrderedItems = (items) => {
@@ -6465,9 +6540,9 @@
             });
 
             if (!foundSelected) {
-                StateManager.state.searchEngine = 'baidu';
-                searchEngineSelectedName.textContent = engineNames['baidu'];
-                const firstOption = searchEngineOptions.querySelector('[data-value="baidu"]');
+                StateManager.state.searchEngine = DEFAULT_SEARCH_ENGINE;
+                searchEngineSelectedName.textContent = engineNames[DEFAULT_SEARCH_ENGINE];
+                const firstOption = searchEngineOptions.querySelector(`[data-value="${DEFAULT_SEARCH_ENGINE}"]`);
                 if (firstOption) firstOption.classList.add('selected');
             }
 
@@ -6658,7 +6733,7 @@
                 });
             }
             closeModal(categoryModal);
-            showToast('分类保存成功！', 'success');
+            showToast(t('categorySaveSuccess'), 'success');
         };
         
         const deleteCategory = async (id) => { 
@@ -6761,7 +6836,7 @@
                 });
             }
             closeModal(siteModal);
-            showToast('站点保存成功！', 'success');
+            showToast(t('siteSaveSuccess'), 'success');
         };
         
         const deleteSite = async (id) => { 
@@ -6991,7 +7066,7 @@
             if (dataToImport.searchMode === undefined) StateManager.state.searchMode = 'web';
             if (dataToImport.searchBarBgColor === undefined) StateManager.state.searchBarBgColor = DEFAULT_STATE.searchBarBgColor;
             if (!StateManager.state.searchBtnColor) StateManager.state.searchBtnColor = DEFAULT_STATE.searchBtnColor;
-            if (!StateManager.state.language) StateManager.state.language = DEFAULT_STATE.language;
+            StateManager.state.language = normalizeLanguageCode(StateManager.state.language, DEFAULT_STATE.language);
             if (!Array.isArray(StateManager.state.customEngines)) StateManager.state.customEngines = [];
             applyExportAppearanceState(StateManager.state);
             
@@ -7106,10 +7181,11 @@
             const engine = StateManager.state.searchEngine;
             let searchUrl = '';
             switch (engine) {
-                case 'baidu': searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`; break;
-                case 'bing': searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(query)}`; break;
                 case 'google': searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`; break;
-                case 'sogou': searchUrl = `https://www.sogou.com/web?query=${encodeURIComponent(query)}`; break;
+                case 'bing': searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(query)}`; break;
+                case 'yandex': searchUrl = `https://yandex.com/search/?text=${encodeURIComponent(query)}`; break;
+                case 'baidu': searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`; break;
+                case 'naver': searchUrl = `https://search.naver.com/search.naver?query=${encodeURIComponent(query)}`; break;
             }
             if (!searchUrl) {
                 const customEngines = StateManager.state.customEngines || [];
@@ -7129,7 +7205,7 @@
                 if (!StateManager.state.ai) StateManager.state.ai = JSON.parse(JSON.stringify(DEFAULT_STATE.ai));
                 if (!StateManager.state.apiConfig) StateManager.state.apiConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.apiConfig));
                 clearLinkCheckResults();
-                StateManager.state.language = document.documentElement.lang || 'zh';
+                StateManager.state.language = normalizeLanguageCode(document.documentElement.lang, DEFAULT_STATE.language);
                 StateManager.state.sites.forEach(site => {
                     if (site.order === undefined) {
                         site.order = 999; 
@@ -7299,6 +7375,15 @@
             const resolvedSearchMaxWidth = appearance.searchBarWidth === 'theme'
                 ? layout.searchMaxWidth
                 : (searchWidthOption?.value || layout.searchMaxWidth);
+            const resolvedMobileGridMinWidth = appearance.cardSize <= 180
+                ? 138
+                : appearance.cardSize <= 220
+                    ? 150
+                    : appearance.cardSize <= 240
+                        ? 172
+                        : appearance.cardSize <= 320
+                            ? 220
+                            : 260;
             const rootVars = {
                 '--bg-color': background.color,
                 '--page-background-image': background.image,
@@ -7331,6 +7416,7 @@
                 '--hero-max-width': `${layout.heroMaxWidth}px`,
                 '--search-max-width': `${resolvedSearchMaxWidth}px`,
                 '--grid-min-width': `${appearance.cardSize}px`,
+                '--mobile-grid-min-width': `${resolvedMobileGridMinWidth}px`,
                 '--grid-gap': `${Math.max(12, density.gridGap + layoutGapAdjust)}px`,
                 '--section-gap': `${Math.max(28, layout.sectionGap + density.sectionAdjust)}px`,
                 '--card-padding': `${density.cardPadding}px`,
@@ -7855,16 +7941,16 @@
             fetchErrorMsg.textContent = '';
 
             if (isLlmActive) {
-                showLoading('正在获取站点信息...');
+                showLoading(t('fetchingSiteInfoTitle'));
                 try {
                     await fetchSiteInfoWithLLM();
-                    showToast('站点信息获取成功！', 'success');
+                    showToast(t('siteInfoFetchSuccess'), 'success');
                 } catch (llmError) {
                     console.error('Fetch site info with LLM failed:', llmError);
                     try {
                         await fetchSiteInfoWithLegacyApi();
                         fetchErrorMsg.textContent = '';
-                        showToast('站点信息获取成功！', 'success');
+                        showToast(t('siteInfoFetchSuccess'), 'success');
                     } catch (legacyError) {
                         console.error('Fetch site info with legacy API failed:', legacyError);
                         fetchErrorMsg.textContent = t('siteInfoFetchFailed');
@@ -7880,7 +7966,7 @@
             } else {
                 try {
                     await fetchSiteInfoWithLegacyApi();
-                    showToast('站点信息获取成功！', 'success');
+                    showToast(t('siteInfoFetchSuccess'), 'success');
                 } catch (error) {
                     console.error('Fetch site info failed:', error);
                     fetchErrorMsg.textContent = t('siteInfoFetchFailed');
@@ -7907,7 +7993,9 @@
                 searchModeToggleButton.textContent = '🔖'; 
                 searchModeToggleButton.classList.add('active');
                 searchInput.placeholder = t('localSearchInputPlaceholder');
-                searchEngineDropdown.style.display = 'none'; 
+                searchEngineDropdown.style.opacity = '0';
+                searchEngineDropdown.style.visibility = 'hidden';
+                searchEngineDropdown.style.pointerEvents = 'none';
                 mainSearchActionButton.textContent = '✕'; 
                 mainSearchActionButton.removeEventListener('click', performSearch);
                 mainSearchActionButton.addEventListener('click', clearLocalSearch);
@@ -7915,7 +8003,9 @@
                 searchModeToggleButton.textContent = '🌐'; 
                 searchModeToggleButton.classList.remove('active');
                 searchInput.placeholder = t('searchInputPlaceholder');
-                searchEngineDropdown.style.display = ''; 
+                searchEngineDropdown.style.opacity = '1';
+                searchEngineDropdown.style.visibility = 'visible';
+                searchEngineDropdown.style.pointerEvents = 'auto';
                 applySearchActionIcon(mainSearchActionButton);
                 mainSearchActionButton.removeEventListener('click', clearLocalSearch);
                 mainSearchActionButton.addEventListener('click', performSearch);
@@ -7958,13 +8048,13 @@
                 group.querySelectorAll('.site-card').forEach(card => {
                     const isMatch = (card.dataset.searchText || '').includes(lowerCaseQuery);
                     card.classList.toggle('highlight', isMatch);
-                    card.style.display = isMatch ? 'block' : 'none';
+                    card.style.display = isMatch ? '' : 'none';
                     if (isMatch) {
                         matchedSitesCount++;
                         hasVisibleSiteInGroup = true;
                     }
                 });
-                group.style.display = hasVisibleSiteInGroup ? 'block' : 'none';
+                group.style.display = hasVisibleSiteInGroup ? '' : 'none';
             });
 
             if (matchedSitesCount === 0) {
@@ -7987,11 +8077,11 @@
 
         const resetFilterAndHighlight = () => {
             navigationContainer.querySelectorAll('.site-card').forEach(card => {
-                card.style.display = 'block'; 
+                card.style.display = ''; 
                 card.classList.remove('highlight');
             });
             navigationContainer.querySelectorAll('.category-group').forEach(group => {
-                group.style.display = 'block'; 
+                group.style.display = ''; 
             });
             localSearchNoResults.classList.add('hidden');
             noResultsMessage.textContent = ''; 
@@ -8255,7 +8345,7 @@
 
         async function startSmartTidy() {
             if (StateManager.state.sites.length === 0) {
-                showAlert('没有可供整理的衔接。');
+                showAlert('noSitesToTidy');
                 return;
             }
             const confirmed = await showConfirm('smartTidyConfirm');
@@ -9046,13 +9136,14 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg
 .theme-dark .custom-select-trigger .arrow,.theme-dark .search-input::placeholder,.theme-dark .drawer-header input::placeholder{color:rgba(255,255,255,0.72)}
 .theme-dark .search-mode-toggle,.theme-dark .category-directory-btn{background:rgba(255,255,255,0.08)}
 .theme-dark .custom-option:hover{background:rgba(255,255,255,0.14)}
-.back-to-top-btn{position:fixed;right:24px;bottom:24px;width:52px;height:52px;border:none;border-radius:50%;background:var(--search-shell-bg);color:var(--accent-color);box-shadow:var(--shadow);backdrop-filter:var(--surface-backdrop);-webkit-backdrop-filter:var(--surface-backdrop);font-size:22px;font-weight:800;cursor:pointer;z-index:100;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .24s ease,visibility .24s ease,transform .24s ease}
+.back-to-top-btn{position:fixed;right:24px;bottom:24px;width:54px;height:54px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:2px dashed rgba(255,188,32,.98);background:linear-gradient(180deg,rgba(255,250,218,.98),rgba(255,227,134,.94));color:#7f5200;box-shadow:0 0 0 4px rgba(255,210,84,.22),0 16px 32px rgba(182,123,0,.28),inset 0 0 0 1px rgba(255,255,255,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-size:24px;font-weight:800;cursor:pointer;z-index:100;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .24s ease,visibility .24s ease,transform .24s ease,box-shadow .2s ease,border-color .2s ease}
 .back-to-top-btn.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top-btn:hover{border-color:rgba(255,205,69,1);box-shadow:0 0 0 5px rgba(255,218,102,.28),0 18px 36px rgba(182,123,0,.32),inset 0 0 0 1px rgba(255,255,255,.88)}
 .page-footer{text-align:center;padding:10px 16px 0;color:var(--text-secondary-color);font-size:13px}
 .page-footer a{color:var(--title-color);font-weight:600;text-decoration:none}
 .page-footer a:hover{text-decoration:underline}
 @media(max-width:880px){.page-shell{padding:14px 12px 28px}.hero-shell{grid-template-columns:1fr;gap:12px;margin-bottom:18px}.hero-main,.hero-metrics{padding:18px}.hero-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.search-wrapper{max-width:100%;top:8px;margin-bottom:16px}.search-bar-container{gap:6px;padding:8px}.custom-select-container{min-width:0;font-size:14px}.custom-select-trigger{padding:8px 24px 8px 10px}.search-input{font-size:14px;padding:10px 12px}.search-action-btn,.search-mode-toggle,.category-directory-btn{padding:10px 11px;border-radius:14px}.sites-grid{gap:16px;justify-content:center}.category-title{font-size:clamp(22px,6vw,28px)}}
-@media(max-width:560px){.hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-stat-accent{grid-column:1 / -1}.layout-compact .hero-main,.layout-compact .hero-metrics{padding:16px}.search-mode-toggle,.category-directory-btn{font-size:18px}.back-to-top-btn{right:16px;bottom:16px}}
+@media(max-width:560px){.hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-stat-accent{grid-column:1 / -1}.layout-compact .hero-main,.layout-compact .hero-metrics{padding:16px}.sites-grid{--site-card-width:var(--mobile-grid-min-width,var(--grid-min-width));grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--site-card-width)),min(100%,var(--site-card-width))));gap:12px;justify-content:center}.search-mode-toggle,.category-directory-btn{font-size:18px}.back-to-top-btn{right:16px;bottom:16px;width:50px;height:50px}}
 </style></head><body class="${resolvedAppearance.bodyClassName}">
 <div class="page-shell">
 ${heroMarkup}
@@ -9189,7 +9280,33 @@ ${heroMarkup}
         categoryTitleOffsetFrameId = requestAnimationFrame(() => {
             categoryTitleOffsetFrameId = null;
             syncCategoryTitleOffsetsExported();
+            syncBackToTopButtonPositionExported();
         });
+    };
+
+    const syncBackToTopButtonPositionExported = () => {
+        const backToTopBtnExported = document.getElementById('back-to-top-btn');
+        const pageShell = document.querySelector('.page-shell');
+        if (!backToTopBtnExported || !pageShell) return;
+        const shellRect = pageShell.getBoundingClientRect();
+        const visibleCards = Array.from(container.querySelectorAll('.site-card')).filter(card => {
+            const styles = window.getComputedStyle(card);
+            if (styles.display === 'none' || styles.visibility === 'hidden') return false;
+            const rect = card.getBoundingClientRect();
+            return rect.width > 0 && rect.height > 0;
+        });
+        const buttonWidth = backToTopBtnExported.offsetWidth || 54;
+        const rightMostEdge = visibleCards.length
+            ? Math.max(...visibleCards.map(card => card.getBoundingClientRect().right))
+            : shellRect.left + (shellRect.width * 0.7);
+        const boundaryRight = shellRect.right;
+        const centerX = rightMostEdge + Math.max(0, boundaryRight - rightMostEdge) / 2;
+        const clampedLeft = Math.min(
+            Math.max(shellRect.left + 12, centerX - buttonWidth / 2),
+            boundaryRight - buttonWidth - 12
+        );
+        backToTopBtnExported.style.left = \`\${Math.round(clampedLeft)}px\`;
+        backToTopBtnExported.style.right = 'auto';
     };
 
     if (!data.categories || data.categories.length === 0) {
@@ -9240,15 +9357,16 @@ ${heroMarkup}
     }
 
     let currentSearchMode = data.searchMode || 'web';
-    const searchEngines = { baidu: '百度', bing: '必应', google: 'Google', sogou: '搜狗' };
+    const DEFAULT_SEARCH_ENGINE = 'google';
+    const searchEngines = { google: 'Google', bing: 'Bing', yandex: 'Yandex', baidu: 'Baidu', naver: 'Naver' };
     const customEngines = data.customEngines || [];
     customEngines.forEach(e => { searchEngines[e.id] = e.name; });
-    const engineUrls = { baidu: 'https://www.baidu.com/s?wd=%s', bing: 'https://www.bing.com/search?q=%s', google: 'https://www.google.com/search?q=%s', sogou: 'https://www.sogou.com/web?query=%s' };
+    const engineUrls = { google: 'https://www.google.com/search?q=%s', bing: 'https://www.bing.com/search?q=%s', yandex: 'https://yandex.com/search/?text=%s', baidu: 'https://www.baidu.com/s?wd=%s', naver: 'https://search.naver.com/search.naver?query=%s' };
     customEngines.forEach(e => { engineUrls[e.id] = e.url; });
-    const initialEngine = data.searchEngine || 'baidu';
+    const initialEngine = searchEngines[data.searchEngine] ? data.searchEngine : DEFAULT_SEARCH_ENGINE;
 
     searchEngineValueInput.value = initialEngine;
-    selectedEngineName.textContent = searchEngines[initialEngine] || searchEngines.baidu;
+    selectedEngineName.textContent = searchEngines[initialEngine] || searchEngines[DEFAULT_SEARCH_ENGINE];
 
     Object.entries(searchEngines).forEach(([value, name]) => {
         const optionDiv = document.createElement('div');
@@ -9442,10 +9560,14 @@ ${heroMarkup}
     updateSearchModeUIExported();
     if (currentSearchMode === 'web') searchActionButton.addEventListener('click', performWebSearchExported);
     else searchActionButton.addEventListener('click', clearLocalSearchExported);
-    window.addEventListener('resize', scheduleCategoryTitleOffsetsExported);
+    window.addEventListener('resize', () => {
+        scheduleCategoryTitleOffsetsExported();
+        syncBackToTopButtonPositionExported();
+    });
 
     window.addEventListener('DOMContentLoaded', () => {
         scheduleCategoryTitleOffsetsExported();
+        syncBackToTopButtonPositionExported();
         const backToTopBtnExported = document.getElementById('back-to-top-btn');
         if (backToTopBtnExported) {
             window.addEventListener('scroll', () => {
@@ -9457,7 +9579,10 @@ ${heroMarkup}
             });
         }
     });
-    window.addEventListener('load', scheduleCategoryTitleOffsetsExported);
+    window.addEventListener('load', () => {
+        scheduleCategoryTitleOffsetsExported();
+        syncBackToTopButtonPositionExported();
+    });
 <\/script>
 <button id="back-to-top-btn" class="back-to-top-btn">↑</button>
 </body></html>`;
@@ -9691,7 +9816,7 @@ ${heroMarkup}
             
             saveState();
             closeModal(apiConfigModal);
-            showToast('API配置保存成功！', 'success');
+            showToast(t('apiConfigSaved'), 'success');
             updateApiManagementUI();
             checkApiStatus();
         });
@@ -9832,7 +9957,7 @@ ${heroMarkup}
             
             saveState();
             closeModal(llmConfigModal);
-            showToast('AI大模型配置保存成功！', 'success');
+            showToast(t('llmApiConfigSaved'), 'success');
             updateApiManagementUI();
             checkApiStatus();
         });
@@ -10147,7 +10272,7 @@ ${heroMarkup}
         importPremiumBtn.addEventListener('click', importPremiumDataset);
         
         languageToggle.addEventListener('change', (e) => {
-            StateManager.state.language = e.target.checked ? 'en' : 'zh';
+            StateManager.state.language = e.target.checked ? 'zh' : 'en';
             commitStateChange({
                 render: APP_RENDER_TARGETS.all,
                 immediate: true
@@ -10171,7 +10296,7 @@ ${heroMarkup}
                     customEngines.splice(engineIndex, 1);
                     StateManager.state.customEngines = customEngines;
                     if (StateManager.state.searchEngine === engineId) {
-                        StateManager.state.searchEngine = 'baidu';
+                        StateManager.state.searchEngine = DEFAULT_SEARCH_ENGINE;
                     }
                     saveState();
                     renderSearchEngineTags();
@@ -10273,6 +10398,7 @@ ${heroMarkup}
         window.addEventListener('resize', () => {
             syncExportAppearanceModalPresentation();
             scheduleCategoryTitleOffsetSync(navigationContainer);
+            syncBackToTopButtonPosition();
         });
 
         DndManager.ensure(categoryList, { 
@@ -10318,6 +10444,7 @@ ${heroMarkup}
         });
 
         if (mainContent && backToTopBtn) {
+            syncBackToTopButtonPosition();
             mainContent.addEventListener('scroll', () => {
                 if (mainContent.classList.contains('export-preview-active')) {
                     searchBarContainer.classList.toggle('scrolled', mainContent.scrollTop > 10);
