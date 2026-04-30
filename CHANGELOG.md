@@ -5,6 +5,23 @@
 
 ---
 
+## [v1.8] - 2026-04-30
+
+### Fixed | 修复
+- **Editor Category** — Fixed category display issues in editor mode
+- **Card Spacing** — Optimized card grid gap for better mobile layout
+
+### Improved | 优化
+- **Back-to-Top Button** — Enhanced styling with dashed border and golden gradient
+- **Export Style Tabs** — Added scrollbar hiding and scroll-snap support for smoother scrolling
+- **Search Engine Default** — Changed default search engine from Baidu to Google
+- **Language Normalization** — Fixed language code normalization on state load
+
+### Added | 新增
+- **Missing i18n Strings** — Added translations for `categorySaveSuccess`, `siteSaveSuccess`, `siteInfoFetchSuccess`, `saveSuccess`, `backupReminder`
+
+---
+
 ## [v1.7] - 2026-04-23
 
 ### Added | 新增
