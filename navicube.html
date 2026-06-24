@@ -739,6 +739,108 @@
             color: var(--text-secondary-color);
             line-height: 1.6;
         }
+        .main-content.export-preview-active.card-mode-simple .site-card {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            padding: 8px;
+            overflow: visible;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        .main-content.export-preview-active.card-mode-simple .site-card a {
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+        .main-content.export-preview-active.card-mode-simple .site-header {
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 0;
+        }
+        .main-content.export-preview-active.card-mode-simple .site-icon {
+            width: clamp(72px, calc(var(--site-card-width, 180px) * 0.48), 112px);
+            height: clamp(72px, calc(var(--site-card-width, 180px) * 0.48), 112px);
+            margin-right: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.88);
+            box-shadow: var(--shadow);
+        }
+        .main-content.export-preview-active.card-mode-simple .site-name {
+            font-size: 13px;
+            color: var(--title-color);
+            text-shadow: 0 1px 8px rgba(255,255,255,0.5);
+        }
+        .main-content.export-preview-active.card-mode-simple .site-desc {
+            display: none;
+        }
+        .main-content.export-preview-active.layout-paged #navigation-container {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+        .main-content.export-preview-active.layout-paged #navigation-container::-webkit-scrollbar {
+            display: none;
+        }
+        .main-content.export-preview-active.layout-paged .category-group {
+            flex: 0 0 100%;
+            min-height: min(680px, calc(100vh - 210px));
+            margin-bottom: 0;
+            padding: 6px 0 18px;
+            scroll-snap-align: start;
+        }
+        .main-content.export-preview-active.layout-paged .sites-grid {
+            align-content: start;
+        }
+        .screen-pager {
+            position: sticky;
+            bottom: 18px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 18px auto 4px;
+            width: max-content;
+            max-width: calc(100% - 24px);
+            padding: 8px 12px;
+            border: 1px solid var(--border-color, var(--border-default));
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--card-bg, var(--bg-surface)) 86%, transparent);
+            box-shadow: var(--shadow, var(--shadow-xs));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: var(--text-secondary-color);
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .screen-pager.hidden {
+            display: none !important;
+        }
+        .screen-pager button {
+            border: 1px solid var(--border-color, var(--border-default));
+            background: var(--card-bg, var(--bg-surface));
+            color: var(--title-color, var(--text-primary));
+            border-radius: 999px;
+            min-width: 34px;
+            height: 34px;
+            cursor: pointer;
+            box-shadow: var(--shadow, var(--shadow-xs));
+        }
+        .screen-pager-dot {
+            width: 9px;
+            height: 9px;
+            padding: 0;
+            min-width: 9px !important;
+            border-radius: 50%;
+            opacity: 0.45;
+        }
+        .screen-pager-dot.is-active {
+            opacity: 1;
+            background: var(--accent-color);
+        }
         .main-content.export-preview-active .site-card.highlight {
             box-shadow: 0 0 0 2px var(--accent-soft-color), var(--shadow);
             border-color: var(--accent-border-color);
@@ -3328,6 +3430,7 @@
             </div>
 
             <div id="navigation-container" class="editor-view"></div>
+            <div id="screen-pager" class="screen-pager hidden"></div>
             <div id="empty-state" class="hidden" style="text-align: center; padding: 50px; color: var(--text-secondary-color);">
                 <h3 data-lang="emptyStateTitle">空空如也</h3>
                 <p data-lang="emptyStateMsg">您还没有创建任何分类和站点。</p>
@@ -3490,6 +3593,10 @@
                                     <div class="export-control">
                                         <label for="export-card-size-select" data-lang="exportCardSize">卡片大小</label>
                                         <select id="export-card-size-select"></select>
+                                    </div>
+                                    <div class="export-control">
+                                        <label for="export-card-mode-select" data-lang="exportCardMode">卡片样式</label>
+                                        <select id="export-card-mode-select"></select>
                                     </div>
                                     <div class="export-control">
                                         <label for="export-radius-scale-select" data-lang="exportRadiusScale">圆角强度</label>
@@ -4003,6 +4110,7 @@
             exportAccentColor: { zh: '主色', en: 'Accent Color' },
             exportBackgroundStyle: { zh: '背景风格', en: 'Background Style' },
             exportCardSize: { zh: '卡片大小', en: 'Card Size' },
+            exportCardMode: { zh: '卡片样式', en: 'Card Style' },
             exportRadiusScale: { zh: '圆角强度', en: 'Corner Radius' },
             exportSearchBarWidth: { zh: '搜索栏宽度', en: 'Search Bar Width' },
             exportHeaderStyle: { zh: '页头样式', en: 'Header Style' },
@@ -4407,6 +4515,7 @@
         const exportAccentColorInput = document.getElementById('export-accent-color-input');
         const exportBackgroundStyleSelect = document.getElementById('export-background-style-select');
         const exportCardSizeSelect = document.getElementById('export-card-size-select');
+        const exportCardModeSelect = document.getElementById('export-card-mode-select');
         const exportRadiusScaleSelect = document.getElementById('export-radius-scale-select');
         const exportSearchWidthSelect = document.getElementById('export-search-width-select');
         const exportHeaderStyleSelect = document.getElementById('export-header-style-select');
@@ -4951,6 +5060,16 @@
                 sectionGap: 34,
                 titleSize: 24,
                 swatch: 'linear-gradient(180deg, #e5e7eb 0%, #ffffff 100%)'
+            },
+            paged: {
+                labels: { zh: '左右换屏', en: 'Paged Screens' },
+                descriptions: { zh: '一个分类一屏，左右切换，并显示当前屏数。', en: 'One category per screen with horizontal paging and page status.' },
+                pageMaxWidth: 1360,
+                heroMaxWidth: 1080,
+                searchMaxWidth: 760,
+                sectionGap: 40,
+                titleSize: 28,
+                swatch: 'linear-gradient(90deg, #efe7ff 0%, #ffffff 50%, #efe7ff 100%)'
             }
         };
 
@@ -4969,6 +5088,11 @@
             { id: 'medium', labels: { zh: '中', en: 'Medium' }, value: 240 },
             { id: 'small', labels: { zh: '小', en: 'Small' }, value: 220 },
             { id: 'compact', labels: { zh: '缩小', en: 'Reduced' }, value: 180 }
+        ];
+
+        const EXPORT_CARD_MODE_OPTIONS = [
+            { id: 'full', labels: { zh: '完整卡片', en: 'Full Cards' } },
+            { id: 'simple', labels: { zh: '简洁图标', en: 'Icon Only' } }
         ];
 
         const EXPORT_SEARCH_WIDTH_OPTIONS = [
@@ -5039,6 +5163,7 @@
             shadowLevel: 'medium',
             searchBarStyle: 'theme',
             categoryTitleStyle: 'theme',
+            cardMode: 'full',
             cardTransparency: EXPORT_THEME_PRESETS.glass.cardTransparency
         };
 
@@ -5104,6 +5229,7 @@
                 shadowLevel: state.useBingWallpaper ? 'bold' : 'medium',
                 searchBarStyle: 'theme',
                 categoryTitleStyle: 'theme',
+                cardMode: 'full',
                 cardTransparency: state.useBingWallpaper ? 0.88 : 0.82
             };
         };
@@ -5141,6 +5267,7 @@
                 shadowLevel: isValidOptionValue(merged.shadowLevel, EXPORT_SHADOW_OPTIONS) ? merged.shadowLevel : DEFAULT_EXPORT_APPEARANCE.shadowLevel,
                 searchBarStyle: isValidOptionValue(merged.searchBarStyle, EXPORT_SEARCH_STYLE_OPTIONS) ? merged.searchBarStyle : DEFAULT_EXPORT_APPEARANCE.searchBarStyle,
                 categoryTitleStyle: isValidOptionValue(merged.categoryTitleStyle, EXPORT_CATEGORY_TITLE_STYLE_OPTIONS) ? merged.categoryTitleStyle : DEFAULT_EXPORT_APPEARANCE.categoryTitleStyle,
+                cardMode: isValidOptionValue(merged.cardMode, EXPORT_CARD_MODE_OPTIONS) ? merged.cardMode : DEFAULT_EXPORT_APPEARANCE.cardMode,
                 cardTransparency: resolvedCardTransparencyOption.value
             };
         };
@@ -6124,6 +6251,47 @@
         };
 
         let categoryTitleOffsetFrameId = null;
+        const syncScreenPager = () => {
+            const pager = document.getElementById('screen-pager');
+            if (!pager || !navigationContainer || !mainContent?.classList.contains('layout-paged')) {
+                if (pager) pager.classList.add('hidden');
+                return;
+            }
+
+            const groups = Array.from(navigationContainer.querySelectorAll('.category-group')).filter(group => {
+                const styles = window.getComputedStyle(group);
+                return styles.display !== 'none' && group.getBoundingClientRect().width > 0;
+            });
+            if (groups.length <= 1) {
+                pager.classList.add('hidden');
+                return;
+            }
+
+            const currentIndex = Math.min(
+                groups.length - 1,
+                Math.max(0, Math.round(navigationContainer.scrollLeft / Math.max(1, navigationContainer.clientWidth)))
+            );
+            pager.classList.remove('hidden');
+            pager.innerHTML = `
+                <button type="button" data-page-dir="-1" aria-label="Previous page">‹</button>
+                ${groups.map((_, index) => `<button type="button" class="screen-pager-dot ${index === currentIndex ? 'is-active' : ''}" data-page-index="${index}" aria-label="Page ${index + 1}"></button>`).join('')}
+                <span>${currentIndex + 1}/${groups.length}</span>
+                <button type="button" data-page-dir="1" aria-label="Next page">›</button>
+            `;
+            pager.querySelectorAll('[data-page-index]').forEach(button => {
+                button.addEventListener('click', () => navigationContainer.scrollTo({
+                    left: groups[Number(button.dataset.pageIndex)].offsetLeft,
+                    behavior: 'smooth'
+                }));
+            });
+            pager.querySelectorAll('[data-page-dir]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const nextIndex = Math.min(groups.length - 1, Math.max(0, currentIndex + Number(button.dataset.pageDir)));
+                    navigationContainer.scrollTo({ left: groups[nextIndex].offsetLeft, behavior: 'smooth' });
+                });
+            });
+        };
+
         const scheduleCategoryTitleOffsetSync = (root = navigationContainer) => {
             if (categoryTitleOffsetFrameId !== null) {
                 cancelAnimationFrame(categoryTitleOffsetFrameId);
@@ -6131,6 +6299,7 @@
             categoryTitleOffsetFrameId = requestAnimationFrame(() => {
                 categoryTitleOffsetFrameId = null;
                 syncCategoryTitleOffsets(root);
+                syncScreenPager();
                 syncBackToTopButtonPosition();
             });
         };
@@ -7444,7 +7613,8 @@
                     `layout-${appearance.layout}`,
                     `header-${resolvedHeaderStyle}`,
                     `search-style-${resolvedSearchStyle}`,
-                    `category-style-${resolvedCategoryTitleStyle}`
+                    `category-style-${resolvedCategoryTitleStyle}`,
+                    `card-mode-${appearance.cardMode}`
                 ].join(' ')
             };
         };
@@ -7501,6 +7671,7 @@
 
             syncSelectValue(exportBackgroundStyleSelect, EXPORT_BACKGROUND_STYLE_OPTIONS, exportAppearanceDraft.backgroundStyle);
             syncSelectValue(exportCardSizeSelect, EXPORT_CARD_SIZE_OPTIONS, getNearestNumericAppearanceOption(EXPORT_CARD_SIZE_OPTIONS, exportAppearanceDraft.cardSize, 'medium').id);
+            syncSelectValue(exportCardModeSelect, EXPORT_CARD_MODE_OPTIONS, exportAppearanceDraft.cardMode);
             syncSelectValue(exportRadiusScaleSelect, EXPORT_RADIUS_SCALE_OPTIONS, getNearestNumericAppearanceOption(EXPORT_RADIUS_SCALE_OPTIONS, exportAppearanceDraft.radiusScale, 'medium').id);
             syncSelectValue(exportSearchWidthSelect, EXPORT_SEARCH_WIDTH_OPTIONS, exportAppearanceDraft.searchBarWidth);
             syncSelectValue(exportHeaderStyleSelect, EXPORT_HEADER_STYLE_OPTIONS, exportAppearanceDraft.headerStyle);
@@ -7610,7 +7781,8 @@
             const themeText = getLocalizedAppearanceText(EXPORT_THEME_PRESETS[appearance.theme]);
             const layoutText = getLocalizedAppearanceText(EXPORT_LAYOUT_PRESETS[appearance.layout]);
             const backgroundText = getLocalizedAppearanceText(EXPORT_BACKGROUND_STYLE_OPTIONS.find(option => option.id === appearance.backgroundStyle));
-            exportAppearanceSummary.textContent = `${themeText} · ${layoutText} · ${backgroundText}`;
+            const cardModeText = getLocalizedAppearanceText(EXPORT_CARD_MODE_OPTIONS.find(option => option.id === appearance.cardMode));
+            exportAppearanceSummary.textContent = `${themeText} · ${layoutText} · ${cardModeText} · ${backgroundText}`;
         };
 
         const refreshExportAppearanceEditor = (draft = exportAppearanceDraft, { rebuildControls = false } = {}) => {
@@ -7626,6 +7798,7 @@
                 accentColor: exportAccentColorInput.value,
                 backgroundStyle: exportBackgroundStyleSelect.value,
                 cardSize: getAppearanceOptionById(EXPORT_CARD_SIZE_OPTIONS, exportCardSizeSelect.value, 'medium').value,
+                cardMode: exportCardModeSelect.value,
                 radiusScale: getAppearanceOptionById(EXPORT_RADIUS_SCALE_OPTIONS, exportRadiusScaleSelect.value, 'medium').value,
                 searchBarWidth: exportSearchWidthSelect.value,
                 headerStyle: exportHeaderStyleSelect.value,
@@ -8969,7 +9142,8 @@
             'layout-',
             'header-',
             'search-style-',
-            'category-style-'
+            'category-style-',
+            'card-mode-'
         ];
 
         const applyExportAppearanceToEditorPreview = (appearanceOverride = null) => {
@@ -9119,10 +9293,25 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg
 .site-icon{width:42px;height:42px;border-radius:var(--icon-border-radius);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 6px 16px rgba(0,0,0,${resolvedAppearance.isDark ? '0.34' : '0.12'});overflow:hidden}
 .site-name{font-weight:700;font-size:17px;color:var(--title-color);word-break:break-word}
 .site-desc{font-size:14px;color:var(--text-secondary-color);flex-grow:1;line-height:1.6;word-break:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:${resolvedAppearance.appearance.layout === 'compact' ? '2' : '3'};overflow:hidden}
+.card-mode-simple .site-card{background:transparent;border-color:transparent;box-shadow:none;padding:8px;overflow:visible;backdrop-filter:none;-webkit-backdrop-filter:none}
+.card-mode-simple .site-card a{align-items:center;text-align:center;gap:10px}
+.card-mode-simple .site-header{flex-direction:column;gap:10px}
+.card-mode-simple .site-icon{width:clamp(72px,calc(var(--site-card-width) * .48),112px);height:clamp(72px,calc(var(--site-card-width) * .48),112px);border-radius:50%;background:rgba(255,255,255,.88);box-shadow:var(--shadow)}
+.card-mode-simple .site-name{font-size:13px;text-shadow:0 1px 8px rgba(255,255,255,.5)}
+.card-mode-simple .site-desc{display:none}
 .site-card.highlight{border-color:var(--accent-border-color);box-shadow:0 0 0 2px var(--accent-soft-color),var(--shadow)}
 #empty-state{text-align:center;padding:60px 20px;border-radius:calc(var(--card-border-radius) + 6px);background:var(--card-bg);border:1px solid var(--border-color);box-shadow:var(--shadow);color:var(--text-secondary-color)}
 #local-search-no-results{text-align:center;padding:56px 16px;color:var(--text-secondary-color)}
 .hidden{display:none!important}
+.layout-paged #navigation-container{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.layout-paged #navigation-container::-webkit-scrollbar{display:none}
+.layout-paged .category-group{flex:0 0 100%;min-height:min(680px,calc(100vh - 210px));margin-bottom:0;padding:6px 0 18px;scroll-snap-align:start}
+.layout-paged .sites-grid{align-content:start}
+.screen-pager{position:sticky;bottom:18px;z-index:20;display:flex;align-items:center;justify-content:center;gap:10px;margin:18px auto 4px;width:max-content;max-width:calc(100% - 24px);padding:8px 12px;border:1px solid var(--border-color);border-radius:999px;background:color-mix(in srgb,var(--card-bg) 86%,transparent);box-shadow:var(--shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--text-secondary-color);font-size:13px;font-weight:700}
+.screen-pager.hidden{display:none!important}
+.screen-pager button{border:1px solid var(--border-color);background:var(--card-bg);color:var(--title-color);border-radius:999px;min-width:34px;height:34px;cursor:pointer;box-shadow:var(--shadow)}
+.screen-pager-dot{width:9px;height:9px;padding:0;min-width:9px!important;border-radius:50%;opacity:.45}
+.screen-pager-dot.is-active{opacity:1;background:var(--accent-color)}
 .category-drawer{position:fixed;top:0;right:0;width:320px;max-width:84vw;height:100%;background:var(--drawer-bg);box-shadow:-18px 0 36px rgba(0,0,0,${resolvedAppearance.isDark ? '0.34' : '0.14'});z-index:10010;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.25,.8,.25,1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .category-drawer.is-open{transform:translateX(0)}
 .drawer-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,${resolvedAppearance.isDark ? '0.34' : '0.18'});z-index:10005;opacity:0;transition:opacity .3s ease;pointer-events:none}
@@ -9165,6 +9354,7 @@ ${heroMarkup}
 </div>
 <main class="main-wrapper">
     <div id="navigation-container"></div>
+    <div id="screen-pager" class="screen-pager hidden"></div>
     <div id="local-search-no-results" class="hidden">
         <h3 id="no-results-message"></h3>
     </div>
@@ -9280,7 +9470,41 @@ ${heroMarkup}
         categoryTitleOffsetFrameId = requestAnimationFrame(() => {
             categoryTitleOffsetFrameId = null;
             syncCategoryTitleOffsetsExported();
+            syncScreenPagerExported();
             syncBackToTopButtonPositionExported();
+        });
+    };
+
+    const syncScreenPagerExported = () => {
+        const pager = document.getElementById('screen-pager');
+        if (!pager || !document.body.classList.contains('layout-paged')) {
+            if (pager) pager.classList.add('hidden');
+            return;
+        }
+        const groups = Array.from(container.querySelectorAll('.category-group')).filter(group => {
+            const styles = window.getComputedStyle(group);
+            return styles.display !== 'none' && group.getBoundingClientRect().width > 0;
+        });
+        if (groups.length <= 1) {
+            pager.classList.add('hidden');
+            return;
+        }
+        const currentIndex = Math.min(groups.length - 1, Math.max(0, Math.round(container.scrollLeft / Math.max(1, container.clientWidth))));
+        pager.classList.remove('hidden');
+        pager.innerHTML = \`
+            <button type="button" data-page-dir="-1" aria-label="Previous page">‹</button>
+            \${groups.map((_, index) => \`<button type="button" class="screen-pager-dot \${index === currentIndex ? 'is-active' : ''}" data-page-index="\${index}" aria-label="Page \${index + 1}"></button>\`).join('')}
+            <span>\${currentIndex + 1}/\${groups.length}</span>
+            <button type="button" data-page-dir="1" aria-label="Next page">›</button>
+        \`;
+        pager.querySelectorAll('[data-page-index]').forEach(button => {
+            button.addEventListener('click', () => container.scrollTo({ left: groups[Number(button.dataset.pageIndex)].offsetLeft, behavior: 'smooth' }));
+        });
+        pager.querySelectorAll('[data-page-dir]').forEach(button => {
+            button.addEventListener('click', () => {
+                const nextIndex = Math.min(groups.length - 1, Math.max(0, currentIndex + Number(button.dataset.pageDir)));
+                container.scrollTo({ left: groups[nextIndex].offsetLeft, behavior: 'smooth' });
+            });
         });
     };
 
@@ -9433,9 +9657,14 @@ ${heroMarkup}
             const categoryId = e.target.dataset.categoryId;
             const targetGroup = document.getElementById(\`cat-group-\${categoryId}\`);
             if (targetGroup) {
-                const searchBarHeight = document.querySelector('.search-wrapper').offsetHeight;
-                const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - searchBarHeight - 20;
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                if (document.body.classList.contains('layout-paged')) {
+                    container.scrollTo({ left: targetGroup.offsetLeft, behavior: 'smooth' });
+                    syncScreenPagerExported();
+                } else {
+                    const searchBarHeight = document.querySelector('.search-wrapper').offsetHeight;
+                    const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - searchBarHeight - 20;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
             }
             toggleDrawer(false);
         }
@@ -9563,6 +9792,9 @@ ${heroMarkup}
     window.addEventListener('resize', () => {
         scheduleCategoryTitleOffsetsExported();
         syncBackToTopButtonPositionExported();
+    });
+    container.addEventListener('scroll', () => {
+        if (document.body.classList.contains('layout-paged')) syncScreenPagerExported();
     });
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -10097,9 +10329,10 @@ ${heroMarkup}
 
         [
             exportAccentColorInput,
-            exportBackgroundStyleSelect,
-            exportCardSizeSelect,
-            exportRadiusScaleSelect,
+                exportBackgroundStyleSelect,
+                exportCardSizeSelect,
+                exportCardModeSelect,
+                exportRadiusScaleSelect,
             exportSearchWidthSelect,
             exportHeaderStyleSelect,
             exportDensitySelect,
@@ -10457,6 +10690,11 @@ ${heroMarkup}
             });
             backToTopBtn.addEventListener('click', () => {
                 mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+        if (navigationContainer) {
+            navigationContainer.addEventListener('scroll', () => {
+                if (mainContent?.classList.contains('layout-paged')) syncScreenPager();
             });
         }
         
