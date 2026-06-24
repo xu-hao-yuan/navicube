@@ -5,6 +5,20 @@
 
 ---
 
+## [v1.10] - 2026-06-25
+
+### Fixed | 修复
+- **左右换屏布局对齐** — 修复 paged layout 下分类标题与卡片组垂直对齐异常：
+  - `.category-title` 增加 `align-self: start; justify-self: start;`，避免在 grid 容器中被拉伸居中
+  - `.layout-paged #navigation-container` 增加 `align-items: flex-start;`
+  - `.layout-paged .category-group` 增加 `align-content: start;`
+
+### Changed | 变更
+- **布局预设精简** — 移除 `immersive`（沉浸首页）与 `compact`（紧凑目录）两个布局预设，仅保留 `vertical`（竖向）与 `paged`（左右换屏）；`standard` 同步更名为 `vertical`（"竖向导航" / "Vertical Layout"）
+- **样式差异化清理** — 移除 layout-specific 的 hero padding / search sticky top / shell padding / 描述 line-clamp 等分支
+
+---
+
 ## [v1.9] - 2026-06-25
 
 ### Added | 新增
