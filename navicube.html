@@ -219,6 +219,7 @@
             border-radius: var(--card-border-radius);
             border: 1px solid var(--border-color);
             padding: 16px;
+            min-width: 0;
             box-shadow: var(--shadow);
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.3s ease-in-out;
             position: relative;
@@ -285,6 +286,381 @@
             line-height: 1.4;
             word-wrap: break-word;
             word-break: break-word;
+        }
+        .widget-card {
+            display: flex;
+            min-height: 104px;
+            padding: 12px 14px;
+        }
+        .widget-card .card-actions {
+            z-index: 4;
+        }
+        .widget-shell {
+            width: 100%;
+            min-width: 0;
+            min-height: 100%;
+            display: grid;
+            align-content: center;
+            gap: 5px;
+        }
+        .clock-widget {
+            position: relative;
+        }
+        .clock-widget::before {
+            content: "";
+            position: absolute;
+            inset: auto 0 0 auto;
+            width: 72px;
+            height: 72px;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+            filter: blur(18px);
+            opacity: .8;
+            pointer-events: none;
+        }
+        .clock-widget-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary-color);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        .clock-time {
+            position: relative;
+            display: grid;
+            gap: 4px;
+            color: var(--text-color);
+            line-height: 1;
+            letter-spacing: -0.04em;
+            min-width: 0;
+            overflow: hidden;
+        }
+        .clock-period {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-secondary-color);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        .clock-digits {
+            font-size: min(76px, 15cqw);
+            font-weight: 850;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+        .widget-size-1x1 .clock-widget-label,
+        .widget-size-1x1 .clock-period,
+        .widget-size-1x1 .clock-date {
+            font-size: 12px;
+        }
+        .widget-size-1x1 .clock-digits {
+            font-size: min(44px, 21cqw);
+        }
+        .clock-date {
+            position: relative;
+            min-height: 20px;
+            color: var(--text-secondary-color);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .clock-date-part {
+            white-space: nowrap;
+        }
+        .widget-memo-card {
+            padding: 0;
+        }
+        .memo-widget {
+            position: relative;
+            cursor: pointer;
+            align-content: start;
+            overflow: hidden;
+            gap: 0;
+        }
+        .memo-widget::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-soft-color));
+            border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+            opacity: .95;
+            pointer-events: none;
+        }
+        .memo-widget-title {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 14px;
+            color: var(--accent-contrast, #fff);
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.2;
+            z-index: 1;
+        }
+        .memo-widget-line {
+            position: relative;
+            color: var(--text-color);
+            font-size: 14px;
+            line-height: 1.45;
+            padding: 10px 14px;
+            border-top: 1px solid var(--border-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 1;
+        }
+        .memo-widget-title + .memo-widget-line {
+            margin-top: 0;
+        }
+        .memo-modal-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, .28);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 10000;
+        }
+        #memo-modal .memo-modal {
+            max-width: 1520px;
+            width: min(96vw, 1520px);
+            max-height: min(90vh, 940px);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: 0 26px 70px rgba(15, 23, 42, .28);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow: hidden;
+        }
+        .memo-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .memo-modal-header h3 {
+            margin: 0;
+            padding: 0;
+        }
+        .memo-icon-btn {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            background: var(--bg-color);
+            color: var(--text-secondary-color);
+            cursor: pointer;
+            transition: color .2s, border-color .2s, background-color .2s;
+        }
+        .memo-icon-btn:hover,
+        .memo-icon-btn.active {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: var(--accent-soft-color);
+        }
+        .memo-icon-btn .action-icon-svg {
+            width: 16px;
+            height: 16px;
+            display: block;
+            overflow: visible;
+            pointer-events: none;
+            flex-shrink: 0;
+        }
+        .memo-icon-btn .action-icon-svg * {
+            vector-effect: non-scaling-stroke;
+        }
+        .memo-editor {
+            display: grid;
+            grid-template-columns: 300px minmax(0, 1fr);
+            height: min(84vh, 860px);
+        }
+        .memo-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px;
+            border-right: 1px solid var(--border-color);
+            min-width: 0;
+            overflow: hidden;
+        }
+        .memo-toolbar {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        .memo-search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        .memo-search:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        .memo-list {
+            display: grid;
+            gap: 8px;
+            overflow-y: auto;
+            min-height: 0;
+        }
+        .memo-list-item {
+            position: relative;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 72px 12px 12px;
+            background: var(--bg-color);
+            cursor: pointer;
+            min-width: 0;
+            overflow: hidden;
+        }
+        .memo-list-item.active {
+            border-color: var(--accent-color);
+            background: var(--accent-soft-color);
+        }
+        .memo-list-title {
+            font-weight: 800;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .memo-list-date {
+            margin-top: 4px;
+            color: var(--text-secondary-color);
+            font-size: 12px;
+        }
+        .memo-list-actions {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transform: translateY(-50%);
+            transition: opacity .2s;
+        }
+        .memo-list-item:hover .memo-list-actions,
+        .memo-list-item:focus-within .memo-list-actions {
+            opacity: 1;
+        }
+        .memo-main {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            padding: 18px 22px;
+            min-width: 0;
+        }
+        .memo-title-input {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 20px;
+            font-weight: 800;
+            padding: 8px 0 12px;
+            outline: none;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .memo-body-input {
+            border: none;
+            resize: none;
+            background: transparent;
+            color: var(--text-color);
+            font-size: 16px;
+            line-height: 1.65;
+            padding: 14px 0;
+            outline: none;
+            min-height: 0;
+        }
+        .memo-meta {
+            color: var(--text-secondary-color);
+            font-size: 12px;
+            padding-top: 8px;
+        }
+        .memo-empty {
+            color: var(--text-secondary-color);
+            text-align: center;
+            padding: 28px 12px;
+        }
+        @media (max-width: 720px) {
+            .memo-editor {
+                grid-template-columns: 1fr;
+                min-height: 70vh;
+            }
+            .memo-sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                max-height: 280px;
+            }
+        }
+        .widget-card {
+            container-type: inline-size;
+        }
+        .widget-size-2x1 {
+            grid-column: span 2;
+            justify-self: stretch;
+            width: auto;
+            min-width: 0;
+            min-height: 104px;
+        }
+        .widget-size-2x1 .clock-widget {
+            grid-template-columns: minmax(0, .34fr) minmax(0, 1fr);
+            grid-template-rows: auto auto;
+            align-items: center;
+            column-gap: 18px;
+            min-width: 0;
+        }
+        .widget-size-2x1 .clock-time {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            justify-self: stretch;
+            text-align: right;
+        }
+        .widget-size-2x1 .clock-digits {
+            font-size: clamp(34px, 13cqw, 72px);
+        }
+        .widget-size-2x1 .clock-date {
+            align-self: start;
+        }
+        .widget-timezone-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 10px;
+        }
+        .widget-toggle-row {
+            margin: 12px 0;
+        }
+        @media (max-width: 560px) {
+            .widget-size-2x1 {
+                grid-column: span 1;
+            }
+            .widget-size-2x1 .clock-widget {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .widget-size-2x1 .clock-time {
+                grid-column: auto;
+                grid-row: auto;
+                justify-self: start;
+            }
+            .clock-digits {
+                font-size: min(42px, 18cqw);
+            }
         }
 
         .search-bar-container {
@@ -735,6 +1111,18 @@
             overflow: visible;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
+        }
+        .main-content.export-preview-active.card-mode-simple .widget-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            box-shadow: var(--shadow);
+            padding: var(--card-padding);
+            overflow: hidden;
+            backdrop-filter: var(--surface-backdrop);
+            -webkit-backdrop-filter: var(--surface-backdrop);
+        }
+        .main-content.export-preview-active.card-mode-simple .widget-memo-card {
+            padding: 0;
         }
         .main-content.export-preview-active.card-mode-simple .site-card a {
             align-items: center;
@@ -3353,6 +3741,7 @@
         <aside class="sidebar" id="sidebar">
             <div class="logo">NaviCube</div>
             <button id="add-site-btn" class="button" data-lang="addSite">录入站点</button>
+            <button id="add-widget-btn" class="button button-secondary" data-lang="addWidget">添加组件</button>
             <button id="add-category-btn" class="button" data-lang="addCategory">新建分类</button>
             <div class="category-list-header">
                 <h4 data-lang="categoryList">分类列表</h4>
@@ -3707,6 +4096,91 @@
         </div>
     </div>
 
+    <div id="widget-modal" class="modal-overlay">
+        <div class="modal">
+            <h3 id="widget-modal-title" data-lang="addWidgetTitle">添加组件</h3>
+            <form id="widget-form">
+                <div class="modal-body">
+                    <input type="hidden" id="widget-id-input">
+                    <div class="modal-form-group">
+                        <label for="widget-type-select" data-lang="widgetType">组件类型</label>
+                        <select id="widget-type-select">
+                            <option value="clock" data-lang="clockWidget">时钟</option>
+                            <option value="memo" data-lang="memoWidget">备忘录</option>
+                        </select>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="widget-category-select" data-lang="category">所属分类</label>
+                        <select id="widget-category-select" required></select>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="widget-size-select" data-lang="widgetSize">组件尺寸</label>
+                        <select id="widget-size-select">
+                            <option value="1x1">1 x 1</option>
+                            <option value="2x1">2 x 1</option>
+                        </select>
+                    </div>
+                    <div class="modal-form-group clock-widget-setting">
+                        <label for="widget-timezone-input" data-lang="clockTimezone">时区</label>
+                        <input type="hidden" id="widget-timezone-input" value="local">
+                        <div class="widget-timezone-row">
+                            <select id="widget-timezone-sign-select">
+                                <option value="local" data-lang="clockTimezoneLocal">本地时区</option>
+                                <option value="+">UTC+</option>
+                                <option value="-">UTC-</option>
+                            </select>
+                            <select id="widget-timezone-hour-select"></select>
+                        </div>
+                    </div>
+                    <label class="toggle-switch-label widget-toggle-row clock-widget-setting">
+                        <span data-lang="clockShowDate">显示日期</span>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="widget-show-date-input" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </label>
+                    <label class="toggle-switch-label widget-toggle-row clock-widget-setting">
+                        <span data-lang="clockUse24Hour">24 小时制</span>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="widget-use-24h-input" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button button-secondary" id="cancel-widget-modal" data-lang="cancel">取消</button>
+                    <button type="submit" class="button" data-lang="save">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="memo-modal" class="memo-modal-overlay">
+        <div class="memo-modal">
+            <div class="memo-modal-header">
+                <h3 data-lang="memoWidget">备忘录</h3>
+                <button type="button" class="memo-icon-btn" id="memo-close-btn" aria-label="Close">×</button>
+            </div>
+            <input type="file" id="memo-import-input" accept="application/json,.json" style="display:none">
+            <div class="memo-editor">
+                <aside class="memo-sidebar">
+                    <div class="memo-toolbar">
+                        <button type="button" class="memo-icon-btn" id="memo-add-btn" title="新增"></button>
+                        <button type="button" class="memo-icon-btn" id="memo-import-btn" title="导入"></button>
+                        <button type="button" class="memo-icon-btn" id="memo-export-btn" title="导出"></button>
+                    </div>
+                    <input id="memo-search-input" class="memo-search" type="text" data-lang-prop="placeholder" data-lang="searchPlaceholder" placeholder="搜索...">
+                    <div id="memo-list" class="memo-list"></div>
+                </aside>
+                <section class="memo-main">
+                    <input id="memo-title-input" class="memo-title-input" type="text" data-lang-prop="placeholder" data-lang="memoTitlePlaceholder" placeholder="笔记标题">
+                    <textarea id="memo-body-input" class="memo-body-input" data-lang-prop="placeholder" data-lang="memoBodyPlaceholder" placeholder="请输入笔记内容"></textarea>
+                    <div id="memo-meta" class="memo-meta"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+
     <div id="api-config-modal" class="modal-overlay">
         <div class="modal">
             <h3 id="api-config-modal-title" data-lang="apiConfigTitle">API配置</h3>
@@ -4056,6 +4530,7 @@
             // [MODIFIED] Added new translations for deactivation
             // Sidebar
             addSite: { zh: '录入衔接', en: 'Add New Link' },
+            addWidget: { zh: '添加组件', en: 'Add Widget' },
             addCategory: { zh: '新建分类', en: 'New Category' },
             categoryList: { zh: '分类列表', en: 'Categories' },
             deleteAllFailed: { zh: '删除所有失效', en: 'Delete All Failed'},
@@ -4278,6 +4753,7 @@
             confirmTitle: { zh: '请确认', en: 'Please Confirm' },
             deleteCategoryConfirm: { zh: '确定要删除此分类吗？其下的衔接将被一同删除！', en: 'Are you sure you want to delete this category? All its links will also be deleted.' },
             deleteSiteConfirm: { zh: '确定要删除这个链接吗？', en: 'Are you sure you want to delete this link?' },
+            deleteWidgetConfirm: { zh: '确定要删除这个组件吗？', en: 'Are you sure you want to delete this widget?' },
             importConfirm: { zh: '这将覆盖您当前的全部数据，确定要导入吗？', en: 'This will overwrite all your current data. Are you sure you want to import?' },
             importPremiumConfirm: { zh: '导入数据后将覆盖当前数据信息，请做好当前数据备份。', en: 'Importing will overwrite current data. Please ensure you have a backup.' },
             importSuccess: { zh: '数据导入成功！', en: 'Data imported successfully!' },
@@ -4286,9 +4762,33 @@
             fillRequiredFields: { zh: '请填写所有必填项！', en: 'Please fill in all required fields!' },
             mobileAlert: { zh: '建议使用大屏幕设备访问和操作', en: 'For the best experience, please use a larger screen device.' },
             saveSuccess: { zh: '保存成功！', en: 'Saved successfully!' },
-            backupReminder: { zh: '您已经超过7天没有备份数据了，建议您导出备份以防数据丢失！', en: 'It has been over 7 days since your last backup. Export a backup to prevent data loss.' },
+            backupReminder: { zh: '建议您每周导出备份以防数据丢失！', en: 'Export a backup weekly to prevent data loss.' },
             categorySaveSuccess: { zh: '分类保存成功！', en: 'Category saved successfully!' },
             siteSaveSuccess: { zh: '站点保存成功！', en: 'Link saved successfully!' },
+            widgetSaveSuccess: { zh: '组件保存成功！', en: 'Widget saved successfully!' },
+            addWidgetTitle: { zh: '添加组件', en: 'Add Widget' },
+            editWidgetTitle: { zh: '编辑组件', en: 'Edit Widget' },
+            widgetType: { zh: '组件类型', en: 'Widget Type' },
+            widgetSize: { zh: '组件尺寸', en: 'Widget Size' },
+            clockWidget: { zh: '时钟', en: 'Clock' },
+            clockWidgetDesc: { zh: '本地时间组件', en: 'Local time widget' },
+            memoWidget: { zh: '备忘录', en: 'Memo' },
+            memoWidgetDesc: { zh: '本地备忘录组件', en: 'Local memo widget' },
+            memoStorageWarning: { zh: '备忘录保存在当前浏览器本地，清空缓存后会删除，请及时导出备份。', en: 'Memos are stored in this browser. Clearing browser data deletes them, so export a backup when needed.' },
+            memoTitlePlaceholder: { zh: '笔记标题', en: 'Note title' },
+            memoBodyPlaceholder: { zh: '请输入笔记内容', en: 'Write your note...' },
+            memoUntitled: { zh: '未命名笔记', en: 'Untitled note' },
+            memoSaved: { zh: '备忘录已保存', en: 'Memo saved' },
+            memoImported: { zh: '备忘录导入成功', en: 'Memos imported' },
+            memoImportFailed: { zh: '备忘录导入失败，请检查 JSON 文件。', en: 'Memo import failed. Please check the JSON file.' },
+            memoDeleteConfirm: { zh: '确定要删除这条备忘录吗？', en: 'Delete this memo?' },
+            add: { zh: '新增', en: 'Add' },
+            import: { zh: '导入', en: 'Import' },
+            export: { zh: '导出', en: 'Export' },
+            clockTimezone: { zh: '时区', en: 'Timezone' },
+            clockTimezoneLocal: { zh: '本地时区', en: 'Local Timezone' },
+            clockShowDate: { zh: '显示日期', en: 'Show Date' },
+            clockUse24Hour: { zh: '24 小时制', en: '24-hour Time' },
             siteInfoFetchSuccess: { zh: '站点信息获取成功！', en: 'Site info fetched successfully!' },
             noSitesToTidy: { zh: '没有可供整理的衔接。', en: 'There are no links available to organize.' },
             processingPleaseWait: { zh: '处理中，请稍候...', en: 'Processing, please wait...' },
@@ -4387,12 +4887,15 @@
         const navigationContainer = document.getElementById('navigation-container');
         const addCategoryBtn = document.getElementById('add-category-btn');
         const addSiteBtn = document.getElementById('add-site-btn');
+        const addWidgetBtn = document.getElementById('add-widget-btn');
         const emptyState = document.getElementById('empty-state');
         const localSearchNoResults = document.getElementById('local-search-no-results'); 
         const noResultsMessage = document.getElementById('no-results-message'); 
         const categoryModal = document.getElementById('category-modal'), categoryForm = document.getElementById('category-form'), cancelCategoryModalBtn = document.getElementById('cancel-category-modal'), categoryModalTitle = document.getElementById('category-modal-title'), categoryIdInput = document.getElementById('category-id-input'), categoryNameInput = document.getElementById('category-name-input');
         const customEngineModal = document.getElementById('custom-engine-modal'), customEngineForm = document.getElementById('custom-engine-form'), cancelCustomEngineModalBtn = document.getElementById('cancel-custom-engine-modal'), customEngineModalTitle = document.getElementById('custom-engine-modal-title'), customEngineEditId = document.getElementById('custom-engine-edit-id'), customEngineNameInput = document.getElementById('custom-engine-name-input'), customEngineUrlInput = document.getElementById('custom-engine-url-input');
         const siteModal = document.getElementById('site-modal'), siteForm = document.getElementById('site-form'), cancelSiteModalBtn = document.getElementById('cancel-site-modal'), siteModalTitle = document.getElementById('site-modal-title'), siteIdInput = document.getElementById('site-id-input'), siteNameInput = document.getElementById('site-name-input'), siteUrlInput = document.getElementById('site-url-input'), siteIconInput = document.getElementById('site-icon-input'), siteIconPreview = document.getElementById('site-icon-preview'), siteDescInput = document.getElementById('site-desc-input'), siteCategorySelect = document.getElementById('site-category-select'), siteCategoryTagsContainer = document.getElementById('site-category-tags'), categorySearchInput = document.getElementById('category-search-input'), categoryPaginationControls = document.getElementById('category-pagination-controls');
+        const widgetModal = document.getElementById('widget-modal'), widgetForm = document.getElementById('widget-form'), cancelWidgetModalBtn = document.getElementById('cancel-widget-modal'), widgetModalTitle = document.getElementById('widget-modal-title'), widgetIdInput = document.getElementById('widget-id-input'), widgetTypeSelect = document.getElementById('widget-type-select'), widgetCategorySelect = document.getElementById('widget-category-select'), widgetSizeSelect = document.getElementById('widget-size-select'), widgetTimezoneInput = document.getElementById('widget-timezone-input'), widgetTimezoneSignSelect = document.getElementById('widget-timezone-sign-select'), widgetTimezoneHourSelect = document.getElementById('widget-timezone-hour-select'), widgetShowDateInput = document.getElementById('widget-show-date-input'), widgetUse24hInput = document.getElementById('widget-use-24h-input');
+        const memoModal = document.getElementById('memo-modal'), memoList = document.getElementById('memo-list'), memoSearchInput = document.getElementById('memo-search-input'), memoTitleInput = document.getElementById('memo-title-input'), memoBodyInput = document.getElementById('memo-body-input'), memoMeta = document.getElementById('memo-meta'), memoAddBtn = document.getElementById('memo-add-btn'), memoImportBtn = document.getElementById('memo-import-btn'), memoExportBtn = document.getElementById('memo-export-btn'), memoImportInput = document.getElementById('memo-import-input'), memoCloseBtn = document.getElementById('memo-close-btn');
         
         const siteNameCounter = document.getElementById('site-name-counter');
         const siteDescCounter = document.getElementById('site-desc-counter');
@@ -5282,6 +5785,7 @@
                 }
             },
             lastBackupTime: 0,
+            lastBackupReminderTime: 0,
             seo: {
                 title: '',
                 description: '',
@@ -5949,11 +6453,14 @@
         const checkBackupReminder = () => {
             const now = Date.now();
             const lastBackup = StateManager.state.lastBackupTime;
+            const lastReminder = StateManager.state.lastBackupReminderTime || 0;
             const daysSinceBackup = (now - lastBackup) / (1000 * 60 * 60 * 24);
+            const daysSinceReminder = (now - lastReminder) / (1000 * 60 * 60 * 24);
             
-            // 如果超过7天没有备份，提醒用户
-            if (daysSinceBackup > 7) {
-                showToast(t('backupReminder'), 'info', 5000);
+            if (daysSinceBackup > 7 && daysSinceReminder >= 3) {
+                StateManager.state.lastBackupReminderTime = now;
+                saveState();
+                showAlert('backupReminder');
             }
         };
         
@@ -6148,7 +6655,104 @@
         };
 
         const getCategoryDisplayName = (cat) => (translations[cat.id] && t(cat.id)) || (cat.name || '');
+        const isWidgetItem = (item) => item?.type === 'widget';
+        const isLinkItem = (item) => !isWidgetItem(item);
+        const getLinkItems = () => (StateManager.state.sites || []).filter(isLinkItem);
+        const WIDGET_REGISTRY = {
+            clock: {
+                id: 'clock',
+                nameKey: 'clockWidget',
+                descKey: 'clockWidgetDesc'
+            },
+            memo: {
+                id: 'memo',
+                nameKey: 'memoWidget',
+                descKey: 'memoWidgetDesc'
+            }
+        };
+        const getWidgetDefinition = (item) => WIDGET_REGISTRY[item?.widgetId] || WIDGET_REGISTRY.clock;
+        const getWidgetDisplayName = (item) => t(getWidgetDefinition(item).nameKey);
+        const getClockWidgetSize = (item) => item?.widgetSize || '2x1';
+        const getClockWidgetProps = (item = {}) => ({
+            timezone: item.widgetProps?.timezone || 'local',
+            showDate: item.widgetProps?.showDate !== false,
+            use24Hour: item.widgetProps?.use24Hour !== false
+        });
+        const MEMO_STORAGE_PREFIX = 'navicube-memos-';
+        let activeMemoWidgetId = null;
+        let activeMemoId = null;
+        const getMemoStorageKey = (widgetId) => `${MEMO_STORAGE_PREFIX}${widgetId}`;
+        const normalizeMemoNotes = (notes) => Array.isArray(notes)
+            ? notes.map(note => ({
+                id: String(note.id || `m${Date.now()}${Math.random().toString(16).slice(2)}`),
+                title: String(note.title || '').slice(0, 80),
+                body: String(note.body || ''),
+                createdAt: Number(note.createdAt) || Date.now(),
+                updatedAt: Number(note.updatedAt) || Date.now(),
+                pinned: Boolean(note.pinned)
+            }))
+            : [];
+        const loadMemoNotes = (widgetId, seedNotes = null) => {
+            try {
+                const raw = localStorage.getItem(getMemoStorageKey(widgetId));
+                if (raw) return normalizeMemoNotes(JSON.parse(raw));
+                const seeded = normalizeMemoNotes(seedNotes);
+                if (seeded.length) {
+                    localStorage.setItem(getMemoStorageKey(widgetId), JSON.stringify(seeded));
+                }
+                return seeded;
+            } catch (error) {
+                return [];
+            }
+        };
+        const saveMemoNotes = (widgetId, notes) => {
+            localStorage.setItem(getMemoStorageKey(widgetId), JSON.stringify(normalizeMemoNotes(notes)));
+        };
+        const removeMemoNotes = (widgetId) => localStorage.removeItem(getMemoStorageKey(widgetId));
+        const createMemoNote = () => {
+            const now = Date.now();
+            return { id: `m${now}`, title: t('memoUntitled'), body: '', createdAt: now, updatedAt: now, pinned: false };
+        };
+        const getMemoPreview = (item) => {
+            const notes = loadMemoNotes(item.id, item.widgetProps?.notes);
+            const note = [...notes].sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt)[0];
+            return note || null;
+        };
+        const getMemoPreviewNotes = (item, limit = 2) => loadMemoNotes(item.id, item.widgetProps?.notes)
+            .sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt)
+            .slice(0, limit);
+        const parseUtcOffset = (timezone) => {
+            const match = String(timezone || '').match(/^UTC([+-])(\d{1,2})$/);
+            if (!match) return null;
+            const hour = Math.min(12, Math.max(0, Number(match[2]) || 0));
+            return (match[1] === '-' ? -1 : 1) * hour;
+        };
+        const getClockDisplayDate = (now, timezone, timeOptions, dateOptions) => {
+            const offset = parseUtcOffset(timezone);
+            if (offset !== null) {
+                timeOptions.timeZone = 'UTC';
+                dateOptions.timeZone = 'UTC';
+                return new Date(now.getTime() + offset * 60 * 60 * 1000);
+            }
+            if (timezone && timezone !== 'local') {
+                timeOptions.timeZone = timezone;
+                dateOptions.timeZone = timezone;
+            }
+            return now;
+        };
+        const formatClockDate = (date, locale, dateOptions) => {
+            const parts = new Intl.DateTimeFormat(locale, dateOptions).formatToParts(date);
+            const year = parts.find(part => part.type === 'year')?.value || '';
+            const month = parts.find(part => part.type === 'month')?.value || '';
+            const day = parts.find(part => part.type === 'day')?.value || '';
+            const weekday = parts.find(part => part.type === 'weekday')?.value || '';
+            const dateText = [year, month, day].filter(Boolean).join('/');
+            return `<span class="clock-date-part">${sanitize(dateText)}</span>${weekday ? `<span class="clock-date-part">${sanitize(weekday)}</span>` : ''}`;
+        };
         const getSiteDescriptionText = (site) => {
+            if (isWidgetItem(site)) {
+                return site.desc || t(getWidgetDefinition(site).descKey);
+            }
             const translationEntry = translations[`${site.id}_desc`];
             const rawSiteDesc = typeof site.desc === 'string' ? site.desc.trim() : '';
 
@@ -6167,6 +6771,18 @@
             return t(`${site.id}_desc`) || rawSiteDesc;
         };
         const buildSiteSearchText = (site) => {
+            if (isWidgetItem(site)) {
+                if (site.widgetId === 'memo') {
+                    const notes = loadMemoNotes(site.id, site.widgetProps?.notes);
+                    return [getWidgetDisplayName(site), site.widgetId || '', getSiteDescriptionText(site), ...notes.flatMap(note => [note.title, note.body])]
+                        .join(' ')
+                        .toLowerCase();
+                }
+                const props = getClockWidgetProps(site);
+                return [getWidgetDisplayName(site), site.widgetId || '', props.timezone || '', getSiteDescriptionText(site)]
+                    .join(' ')
+                    .toLowerCase();
+            }
             return [site.name || '', getSearchableUrlComponent(site.url), getSiteDescriptionText(site)]
                 .join(' ')
                 .toLowerCase();
@@ -6201,6 +6817,39 @@
                 const gridRect = grid.getBoundingClientRect();
                 const offset = Math.max(0, Math.round(leftmostCard.rect.left - gridRect.left));
                 title.style.setProperty('--category-title-offset', `${offset}px`);
+            });
+        };
+
+        const normalizeWidgetGridSpans = (root = navigationContainer) => {
+            if (!root) return;
+            const collapseWideWidgets = window.matchMedia('(max-width: 560px)').matches;
+
+            root.querySelectorAll('.sites-grid').forEach(grid => {
+                const cards = Array.from(grid.querySelectorAll('.site-card'));
+                cards.forEach(card => card.style.gridColumn = '');
+                if (collapseWideWidgets) return;
+
+                const columnCount = window.getComputedStyle(grid).gridTemplateColumns
+                    .split(' ')
+                    .filter(Boolean).length;
+                if (columnCount <= 1) return;
+
+                let usedColumns = 0;
+                cards.forEach(card => {
+                    const styles = window.getComputedStyle(card);
+                    if (styles.display === 'none' || styles.visibility === 'hidden') return;
+
+                    const span = card.classList.contains('widget-size-2x1') ? Math.min(2, columnCount) : 1;
+                    if (span > 1) {
+                        const shouldStartNewRow = usedColumns > 0 && usedColumns + span > columnCount;
+                        card.style.gridColumn = shouldStartNewRow ? `1 / span ${span}` : `span ${span}`;
+                        usedColumns = shouldStartNewRow ? span : usedColumns + span;
+                    } else {
+                        usedColumns += span;
+                    }
+
+                    if (usedColumns >= columnCount) usedColumns = 0;
+                });
             });
         };
 
@@ -6246,12 +6895,44 @@
             });
         };
 
+        let pagedWheelLock = false;
+        const handlePagedWheel = (event) => {
+            if (!mainContent?.classList.contains('layout-paged')) return;
+            const groups = Array.from(navigationContainer.querySelectorAll('.category-group')).filter(group => {
+                const styles = window.getComputedStyle(group);
+                return styles.display !== 'none' && group.getBoundingClientRect().width > 0;
+            });
+            if (groups.length <= 1) return;
+
+            const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+            if (Math.abs(delta) < 8) return;
+            if (pagedWheelLock) return;
+
+            const currentIndex = Math.min(groups.length - 1, Math.max(0, Math.round(navigationContainer.scrollLeft / Math.max(1, navigationContainer.clientWidth))));
+            const currentRect = groups[currentIndex].getBoundingClientRect();
+            const rootRect = mainContent.getBoundingClientRect();
+            if (delta > 0 && currentRect.bottom > rootRect.bottom - 80) return;
+            if (delta < 0 && currentRect.top < rootRect.top + 80) return;
+
+            const nextIndex = Math.min(groups.length - 1, Math.max(0, currentIndex + (delta > 0 ? 1 : -1)));
+            if (nextIndex === currentIndex) return;
+            event.preventDefault();
+            pagedWheelLock = true;
+            mainContent.scrollTo({ top: 0, behavior: 'auto' });
+            navigationContainer.scrollTo({ left: groups[nextIndex].offsetLeft, behavior: 'smooth' });
+            setTimeout(() => {
+                mainContent.scrollTo({ top: 0, behavior: 'auto' });
+                pagedWheelLock = false;
+            }, 420);
+        };
+
         const scheduleCategoryTitleOffsetSync = (root = navigationContainer) => {
             if (categoryTitleOffsetFrameId !== null) {
                 cancelAnimationFrame(categoryTitleOffsetFrameId);
             }
             categoryTitleOffsetFrameId = requestAnimationFrame(() => {
                 categoryTitleOffsetFrameId = null;
+                normalizeWidgetGridSpans(root);
                 syncCategoryTitleOffsets(root);
                 syncScreenPager();
                 syncBackToTopButtonPosition();
@@ -6305,6 +6986,28 @@
         };
 
         const createActionIconSvg = (type) => {
+            if (type === 'add') {
+                return `
+                    <svg class="action-icon-svg" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                        <path d="M10 4.5v11M4.5 10h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                    </svg>`;
+            }
+            if (type === 'pin') {
+                return `
+                    <svg class="action-icon-svg" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                        <path d="M7.7 3.9h4.6l-.55 4.05 2.55 2.45v1.25H5.7V10.4l2.55-2.45L7.7 3.9Z" fill="currentColor" opacity="0.14"></path>
+                        <path d="M7.7 3.9h4.6l-.55 4.05 2.55 2.45v1.25H5.7V10.4l2.55-2.45L7.7 3.9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+                        <path d="M10 11.65v4.45" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+                    </svg>`;
+            }
+            if (type === 'import' || type === 'export') {
+                const arrow = type === 'import' ? 'M10 11.6V3.8M6.9 6.8l3.1-3 3.1 3' : 'M10 3.8v7.8M6.9 8.6l3.1 3 3.1-3';
+                return `
+                    <svg class="action-icon-svg" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                        <path d="${arrow}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M5 13.6v1.2c0 .72.58 1.3 1.3 1.3h7.4c.72 0 1.3-.58 1.3-1.3v-1.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+                    </svg>`;
+            }
             if (type === 'delete') {
                 return `
                     <svg class="action-icon-svg" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
@@ -6325,7 +7028,107 @@
 
         const UI_ICONS = {
             edit: createActionIconSvg('edit'),
-            delete: createActionIconSvg('delete')
+            delete: createActionIconSvg('delete'),
+            add: createActionIconSvg('add'),
+            pin: createActionIconSvg('pin'),
+            import: createActionIconSvg('import'),
+            export: createActionIconSvg('export')
+        };
+        memoAddBtn.innerHTML = UI_ICONS.add;
+        memoImportBtn.innerHTML = UI_ICONS.import;
+        memoExportBtn.innerHTML = UI_ICONS.export;
+
+        const updateClockWidgets = (root = document) => {
+            const now = new Date();
+            root.querySelectorAll('.clock-widget').forEach(widget => {
+                let timezone = widget.dataset.timezone || 'local';
+                const use24Hour = widget.dataset.use24Hour !== 'false';
+                const showDate = widget.dataset.showDate !== 'false';
+                const locale = StateManager.state.language === 'en' ? 'en-US' : 'zh-CN';
+                const dateOptions = {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    weekday: 'short'
+                };
+                const renderClock = (includeSeconds, includeDate) => {
+                    const scopedDateOptions = { ...dateOptions };
+                    const timeOptions = {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: !use24Hour
+                    };
+                    if (includeSeconds) timeOptions.second = '2-digit';
+                    const displayNow = getClockDisplayDate(now, timezone, timeOptions, scopedDateOptions);
+                    const parts = new Intl.DateTimeFormat(locale, timeOptions).formatToParts(displayNow);
+                    const period = use24Hour ? '' : (parts.find(part => part.type === 'dayPeriod')?.value || '');
+                    const timeParts = ['hour', 'minute'];
+                    if (includeSeconds) timeParts.push('second');
+                    const time = timeParts.map(type => parts.find(part => part.type === type)?.value || '00').join(':');
+                    widget.querySelector('.clock-time').innerHTML = `${period ? `<span class="clock-period">${sanitize(period)}</span>` : ''}<span class="clock-digits">${sanitize(time)}</span>`;
+                    widget.querySelector('.clock-date').innerHTML = includeDate ? formatClockDate(displayNow, locale, scopedDateOptions) : '';
+                };
+                const overflows = () => widget.clientWidth > 0 && widget.scrollWidth > widget.clientWidth + 1;
+
+                try {
+                    renderClock(true, showDate);
+                    if (overflows()) renderClock(false, showDate);
+                    if (overflows()) renderClock(false, false);
+                } catch (error) {
+                    delete dateOptions.timeZone;
+                    widget.dataset.timezone = 'local';
+                    timezone = 'local';
+                    renderClock(false, showDate);
+                }
+            });
+        };
+
+        const createWidgetCardElement = (item, isEditor = true) => {
+            const card = document.createElement('div');
+            const widgetSize = getClockWidgetSize(item);
+
+            card.className = `site-card widget-card widget-${sanitize(item.widgetId || 'clock')}-card widget-size-${widgetSize}`;
+            card.dataset.id = item.id;
+            card.dataset.categoryId = item.categoryId;
+            card.dataset.searchText = buildSiteSearchText(item);
+
+            if (item.widgetId === 'memo') {
+                const previewNotes = getMemoPreviewNotes(item);
+                card.innerHTML = `
+                    <div class="widget-shell memo-widget" data-widget-id="${sanitize(item.id)}" role="button" tabindex="0">
+                        <div class="memo-widget-title">${sanitize(getWidgetDisplayName(item))}</div>
+                        ${previewNotes.length
+                            ? previewNotes.map(note => `<div class="memo-widget-line">${sanitize(note.title || t('memoUntitled'))}</div>`).join('')
+                            : `<div class="memo-widget-line">${sanitize(t('memoTitlePlaceholder'))}</div>`}
+                    </div>
+                    ${isEditor ? `
+                    <div class="card-actions">
+                        <span class="card-action-btn edit-site-btn" data-id="${item.id}" title="编辑">${UI_ICONS.edit}</span>
+                        <span class="card-action-btn delete-site-btn" data-id="${item.id}" title="删除">${UI_ICONS.delete}</span>
+                    </div>` : ''}
+                `;
+                return card;
+            }
+
+            const props = getClockWidgetProps(item);
+            card.innerHTML = `
+                <div class="widget-shell clock-widget">
+                    <div class="clock-widget-label">${sanitize(getWidgetDisplayName(item))}</div>
+                    <div class="clock-time">--:--</div>
+                    <div class="clock-date"></div>
+                </div>
+                ${isEditor ? `
+                <div class="card-actions">
+                    <span class="card-action-btn edit-site-btn" data-id="${item.id}" title="编辑">${UI_ICONS.edit}</span>
+                    <span class="card-action-btn delete-site-btn" data-id="${item.id}" title="删除">${UI_ICONS.delete}</span>
+                </div>` : ''}
+            `;
+            const widget = card.querySelector('.clock-widget');
+            widget.dataset.timezone = props.timezone;
+            widget.dataset.showDate = String(props.showDate);
+            widget.dataset.use24Hour = String(props.use24Hour);
+            updateClockWidgets(card);
+            return card;
         };
 
         const createSiteCardElement = (site, isEditor = true) => {
@@ -6354,7 +7157,9 @@
             return card;
         };
 
-        const createNavigationSiteCardElement = (site, isEditor = true) => createSiteCardElement(site, isEditor);
+        const createNavigationSiteCardElement = (site, isEditor = true) => {
+            return isWidgetItem(site) ? createWidgetCardElement(site, isEditor) : createSiteCardElement(site, isEditor);
+        };
 
         const createCategoryGroupElement = (cat, sitesForCategory = [], isEditor = true) => {
             const categoryGroup = document.createElement('div');
@@ -6573,6 +7378,7 @@
             if (StateManager.appStatus === 'checking') return;
             try { renderCategoriesList(); } catch (e) { console.error('renderCategoriesList error:', e); }
             try { renderNavigationLayout(navigationContainer, StateManager.state, true); } catch (e) { console.error('renderNavigationLayout error:', e); }
+            try { updateClockWidgets(navigationContainer); } catch (e) { console.error('updateClockWidgets error:', e); }
             try { renderLinkCheckResults(); } catch (e) { console.error('renderLinkCheckResults error:', e); }
             try { applyUiSettings(); } catch (e) { console.error('applyUiSettings error:', e); }
             try { updateStorageIndicator(); } catch (e) { console.error('updateStorageIndicator error:', e); }
@@ -6819,6 +7625,150 @@
                 clearExportAppearanceModalPresentation();
             }
         };
+
+        const populateWidgetCategoryOptions = (selectedId = '') => {
+            widgetCategorySelect.innerHTML = '';
+            getSortedCategories().forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = getCategoryDisplayName(cat);
+                widgetCategorySelect.appendChild(option);
+            });
+            widgetCategorySelect.value = selectedId || widgetCategorySelect.options[0]?.value || '';
+        };
+        const populateUtcHourOptions = () => {
+            if (widgetTimezoneHourSelect.options.length) return;
+            for (let hour = 0; hour <= 12; hour++) {
+                widgetTimezoneHourSelect.appendChild(new Option(String(hour), String(hour)));
+            }
+        };
+        const setTimezoneControls = (timezone = 'local') => {
+            populateUtcHourOptions();
+            const offset = parseUtcOffset(timezone);
+            if (offset === null) {
+                widgetTimezoneSignSelect.value = 'local';
+                widgetTimezoneHourSelect.value = '0';
+                widgetTimezoneHourSelect.disabled = true;
+                widgetTimezoneInput.value = 'local';
+                return;
+            }
+            widgetTimezoneSignSelect.value = offset < 0 ? '-' : '+';
+            widgetTimezoneHourSelect.value = String(Math.abs(offset));
+            widgetTimezoneHourSelect.disabled = false;
+            widgetTimezoneInput.value = `UTC${widgetTimezoneSignSelect.value}${widgetTimezoneHourSelect.value}`;
+        };
+        const syncTimezoneInputFromControls = () => {
+            if (widgetTimezoneSignSelect.value === 'local') {
+                widgetTimezoneHourSelect.disabled = true;
+                widgetTimezoneInput.value = 'local';
+                return;
+            }
+            widgetTimezoneHourSelect.disabled = false;
+            widgetTimezoneInput.value = `UTC${widgetTimezoneSignSelect.value}${widgetTimezoneHourSelect.value}`;
+        };
+
+        const syncWidgetTypeSettings = () => {
+            const isClock = widgetTypeSelect.value !== 'memo';
+            document.querySelectorAll('.clock-widget-setting').forEach(el => {
+                el.style.display = isClock ? '' : 'none';
+            });
+        };
+
+        const renderMemoList = () => {
+            if (!activeMemoWidgetId) return;
+            const query = memoSearchInput.value.trim().toLowerCase();
+            const notes = loadMemoNotes(activeMemoWidgetId);
+            const filtered = notes
+                .filter(note => !query || `${note.title} ${note.body}`.toLowerCase().includes(query))
+                .sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt);
+
+            memoList.innerHTML = filtered.length
+                ? filtered.map(note => `
+                    <div class="memo-list-item ${note.id === activeMemoId ? 'active' : ''} ${note.pinned ? 'pinned' : ''}" data-id="${sanitize(note.id)}">
+                        <div class="memo-list-title">${sanitize(note.title || t('memoUntitled'))}</div>
+                        <div class="memo-list-date">${sanitize(new Date(note.updatedAt).toLocaleString())}</div>
+                        <div class="memo-list-actions">
+                            <button type="button" class="memo-icon-btn memo-pin-btn ${note.pinned ? 'active' : ''}" data-id="${sanitize(note.id)}" title="置顶">${UI_ICONS.pin}</button>
+                            <button type="button" class="memo-icon-btn memo-delete-note-btn" data-id="${sanitize(note.id)}" title="删除">${UI_ICONS.delete}</button>
+                        </div>
+                    </div>
+                `).join('')
+                : `<div class="memo-empty">${sanitize(t('memoBodyPlaceholder'))}</div>`;
+        };
+
+        const selectMemo = (id) => {
+            persistActiveMemo(false);
+            const notes = loadMemoNotes(activeMemoWidgetId);
+            const note = notes.find(item => item.id === id) || notes[0] || null;
+            activeMemoId = note?.id || null;
+            memoTitleInput.value = note?.title || '';
+            memoBodyInput.value = note?.body || '';
+            memoTitleInput.disabled = !note;
+            memoBodyInput.disabled = !note;
+            const memoMetaLabel = StateManager.state.language === 'en' ? 'Last edited' : '最后编辑';
+            memoMeta.textContent = note ? `${memoMetaLabel}: ${new Date(note.updatedAt).toLocaleString()}` : '';
+            renderMemoList();
+        };
+
+        const persistActiveMemo = (rerender = true) => {
+            if (!activeMemoWidgetId || !activeMemoId) return;
+            const notes = loadMemoNotes(activeMemoWidgetId);
+            const note = notes.find(item => item.id === activeMemoId);
+            if (!note) return;
+            note.title = memoTitleInput.value.trim() || t('memoUntitled');
+            note.body = memoBodyInput.value;
+            note.updatedAt = Date.now();
+            saveMemoNotes(activeMemoWidgetId, notes);
+            if (rerender) renderMemoList();
+            renderNavigationLayout(navigationContainer, StateManager.state, true);
+            const memoMetaLabel = StateManager.state.language === 'en' ? 'Last edited' : '最后编辑';
+            memoMeta.textContent = `${memoMetaLabel}: ${new Date(note.updatedAt).toLocaleString()}`;
+        };
+        const autoSaveMemo = debounce(() => persistActiveMemo(), 500);
+
+        const applyMemoModalAppearance = () => {
+            const resolved = resolveExportAppearance(StateManager.state);
+            memoModal.className = `memo-modal-overlay ${resolved.bodyClassName}`;
+            Object.entries(resolved.rootVars).forEach(([key, value]) => memoModal.style.setProperty(key, value));
+        };
+
+        const openMemoModal = (widgetId) => {
+            activeMemoWidgetId = widgetId;
+            memoSearchInput.value = '';
+            let notes = loadMemoNotes(widgetId);
+            if (!notes.length) {
+                notes = [createMemoNote()];
+                saveMemoNotes(widgetId, notes);
+            }
+            applyMemoModalAppearance();
+            memoModal.style.display = 'flex';
+            if (!localStorage.getItem('navicube-memo-warning-seen')) {
+                showAlert('memoStorageWarning', 'memoWidget');
+                localStorage.setItem('navicube-memo-warning-seen', '1');
+            }
+            selectMemo(notes[0].id);
+        };
+
+        const openWidgetModal = (mode = 'add-widget', data = {}) => {
+            if (StateManager.appStatus === 'checking') return;
+            if (!StateManager.state.categories.length) {
+                showAlert('pleaseCreateCategory');
+                return;
+            }
+            closeAllDrawers();
+            widgetForm.reset();
+            widgetModal.style.display = 'flex';
+            widgetModalTitle.textContent = mode === 'edit-widget' ? t('editWidgetTitle') : t('addWidgetTitle');
+            widgetIdInput.value = mode === 'edit-widget' ? data.id : '';
+            widgetTypeSelect.value = data.widgetId || 'clock';
+            widgetSizeSelect.value = getClockWidgetSize(data);
+            const props = getClockWidgetProps(data);
+            setTimezoneControls(props.timezone);
+            widgetShowDateInput.checked = props.showDate;
+            widgetUse24hInput.checked = props.use24Hour;
+            syncWidgetTypeSettings();
+            populateWidgetCategoryOptions(data.categoryId || StateManager.lastCreatedCategoryId || StateManager.state.categories[0]?.id || '');
+        };
         
         const handleCategoryFormSubmit = (e) => {
             e.preventDefault();
@@ -6867,6 +7817,9 @@
                 sitesToDelete.forEach(site => {
                     if (StateManager.linkCheckResults.failedSiteIds.has(site.id)) {
                         StateManager.linkCheckResults.failedSiteIds.delete(site.id);
+                    }
+                    if (site.type === 'widget' && site.widgetId === 'memo') {
+                        removeMemoNotes(site.id);
                     }
                 });
                 delete StateManager.linkCheckResults.categoryCounts[id];
@@ -6961,10 +7914,65 @@
             closeModal(siteModal);
             showToast(t('siteSaveSuccess'), 'success');
         };
+
+        const handleWidgetFormSubmit = (e) => {
+            e.preventDefault();
+            const categoryId = widgetCategorySelect.value;
+            if (!categoryId) {
+                return showAlert('fillRequiredFields');
+            }
+
+            const widgetId = widgetTypeSelect.value || 'clock';
+            const definition = WIDGET_REGISTRY[widgetId] || WIDGET_REGISTRY.clock;
+            const id = widgetIdInput.value;
+            const existingItem = id ? StateManager.state.sites.find(item => item.id === id) : null;
+            const data = {
+                type: 'widget',
+                widgetId,
+                widgetSize: widgetSizeSelect.value || '2x1',
+                name: t(definition.nameKey),
+                desc: t(definition.descKey),
+                categoryId,
+                widgetProps: widgetId === 'memo' ? {
+                    notes: existingItem?.widgetProps?.notes || []
+                } : {
+                    timezone: widgetTimezoneInput.value || 'local',
+                    showDate: widgetShowDateInput.checked,
+                    use24Hour: widgetUse24hInput.checked
+                }
+            };
+
+            if (id) {
+                const itemIndex = StateManager.state.sites.findIndex(item => item.id === id);
+                if (itemIndex > -1) {
+                    const oldCategoryId = StateManager.state.sites[itemIndex].categoryId;
+                    StateManager.state.sites[itemIndex] = { ...StateManager.state.sites[itemIndex], ...data };
+                    commitStateChange({
+                        render: oldCategoryId === categoryId ? APP_RENDER_TARGETS.navigation : [APP_RENDER_TARGETS.categories, APP_RENDER_TARGETS.navigation],
+                        immediate: true
+                    });
+                }
+            } else {
+                const itemsInCategory = StateManager.state.sites.filter(item => item.categoryId === categoryId);
+                const newOrder = itemsInCategory.length > 0 ? Math.max(...itemsInCategory.map(item => item.order || 0)) + 1 : 1;
+                StateManager.state.sites.push({ id: 'w' + Date.now(), ...data, order: newOrder });
+                commitStateChange({
+                    render: APP_RENDER_TARGETS.navigation,
+                    immediate: true
+                });
+            }
+
+            closeModal(widgetModal);
+            showToast(t('widgetSaveSuccess'), 'success');
+        };
         
         const deleteSite = async (id) => { 
-            const confirmed = await showConfirm('deleteSiteConfirm'); 
+            const item = StateManager.state.sites.find(s => s.id === id);
+            const confirmed = await showConfirm(isWidgetItem(item) ? 'deleteWidgetConfirm' : 'deleteSiteConfirm'); 
             if (confirmed) { 
+                if (item?.type === 'widget' && item.widgetId === 'memo') {
+                    removeMemoNotes(id);
+                }
                 if (StateManager.linkCheckResults.failedSiteIds.has(id)) {
                     correctFailedLink(id, false);
                 }
@@ -7226,6 +8234,11 @@
         const createExportableStateSnapshot = () => {
             const exportState = JSON.parse(JSON.stringify(StateManager.state));
             exportState.exportAppearance = normalizeExportAppearanceConfig(exportState);
+            exportState.sites = (exportState.sites || []).map(item => (
+                item.type === 'widget' && item.widgetId === 'memo'
+                    ? { ...item, widgetProps: { ...(item.widgetProps || {}), notes: loadMemoNotes(item.id, item.widgetProps?.notes) } }
+                    : item
+            ));
             delete exportState.apiConfig;
             delete exportState.ai;
             delete exportState.llmApiConfig;
@@ -7261,7 +8274,7 @@
                 bookmarkHtml += `    <DT><H3>${sanitize(cat.name)}</H3>\n`;
                 bookmarkHtml += '    <DL><p>\n';
                 const catSites = sitesByCategory.get(cat.id) || [];
-                catSites.forEach(site => {
+                catSites.filter(isLinkItem).forEach(site => {
                     bookmarkHtml += `        <DT><A HREF="${sanitize(site.url)}" ADD_DATE="0">${sanitize(site.name)}</A>\n`;
                     if (site.desc) {
                         bookmarkHtml += `        <DD>${sanitize(site.desc)}\n`;
@@ -7272,7 +8285,7 @@
 
             const categoryIds = new Set(sortedCategories.map(cat => cat.id));
             const uncategorizedSites = sites
-                .filter(site => !categoryIds.has(site.categoryId))
+                .filter(site => isLinkItem(site) && !categoryIds.has(site.categoryId))
                 .sort((a, b) => a.order - b.order);
             if (uncategorizedSites.length > 0) {
                 bookmarkHtml += '    <DT><H3>Uncategorized</H3>\n';
@@ -8371,7 +9384,7 @@
 
         function onLinkCheckComplete() {
             showAlert('linkCheckSummary', 'linkCheckComplete', { 
-                total: StateManager.state.sites.length, 
+                total: getLinkItems().length, 
                 failed: StateManager.linkCheckResults.failedSiteIds.size 
             });
             saveLinkCheckResults(); 
@@ -8405,7 +9418,7 @@
         async function startLinkCheck(isResuming = false, resumeData = null) {
             if (StateManager.appStatus === 'checking') return;
 
-            const allSites = StateManager.state.sites;
+            const allSites = getLinkItems();
             if (allSites.length === 0) {
                 showAlert('linkCheckNoSites');
                 return;
@@ -8470,7 +9483,7 @@
         }
 
         async function startSmartTidy() {
-            if (StateManager.state.sites.length === 0) {
+            if (getLinkItems().length === 0) {
                 showAlert('noSitesToTidy');
                 return;
             }
@@ -8527,7 +9540,7 @@
             };
 
             try {
-                const allSites = StateManager.originalStateBackup.sites;
+                const allSites = StateManager.originalStateBackup.sites.filter(isLinkItem);
                 const BATCH_SIZE = 40;
 
                 if (allSites.length <= BATCH_SIZE) {
@@ -8826,6 +9839,19 @@
                     });
                 }
             });
+
+            const widgets = StateManager.originalStateBackup.sites.filter(isWidgetItem);
+            if (widgets.length > 0) {
+                const widgetCatId = 'c' + Date.now() + catOrder;
+                newCategories.push({
+                    id: widgetCatId,
+                    name: t('addWidget'),
+                    order: catOrder++
+                });
+                widgets.forEach((widget, index) => {
+                    newSites.push({ ...widget, categoryId: widgetCatId, order: index + 1 });
+                });
+            }
             
             StateManager.state.categories = newCategories;
             StateManager.state.sites = newSites;
@@ -9157,6 +10183,24 @@
                 emptyStateMsg: { zh: '此导航页没有任何内容。', en: 'This navigation page has no content.' },
                 searchCategoryPlaceholder: { zh: '搜索分类...', en: 'Search categories...' },
 				noMatchingCategories: { zh: '没有匹配的分类。', en: 'No matching categories.' },
+                clockWidget: { zh: '时钟', en: 'Clock' },
+                clockWidgetDesc: { zh: '本地时间组件', en: 'Local time widget' },
+                memoWidget: { zh: '备忘录', en: 'Memo' },
+                memoWidgetDesc: { zh: '本地备忘录组件', en: 'Local memo widget' },
+                memoStorageWarning: { zh: '备忘录保存在当前浏览器本地，清空缓存后会删除，请及时导出备份。', en: 'Memos are stored in this browser. Clearing browser data deletes them, so export a backup when needed.' },
+                memoTitlePlaceholder: { zh: '笔记标题', en: 'Note title' },
+                memoBodyPlaceholder: { zh: '请输入笔记内容', en: 'Write your note...' },
+                memoUntitled: { zh: '未命名笔记', en: 'Untitled note' },
+                memoSaved: { zh: '备忘录已保存', en: 'Memo saved' },
+                memoImported: { zh: '备忘录导入成功', en: 'Memos imported' },
+                memoImportFailed: { zh: '备忘录导入失败，请检查 JSON 文件。', en: 'Memo import failed. Please check the JSON file.' },
+                memoDeleteConfirm: { zh: '确定要删除这条备忘录吗？', en: 'Delete this memo?' },
+                add: { zh: '新增', en: 'Add' },
+                import: { zh: '导入', en: 'Import' },
+                export: { zh: '导出', en: 'Export' },
+                save: { zh: '保存', en: 'Save' },
+                close: { zh: '关闭', en: 'Close' },
+                delete: { zh: '删除', en: 'Delete' },
             };
 
             const seoConfig = exportState.seo || {};
@@ -9235,14 +10279,16 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg
 .category-style-badge .category-title{display:inline-flex;width:max-content;padding:10px 16px;border-radius:999px;background:var(--accent-soft-color);color:var(--accent-color)}
 .category-style-poster .category-title{display:inline-flex;width:max-content;padding:12px 16px;border-radius:18px;background:linear-gradient(135deg,var(--accent-color),rgba(255,255,255,0.16));color:#fff;letter-spacing:.04em}
 .sites-grid{--site-card-width:var(--grid-min-width);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--site-card-width)),min(100%,var(--site-card-width))));justify-content:center;gap:var(--grid-gap)}
-.site-card{background:var(--card-bg);border-radius:var(--card-border-radius);border:1px solid var(--border-color);padding:var(--card-padding);box-shadow:var(--shadow);overflow:hidden;backdrop-filter:var(--surface-backdrop);-webkit-backdrop-filter:var(--surface-backdrop);transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+.site-card{background:var(--card-bg);border-radius:var(--card-border-radius);border:1px solid var(--border-color);padding:var(--card-padding);min-width:0;box-shadow:var(--shadow);overflow:hidden;backdrop-filter:var(--surface-backdrop);-webkit-backdrop-filter:var(--surface-backdrop);transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
 .site-card:hover{transform:translateY(-6px);box-shadow:var(--card-hover-shadow);border-color:var(--accent-border-color)}
 .site-card a{text-decoration:none;color:inherit;display:flex;flex-direction:column;height:100%;gap:10px}
 .site-header{display:flex;align-items:center;gap:12px}
 .site-icon{width:42px;height:42px;border-radius:var(--icon-border-radius);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 6px 16px rgba(0,0,0,${resolvedAppearance.isDark ? '0.34' : '0.12'});overflow:hidden}
 .site-name{font-weight:700;font-size:17px;color:var(--title-color);word-break:break-word}
 .site-desc{font-size:14px;color:var(--text-secondary-color);flex-grow:1;line-height:1.6;word-break:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.widget-card{display:flex;min-height:104px;container-type:inline-size;padding:12px 14px}.widget-shell{width:100%;min-width:0;min-height:100%;display:grid;align-content:center;gap:5px}.clock-widget{position:relative}.clock-widget::before{content:"";position:absolute;inset:auto 0 0 auto;width:72px;height:72px;border-radius:999px;background:var(--accent-soft-color);filter:blur(18px);opacity:.8;pointer-events:none}.clock-widget-label{font-size:13px;font-weight:800;color:var(--text-secondary-color);letter-spacing:.08em;text-transform:uppercase}.clock-time{position:relative;display:grid;gap:4px;color:var(--text-color);line-height:1;letter-spacing:-.04em;min-width:0;overflow:hidden}.clock-period{font-size:15px;font-weight:800;color:var(--text-secondary-color);letter-spacing:.08em;text-transform:uppercase}.clock-digits{font-size:min(76px,15cqw);font-weight:850;font-variant-numeric:tabular-nums;white-space:nowrap}.widget-size-1x1 .clock-widget-label,.widget-size-1x1 .clock-period,.widget-size-1x1 .clock-date{font-size:12px}.widget-size-1x1 .clock-digits{font-size:min(44px,21cqw)}.clock-date{position:relative;min-height:20px;color:var(--text-secondary-color);font-size:14px;line-height:1.4}.clock-date-part{white-space:nowrap}.widget-size-2x1{grid-column:span 2;justify-self:stretch;width:auto;min-width:0;min-height:104px}.widget-size-2x1 .clock-widget{grid-template-columns:minmax(0,.34fr) minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:18px;min-width:0}.widget-size-2x1 .clock-time{grid-column:2;grid-row:1 / span 2;justify-self:stretch;text-align:right}.widget-size-2x1 .clock-digits{font-size:clamp(34px,13cqw,72px)}.widget-size-2x1 .clock-date{align-self:start}.memo-widget{position:relative;cursor:pointer;align-content:stretch;overflow:hidden}.memo-widget::before{content:"";position:absolute;inset:0 0 auto 0;height:34px;background:linear-gradient(135deg,var(--accent-color),var(--accent-soft-color));opacity:.95}.memo-widget-title{position:relative;align-self:start;color:var(--accent-contrast);font-size:16px;font-weight:800;line-height:1.2;z-index:1}.memo-widget-line{position:relative;color:var(--text-color);font-size:14px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:1}.memo-widget-date{color:var(--text-secondary-color);font-size:12px}.memo-modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.28);backdrop-filter:blur(12px);z-index:9999}.memo-modal{width:min(92vw,960px);max-height:90vh;background:var(--card-bg);border:1px solid var(--border-color);border-radius:24px;box-shadow:0 26px 70px rgba(15,23,42,.28);overflow:hidden}.memo-modal h3{margin:0;padding:18px 20px}.memo-editor{display:grid;grid-template-columns:260px 1fr;min-height:560px;border-top:1px solid var(--border-color)}.memo-sidebar{display:flex;flex-direction:column;gap:10px;padding:16px;border-right:1px solid var(--border-color)}.memo-warning{margin:0;padding:10px 12px;border-radius:12px;background:var(--accent-soft-color);color:var(--text-secondary-color);font-size:12px;line-height:1.45}.memo-toolbar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.memo-toolbar button,.memo-actions button{border:none;border-radius:12px;padding:10px 12px;background:var(--accent-color);color:var(--accent-contrast);font-weight:700;cursor:pointer}.memo-toolbar button:not(:first-child),.memo-actions button:not(:last-child){background:var(--bg-color);color:var(--text-color);border:1px solid var(--border-color)}.memo-search{width:100%;padding:10px 12px;border:1px solid var(--border-color);border-radius:12px;background:var(--bg-color);color:var(--text-color)}.memo-list{display:grid;gap:8px;overflow-y:auto}.memo-list-item{border:1px solid var(--border-color);border-radius:12px;padding:10px;background:var(--bg-color);cursor:pointer}.memo-list-item.active{border-color:var(--accent-color);background:var(--accent-soft-color)}.memo-list-title{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.memo-list-date{margin-top:4px;color:var(--text-secondary-color);font-size:12px}.memo-main{display:grid;grid-template-rows:auto 1fr;padding:16px;min-width:0}.memo-title-input{border:none;border-bottom:1px solid var(--border-color);background:transparent;color:var(--text-color);font-size:20px;font-weight:800;padding:8px 0 12px;outline:none}.memo-body-input{border:none;resize:none;background:transparent;color:var(--text-color);font-size:16px;line-height:1.65;padding:14px 0;outline:none}.memo-actions{display:flex;gap:10px;justify-content:flex-end;padding:14px 16px;border-top:1px solid var(--border-color)}.memo-empty{color:var(--text-secondary-color);text-align:center;padding:28px 12px}@media(max-width:720px){.memo-editor{grid-template-columns:1fr;min-height:70vh}.memo-sidebar{border-right:none;border-bottom:1px solid var(--border-color);max-height:280px}}
 .card-mode-simple .site-card{background:transparent;border-color:transparent;box-shadow:none;padding:8px;overflow:visible;backdrop-filter:none;-webkit-backdrop-filter:none}
+.card-mode-simple .widget-card{background:var(--card-bg);border-color:var(--border-color);box-shadow:var(--shadow);padding:var(--card-padding);overflow:hidden;backdrop-filter:var(--surface-backdrop);-webkit-backdrop-filter:var(--surface-backdrop)}
 .card-mode-simple .site-card a{align-items:center;text-align:center;gap:10px}
 .card-mode-simple .site-header{flex-direction:column;gap:10px}
 .card-mode-simple .site-icon{width:clamp(72px,calc(var(--site-card-width) * .48),112px);height:clamp(72px,calc(var(--site-card-width) * .48),112px);border-radius:50%;background:rgba(255,255,255,.88);box-shadow:var(--shadow)}
@@ -9280,8 +10326,9 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg
 .page-footer{text-align:center;padding:10px 16px 0;color:var(--text-secondary-color);font-size:13px}
 .page-footer a{color:var(--title-color);font-weight:600;text-decoration:none}
 .page-footer a:hover{text-decoration:underline}
+.widget-memo-card,.card-mode-simple .widget-memo-card{padding:0}.memo-widget{align-content:start;gap:0}.memo-widget::before{inset:0 0 auto 0;height:44px;border-radius:var(--card-border-radius) var(--card-border-radius) 0 0}.memo-widget-title{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;font-size:18px}.memo-widget-line{padding:10px 14px;border-top:1px solid var(--border-color)}.memo-widget-title + .memo-widget-line{margin-top:0}.memo-modal{width:min(96vw,1520px);max-width:1520px;padding:0}.memo-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border-color)}.memo-modal-header h3{margin:0;padding:0}.memo-icon-btn{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border-color);border-radius:999px;background:var(--bg-color);color:var(--text-secondary-color);cursor:pointer}.memo-icon-btn:hover,.memo-icon-btn.active{color:var(--accent-color);border-color:var(--accent-color);background:var(--accent-soft-color)}.memo-icon-btn .action-icon-svg{width:16px;height:16px;display:block;overflow:visible;pointer-events:none;flex-shrink:0}.memo-icon-btn .action-icon-svg *{vector-effect:non-scaling-stroke}.memo-editor{grid-template-columns:300px minmax(0,1fr);height:min(84vh,860px);min-height:0;border-top:none}.memo-sidebar{padding:14px;min-width:0;overflow:hidden}.memo-toolbar{display:flex;justify-content:flex-end}.memo-search{box-sizing:border-box}.memo-search:focus{outline:none;border-color:var(--accent-color)}.memo-warning,.memo-actions{display:none}.memo-list-item{position:relative;padding:12px 72px 12px 12px;min-width:0;overflow:hidden}.memo-list-actions{position:absolute;right:8px;top:50%;display:flex;gap:4px;opacity:0;transform:translateY(-50%);transition:opacity .2s}.memo-list-item:hover .memo-list-actions,.memo-list-item:focus-within .memo-list-actions{opacity:1}.memo-main{padding:18px 22px}.memo-title-input{min-width:0;overflow:hidden;text-overflow:ellipsis}.memo-meta{color:var(--text-secondary-color);font-size:12px;padding-top:8px}.export-dialog-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.36);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:10030}.export-dialog{width:min(92vw,420px);padding:22px;border:1px solid var(--border-color);border-radius:22px;background:var(--card-bg);box-shadow:0 24px 70px rgba(15,23,42,.28);color:var(--text-color)}.export-dialog-title{margin:0 0 10px;font-size:18px;font-weight:800;color:var(--title-color)}.export-dialog-message{margin:0;color:var(--text-secondary-color);line-height:1.6}.export-dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}.export-dialog-btn{border:1px solid var(--border-color);border-radius:999px;padding:10px 18px;background:var(--bg-color);color:var(--text-color);font-weight:700;cursor:pointer}.export-dialog-btn.primary{border-color:var(--accent-color);background:var(--accent-color);color:var(--accent-contrast)}
 @media(max-width:880px){.page-shell{padding:14px 12px 28px}.hero-shell{grid-template-columns:1fr;gap:12px;margin-bottom:18px}.hero-main,.hero-metrics{padding:18px}.hero-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.search-wrapper{max-width:100%;top:8px;margin-bottom:16px}.search-bar-container{gap:6px;padding:8px}.custom-select-container{min-width:0;font-size:14px}.custom-select-trigger{padding:8px 24px 8px 10px}.search-input{font-size:14px;padding:10px 12px}.search-action-btn,.search-mode-toggle,.category-directory-btn{padding:10px 11px;border-radius:14px}.sites-grid{gap:16px;justify-content:center}.category-title{font-size:clamp(22px,6vw,28px)}}
-@media(max-width:560px){.hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-stat-accent{grid-column:1 / -1}.sites-grid{--site-card-width:var(--mobile-grid-min-width,var(--grid-min-width));grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--site-card-width)),min(100%,var(--site-card-width))));gap:12px;justify-content:center}.search-mode-toggle,.category-directory-btn{font-size:18px}.back-to-top-btn{right:16px;bottom:16px;width:50px;height:50px}}
+@media(max-width:560px){.hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-stat-accent{grid-column:1 / -1}.sites-grid{--site-card-width:var(--mobile-grid-min-width,var(--grid-min-width));grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--site-card-width)),min(100%,var(--site-card-width))));gap:12px;justify-content:center}.widget-size-2x1{grid-column:span 1}.widget-size-2x1 .clock-widget{grid-template-columns:1fr;grid-template-rows:auto}.widget-size-2x1 .clock-time{grid-column:auto;grid-row:auto;justify-self:start}.clock-digits{font-size:clamp(28px,10vw,42px)}.search-mode-toggle,.category-directory-btn{font-size:18px}.back-to-top-btn{right:16px;bottom:16px;width:50px;height:50px}}
 </style></head><body class="${resolvedAppearance.bodyClassName}">
 <div class="page-shell">
 ${heroMarkup}
@@ -9318,6 +10365,41 @@ ${heroMarkup}
     <ul id="drawer-category-list" class="drawer-category-list"></ul>
 	<p id="drawer-no-results" class="hidden" style="padding:20px;text-align:center;color:var(--text-secondary-color);"></p>
 </div>
+<div id="memo-modal" class="memo-modal-overlay">
+    <div class="memo-modal">
+        <div class="memo-modal-header">
+            <h3>${exportedTranslations.memoWidget[exportState.language] || exportedTranslations.memoWidget.zh}</h3>
+            <button type="button" class="memo-icon-btn" id="memo-close-btn" aria-label="Close">×</button>
+        </div>
+        <input type="file" id="memo-import-input" accept="application/json,.json" style="display:none">
+        <div class="memo-editor">
+            <aside class="memo-sidebar">
+                <div class="memo-toolbar">
+                    <button type="button" class="memo-icon-btn" id="memo-add-btn" title="${exportedTranslations.add[exportState.language] || exportedTranslations.add.zh}"></button>
+                    <button type="button" class="memo-icon-btn" id="memo-import-btn" title="${exportedTranslations.import[exportState.language] || exportedTranslations.import.zh}"></button>
+                    <button type="button" class="memo-icon-btn" id="memo-export-btn" title="${exportedTranslations.export[exportState.language] || exportedTranslations.export.zh}"></button>
+                </div>
+                <input id="memo-search-input" class="memo-search" type="text" placeholder="${exportedTranslations.searchCategoryPlaceholder[exportState.language] || exportedTranslations.searchCategoryPlaceholder.zh}">
+                <div id="memo-list" class="memo-list"></div>
+            </aside>
+            <section class="memo-main">
+                <input id="memo-title-input" class="memo-title-input" type="text" placeholder="${exportedTranslations.memoTitlePlaceholder[exportState.language] || exportedTranslations.memoTitlePlaceholder.zh}">
+                <textarea id="memo-body-input" class="memo-body-input" placeholder="${exportedTranslations.memoBodyPlaceholder[exportState.language] || exportedTranslations.memoBodyPlaceholder.zh}"></textarea>
+                <div id="memo-meta" class="memo-meta"></div>
+            </section>
+        </div>
+    </div>
+</div>
+<div id="export-dialog-overlay" class="export-dialog-overlay">
+    <div class="export-dialog" role="dialog" aria-modal="true">
+        <h3 id="export-dialog-title" class="export-dialog-title"></h3>
+        <p id="export-dialog-message" class="export-dialog-message"></p>
+        <div class="export-dialog-actions">
+            <button type="button" id="export-dialog-cancel" class="export-dialog-btn"></button>
+            <button type="button" id="export-dialog-ok" class="export-dialog-btn primary"></button>
+        </div>
+    </div>
+</div>
 <script id="nav-data" type="application/json">${stateJson}<\/script>
 <script>
     const data = JSON.parse(document.getElementById('nav-data').textContent);
@@ -9339,6 +10421,11 @@ ${heroMarkup}
     const drawerCategoryList = document.getElementById('drawer-category-list');
     const drawerSearchInput = document.getElementById('drawer-search-input');
     const drawerNoResults = document.getElementById('drawer-no-results');
+    const exportDialogOverlay = document.getElementById('export-dialog-overlay');
+    const exportDialogTitle = document.getElementById('export-dialog-title');
+    const exportDialogMessage = document.getElementById('export-dialog-message');
+    const exportDialogCancel = document.getElementById('export-dialog-cancel');
+    const exportDialogOk = document.getElementById('export-dialog-ok');
     const SEARCH_ACTION_ICON_HTML = ${JSON.stringify(SEARCH_ACTION_ICON_SVG)};
     const applySearchActionIconExported = () => {
         searchActionButton.innerHTML = SEARCH_ACTION_ICON_HTML;
@@ -9355,6 +10442,22 @@ ${heroMarkup}
         }
         return text;
     };
+    const showExportDialog = (message, { confirm = false, title = tExported(confirm ? 'confirmTitle' : 'alertTitle') } = {}) => new Promise(resolve => {
+        exportDialogTitle.textContent = title;
+        exportDialogMessage.textContent = message;
+        exportDialogOk.textContent = tExported('ok');
+        exportDialogCancel.textContent = tExported('cancel');
+        exportDialogCancel.style.display = confirm ? '' : 'none';
+        exportDialogOverlay.style.display = 'flex';
+        const cleanup = (value) => {
+            exportDialogOverlay.style.display = 'none';
+            exportDialogOk.onclick = null;
+            exportDialogCancel.onclick = null;
+            resolve(value);
+        };
+        exportDialogOk.onclick = () => cleanup(true);
+        exportDialogCancel.onclick = () => cleanup(false);
+    });
     const getSearchableUrlComponent = (url) => {
         if (!url) return '';
         let hostname;
@@ -9369,6 +10472,81 @@ ${heroMarkup}
         return significantParts.join('.');
     };
     const getSortedCategoriesExported = () => [...(data.categories || [])].sort((a, b) => a.order - b.order);
+    const isWidgetItemExported = (item) => item && item.type === 'widget';
+    const getClockWidgetPropsExported = (item = {}) => ({
+        timezone: item.widgetProps?.timezone || 'local',
+        showDate: item.widgetProps?.showDate !== false,
+        use24Hour: item.widgetProps?.use24Hour !== false
+    });
+    const getClockWidgetSizeExported = (item) => item?.widgetSize || '2x1';
+    const getWidgetDisplayNameExported = (item) => item.widgetId === 'clock' ? tExported('clockWidget') : item.widgetId === 'memo' ? tExported('memoWidget') : (item.name || item.widgetId || '');
+    const MEMO_STORAGE_PREFIX_EXPORTED = 'navicube-export-memos-';
+    let activeMemoWidgetIdExported = null;
+    let activeMemoIdExported = null;
+    const getMemoStorageKeyExported = (widgetId) => \`\${MEMO_STORAGE_PREFIX_EXPORTED}\${widgetId}\`;
+    const normalizeMemoNotesExported = (notes) => Array.isArray(notes)
+        ? notes.map(note => ({
+            id: String(note.id || \`m\${Date.now()}\${Math.random().toString(16).slice(2)}\`),
+            title: String(note.title || '').slice(0, 80),
+            body: String(note.body || ''),
+            createdAt: Number(note.createdAt) || Date.now(),
+            updatedAt: Number(note.updatedAt) || Date.now(),
+            pinned: Boolean(note.pinned)
+        }))
+        : [];
+    const loadMemoNotesExported = (widgetId, seedNotes = null) => {
+        try {
+            const raw = localStorage.getItem(getMemoStorageKeyExported(widgetId));
+            if (raw) return normalizeMemoNotesExported(JSON.parse(raw));
+            const seeded = normalizeMemoNotesExported(seedNotes);
+            if (seeded.length) localStorage.setItem(getMemoStorageKeyExported(widgetId), JSON.stringify(seeded));
+            return seeded;
+        } catch (error) {
+            return [];
+        }
+    };
+    const saveMemoNotesExported = (widgetId, notes) => {
+        localStorage.setItem(getMemoStorageKeyExported(widgetId), JSON.stringify(normalizeMemoNotesExported(notes)));
+    };
+    const createMemoNoteExported = () => {
+        const now = Date.now();
+        return { id: \`m\${now}\`, title: tExported('memoUntitled'), body: '', createdAt: now, updatedAt: now, pinned: false };
+    };
+    const getMemoPreviewExported = (item) => {
+        const notes = loadMemoNotesExported(item.id, item.widgetProps?.notes);
+        return [...notes].sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt)[0] || null;
+    };
+    const getMemoPreviewNotesExported = (item, limit = 2) => loadMemoNotesExported(item.id, item.widgetProps?.notes)
+        .sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt)
+        .slice(0, limit);
+    const parseUtcOffsetExported = (timezone) => {
+        const match = String(timezone || '').match(/^UTC([+-])(\\d{1,2})$/);
+        if (!match) return null;
+        const hour = Math.min(12, Math.max(0, Number(match[2]) || 0));
+        return (match[1] === '-' ? -1 : 1) * hour;
+    };
+    const getClockDisplayDateExported = (now, timezone, timeOptions, dateOptions) => {
+        const offset = parseUtcOffsetExported(timezone);
+        if (offset !== null) {
+            timeOptions.timeZone = 'UTC';
+            dateOptions.timeZone = 'UTC';
+            return new Date(now.getTime() + offset * 60 * 60 * 1000);
+        }
+        if (timezone && timezone !== 'local') {
+            timeOptions.timeZone = timezone;
+            dateOptions.timeZone = timezone;
+        }
+        return now;
+    };
+    const formatClockDateExported = (date, locale, dateOptions) => {
+        const parts = new Intl.DateTimeFormat(locale, dateOptions).formatToParts(date);
+        const year = parts.find(part => part.type === 'year')?.value || '';
+        const month = parts.find(part => part.type === 'month')?.value || '';
+        const day = parts.find(part => part.type === 'day')?.value || '';
+        const weekday = parts.find(part => part.type === 'weekday')?.value || '';
+        const dateText = [year, month, day].filter(Boolean).join('/');
+        return '<span class="clock-date-part">' + sanitize(dateText) + '</span>' + (weekday ? '<span class="clock-date-part">' + sanitize(weekday) + '</span>' : '');
+    };
     const getSitesByCategoryExported = () => {
         const sitesByCategory = new Map();
         (data.sites || []).forEach(site => {
@@ -9379,7 +10557,51 @@ ${heroMarkup}
         sitesByCategory.forEach(categorySites => categorySites.sort((a, b) => a.order - b.order));
         return sitesByCategory;
     };
-    const buildSiteSearchTextExported = (site) => [site.name || '', getSearchableUrlComponent(site.url), site.desc || ''].join(' ').toLowerCase();
+    const buildSiteSearchTextExported = (site) => {
+        if (isWidgetItemExported(site)) {
+            if (site.widgetId === 'memo') {
+                const notes = loadMemoNotesExported(site.id, site.widgetProps?.notes);
+                return [getWidgetDisplayNameExported(site), site.widgetId || '', site.desc || '', ...notes.flatMap(note => [note.title, note.body])].join(' ').toLowerCase();
+            }
+            const props = getClockWidgetPropsExported(site);
+            return [getWidgetDisplayNameExported(site), site.widgetId || '', props.timezone || '', site.desc || ''].join(' ').toLowerCase();
+        }
+        return [site.name || '', getSearchableUrlComponent(site.url), site.desc || ''].join(' ').toLowerCase();
+    };
+    const updateClockWidgetsExported = (root = document) => {
+        const now = new Date();
+        root.querySelectorAll('.clock-widget').forEach(widget => {
+            let timezone = widget.dataset.timezone || 'local';
+            const use24Hour = widget.dataset.use24Hour !== 'false';
+            const showDate = widget.dataset.showDate !== 'false';
+            const locale = data.language === 'en' ? 'en-US' : 'zh-CN';
+            const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' };
+            const renderClock = (includeSeconds, includeDate) => {
+                const scopedDateOptions = { ...dateOptions };
+                const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: !use24Hour };
+                if (includeSeconds) timeOptions.second = '2-digit';
+                const displayNow = getClockDisplayDateExported(now, timezone, timeOptions, scopedDateOptions);
+                const parts = new Intl.DateTimeFormat(locale, timeOptions).formatToParts(displayNow);
+                const period = use24Hour ? '' : (parts.find(part => part.type === 'dayPeriod')?.value || '');
+                const timeParts = ['hour', 'minute'];
+                if (includeSeconds) timeParts.push('second');
+                const time = timeParts.map(type => parts.find(part => part.type === type)?.value || '00').join(':');
+                widget.querySelector('.clock-time').innerHTML = \`\${period ? \`<span class="clock-period">\${sanitize(period)}</span>\` : ''}<span class="clock-digits">\${sanitize(time)}</span>\`;
+                widget.querySelector('.clock-date').innerHTML = includeDate ? formatClockDateExported(displayNow, locale, scopedDateOptions) : '';
+            };
+            const overflows = () => widget.clientWidth > 0 && widget.scrollWidth > widget.clientWidth + 1;
+            try {
+                renderClock(true, showDate);
+                if (overflows()) renderClock(false, showDate);
+                if (overflows()) renderClock(false, false);
+            } catch (error) {
+                delete dateOptions.timeZone;
+                widget.dataset.timezone = 'local';
+                timezone = 'local';
+                renderClock(false, showDate);
+            }
+        });
+    };
 
     let categoryTitleOffsetFrameId = null;
     const syncCategoryTitleOffsetsExported = () => {
@@ -9412,12 +10634,45 @@ ${heroMarkup}
         });
     };
 
+    const normalizeWidgetGridSpansExported = () => {
+        const collapseWideWidgets = window.matchMedia('(max-width: 560px)').matches;
+
+        container.querySelectorAll('.sites-grid').forEach(grid => {
+            const cards = Array.from(grid.querySelectorAll('.site-card'));
+            cards.forEach(card => card.style.gridColumn = '');
+            if (collapseWideWidgets) return;
+
+            const columnCount = window.getComputedStyle(grid).gridTemplateColumns
+                .split(' ')
+                .filter(Boolean).length;
+            if (columnCount <= 1) return;
+
+            let usedColumns = 0;
+            cards.forEach(card => {
+                const styles = window.getComputedStyle(card);
+                if (styles.display === 'none' || styles.visibility === 'hidden') return;
+
+                const span = card.classList.contains('widget-size-2x1') ? Math.min(2, columnCount) : 1;
+                if (span > 1) {
+                    const shouldStartNewRow = usedColumns > 0 && usedColumns + span > columnCount;
+                    card.style.gridColumn = shouldStartNewRow ? \`1 / span \${span}\` : \`span \${span}\`;
+                    usedColumns = shouldStartNewRow ? span : usedColumns + span;
+                } else {
+                    usedColumns += span;
+                }
+
+                if (usedColumns >= columnCount) usedColumns = 0;
+            });
+        });
+    };
+
     const scheduleCategoryTitleOffsetsExported = () => {
         if (categoryTitleOffsetFrameId !== null) {
             cancelAnimationFrame(categoryTitleOffsetFrameId);
         }
         categoryTitleOffsetFrameId = requestAnimationFrame(() => {
             categoryTitleOffsetFrameId = null;
+            normalizeWidgetGridSpansExported();
             syncCategoryTitleOffsetsExported();
             syncScreenPagerExported();
             syncBackToTopButtonPositionExported();
@@ -9455,6 +10710,34 @@ ${heroMarkup}
                 container.scrollTo({ left: groups[nextIndex].offsetLeft, behavior: 'smooth' });
             });
         });
+    };
+
+    let pagedWheelLockExported = false;
+    const handlePagedWheelExported = (event) => {
+        if (!document.body.classList.contains('layout-paged')) return;
+        const groups = Array.from(container.querySelectorAll('.category-group')).filter(group => {
+            const styles = window.getComputedStyle(group);
+            return styles.display !== 'none' && group.getBoundingClientRect().width > 0;
+        });
+        if (groups.length <= 1) return;
+        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        if (Math.abs(delta) < 8) return;
+        if (pagedWheelLockExported) return;
+        const currentIndex = Math.min(groups.length - 1, Math.max(0, Math.round(container.scrollLeft / Math.max(1, container.clientWidth))));
+        const currentRect = groups[currentIndex].getBoundingClientRect();
+        if (delta > 0 && currentRect.bottom > window.innerHeight - 80) return;
+        if (delta < 0 && currentRect.top < 80) return;
+
+        const nextIndex = Math.min(groups.length - 1, Math.max(0, currentIndex + (delta > 0 ? 1 : -1)));
+        if (nextIndex === currentIndex) return;
+        event.preventDefault();
+        pagedWheelLockExported = true;
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        container.scrollTo({ left: groups[nextIndex].offsetLeft, behavior: 'smooth' });
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'auto' });
+            pagedWheelLockExported = false;
+        }, 420);
     };
 
     const syncBackToTopButtonPositionExported = () => {
@@ -9505,10 +10788,42 @@ ${heroMarkup}
 
             sitesForCategory.forEach(site => {
                 const card = document.createElement('div');
-                card.className = 'site-card';
+                card.className = isWidgetItemExported(site)
+                    ? \`site-card widget-card widget-\${sanitize(site.widgetId || 'clock')}-card widget-size-\${getClockWidgetSizeExported(site)}\`
+                    : 'site-card';
                 card.dataset.id = site.id;
                 card.dataset.categoryId = site.categoryId;
                 card.dataset.searchText = buildSiteSearchTextExported(site);
+
+                if (isWidgetItemExported(site)) {
+                    if (site.widgetId === 'memo') {
+                        const previewNotes = getMemoPreviewNotesExported(site);
+                        card.innerHTML = \`
+                            <div class="widget-shell memo-widget" data-widget-id="\${sanitize(site.id)}" role="button" tabindex="0">
+                                <div class="memo-widget-title">\${sanitize(getWidgetDisplayNameExported(site))}</div>
+                                \${previewNotes.length
+                                    ? previewNotes.map(note => \`<div class="memo-widget-line">\${sanitize(note.title || tExported('memoUntitled'))}</div>\`).join('')
+                                    : \`<div class="memo-widget-line">\${sanitize(tExported('memoTitlePlaceholder'))}</div>\`}
+                            </div>
+                        \`;
+                        grid.appendChild(card);
+                        return;
+                    }
+                    const props = getClockWidgetPropsExported(site);
+                    card.innerHTML = \`
+                        <div class="widget-shell clock-widget">
+                            <div class="clock-widget-label">\${sanitize(getWidgetDisplayNameExported(site))}</div>
+                            <div class="clock-time">--:--</div>
+                            <div class="clock-date"></div>
+                        </div>
+                    \`;
+                    const widget = card.querySelector('.clock-widget');
+                    widget.dataset.timezone = props.timezone;
+                    widget.dataset.showDate = String(props.showDate);
+                    widget.dataset.use24Hour = String(props.use24Hour);
+                    grid.appendChild(card);
+                    return;
+                }
 
                 let iconContent;
                 let iconStyle = '';
@@ -9526,8 +10841,197 @@ ${heroMarkup}
             group.appendChild(grid);
             container.appendChild(group);
         });
+        updateClockWidgetsExported(container);
+        setInterval(() => updateClockWidgetsExported(container), 1000);
         scheduleCategoryTitleOffsetsExported();
     }
+
+    const memoModal = document.getElementById('memo-modal');
+    const memoList = document.getElementById('memo-list');
+    const memoSearchInput = document.getElementById('memo-search-input');
+    const memoTitleInput = document.getElementById('memo-title-input');
+    const memoBodyInput = document.getElementById('memo-body-input');
+    const memoMeta = document.getElementById('memo-meta');
+    const memoAddBtn = document.getElementById('memo-add-btn');
+    const memoImportBtn = document.getElementById('memo-import-btn');
+    const memoExportBtn = document.getElementById('memo-export-btn');
+    const memoImportInput = document.getElementById('memo-import-input');
+    const memoCloseBtn = document.getElementById('memo-close-btn');
+    const MEMO_ICONS = ${JSON.stringify({
+        add: createActionIconSvg('add'),
+        pin: createActionIconSvg('pin'),
+        delete: createActionIconSvg('delete'),
+        import: createActionIconSvg('import'),
+        export: createActionIconSvg('export')
+    })};
+    memoAddBtn.innerHTML = MEMO_ICONS.add;
+    memoImportBtn.innerHTML = MEMO_ICONS.import;
+    memoExportBtn.innerHTML = MEMO_ICONS.export;
+
+    const renderMemoListExported = () => {
+        if (!activeMemoWidgetIdExported) return;
+        const query = memoSearchInput.value.trim().toLowerCase();
+        const notes = loadMemoNotesExported(activeMemoWidgetIdExported);
+        const filtered = notes
+            .filter(note => !query || \`\${note.title} \${note.body}\`.toLowerCase().includes(query))
+            .sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt);
+        memoList.innerHTML = filtered.length
+            ? filtered.map(note => \`
+                <div class="memo-list-item \${note.id === activeMemoIdExported ? 'active' : ''} \${note.pinned ? 'pinned' : ''}" data-id="\${sanitize(note.id)}">
+                    <div class="memo-list-title">\${sanitize(note.title || tExported('memoUntitled'))}</div>
+                    <div class="memo-list-date">\${sanitize(new Date(note.updatedAt).toLocaleString())}</div>
+                    <div class="memo-list-actions">
+                        <button type="button" class="memo-icon-btn memo-pin-btn \${note.pinned ? 'active' : ''}" data-id="\${sanitize(note.id)}" title="Pin">\${MEMO_ICONS.pin}</button>
+                        <button type="button" class="memo-icon-btn memo-delete-note-btn" data-id="\${sanitize(note.id)}" title="Delete">\${MEMO_ICONS.delete}</button>
+                    </div>
+                </div>
+            \`).join('')
+            : \`<div class="memo-empty">\${sanitize(tExported('memoBodyPlaceholder'))}</div>\`;
+    };
+    const selectMemoExported = (id) => {
+        saveActiveMemoExported(false);
+        const notes = loadMemoNotesExported(activeMemoWidgetIdExported);
+        const note = notes.find(item => item.id === id) || notes[0] || null;
+        activeMemoIdExported = note?.id || null;
+        memoTitleInput.value = note?.title || '';
+        memoBodyInput.value = note?.body || '';
+        memoTitleInput.disabled = !note;
+        memoBodyInput.disabled = !note;
+        const memoMetaLabel = data.language === 'en' ? 'Last edited' : '最后编辑';
+        memoMeta.textContent = note ? \`\${memoMetaLabel}: \${new Date(note.updatedAt).toLocaleString()}\` : '';
+        renderMemoListExported();
+    };
+    const refreshMemoCardsExported = (widgetId) => {
+        const item = (data.sites || []).find(site => site.id === widgetId);
+        const preview = item ? getMemoPreviewExported(item) : null;
+        document.querySelectorAll('.memo-widget').forEach(widget => {
+            if (widget.dataset.widgetId !== widgetId) return;
+            const lines = widget.querySelectorAll('.memo-widget-line');
+            const previewNotes = item ? getMemoPreviewNotesExported(item) : [];
+            const titles = previewNotes.length ? previewNotes.map(note => note.title || tExported('memoUntitled')) : [tExported('memoTitlePlaceholder')];
+            lines.forEach((line, index) => {
+                if (titles[index]) line.textContent = titles[index];
+                else line.remove();
+            });
+            titles.slice(lines.length).forEach(title => {
+                const line = document.createElement('div');
+                line.className = 'memo-widget-line';
+                line.textContent = title;
+                widget.appendChild(line);
+            });
+            if (item) widget.closest('.site-card').dataset.searchText = buildSiteSearchTextExported(item);
+        });
+    };
+    const openMemoModalExported = (widgetId) => {
+        activeMemoWidgetIdExported = widgetId;
+        memoSearchInput.value = '';
+        const item = (data.sites || []).find(site => site.id === widgetId);
+        let notes = loadMemoNotesExported(widgetId, item?.widgetProps?.notes);
+        if (!notes.length) {
+            notes = [createMemoNoteExported()];
+            saveMemoNotesExported(widgetId, notes);
+        }
+        memoModal.style.display = 'flex';
+        if (!localStorage.getItem('navicube-export-memo-warning-seen')) {
+            showExportDialog(tExported('memoStorageWarning'), { title: tExported('memoWidget') });
+            localStorage.setItem('navicube-export-memo-warning-seen', '1');
+        }
+        selectMemoExported(notes[0].id);
+    };
+    const saveActiveMemoExported = (rerender = true) => {
+        if (!activeMemoWidgetIdExported || !activeMemoIdExported) return;
+        const notes = loadMemoNotesExported(activeMemoWidgetIdExported);
+        const note = notes.find(item => item.id === activeMemoIdExported);
+        if (!note) return;
+        note.title = memoTitleInput.value.trim() || tExported('memoUntitled');
+        note.body = memoBodyInput.value;
+        note.updatedAt = Date.now();
+        saveMemoNotesExported(activeMemoWidgetIdExported, notes);
+        if (rerender) renderMemoListExported();
+        refreshMemoCardsExported(activeMemoWidgetIdExported);
+        const memoMetaLabel = data.language === 'en' ? 'Last edited' : '最后编辑';
+        memoMeta.textContent = \`\${memoMetaLabel}: \${new Date(note.updatedAt).toLocaleString()}\`;
+    };
+    const autoSaveMemoExported = (() => {
+        let timer = null;
+        return () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => saveActiveMemoExported(), 500);
+        };
+    })();
+    container.addEventListener('click', e => {
+        const memoWidget = e.target.closest('.memo-widget');
+        if (memoWidget) openMemoModalExported(memoWidget.dataset.widgetId);
+    });
+    memoCloseBtn.addEventListener('click', () => {
+        saveActiveMemoExported(false);
+        memoModal.style.display = 'none';
+    });
+    memoSearchInput.addEventListener('input', renderMemoListExported);
+    memoList.addEventListener('click', async e => {
+        const pinBtn = e.target.closest('.memo-pin-btn');
+        if (pinBtn && activeMemoWidgetIdExported) {
+            saveActiveMemoExported(false);
+            const notes = loadMemoNotesExported(activeMemoWidgetIdExported);
+            const note = notes.find(item => item.id === pinBtn.dataset.id);
+            if (note) note.pinned = !note.pinned;
+            saveMemoNotesExported(activeMemoWidgetIdExported, notes);
+            renderMemoListExported();
+            refreshMemoCardsExported(activeMemoWidgetIdExported);
+            return;
+        }
+        const deleteBtn = e.target.closest('.memo-delete-note-btn');
+        if (deleteBtn && activeMemoWidgetIdExported) {
+            if (!await showExportDialog(tExported('memoDeleteConfirm'), { confirm: true })) return;
+            const notes = loadMemoNotesExported(activeMemoWidgetIdExported).filter(note => note.id !== deleteBtn.dataset.id);
+            saveMemoNotesExported(activeMemoWidgetIdExported, notes);
+            if (activeMemoIdExported === deleteBtn.dataset.id) selectMemoExported(notes[0]?.id);
+            else renderMemoListExported();
+            refreshMemoCardsExported(activeMemoWidgetIdExported);
+            return;
+        }
+        const item = e.target.closest('.memo-list-item');
+        if (item) selectMemoExported(item.dataset.id);
+    });
+    memoAddBtn.addEventListener('click', () => {
+        if (!activeMemoWidgetIdExported) return;
+        const notes = loadMemoNotesExported(activeMemoWidgetIdExported);
+        const note = createMemoNoteExported();
+        notes.push(note);
+        saveMemoNotesExported(activeMemoWidgetIdExported, notes);
+        selectMemoExported(note.id);
+    });
+    memoTitleInput.addEventListener('input', autoSaveMemoExported);
+    memoBodyInput.addEventListener('input', autoSaveMemoExported);
+    memoExportBtn.addEventListener('click', () => {
+        if (!activeMemoWidgetIdExported) return;
+        const blob = new Blob([JSON.stringify(loadMemoNotesExported(activeMemoWidgetIdExported), null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = \`navicube-memos-\${new Date().toISOString().slice(0, 10)}.json\`;
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+    memoImportBtn.addEventListener('click', () => memoImportInput.click());
+    memoImportInput.addEventListener('change', e => {
+        const file = e.target.files?.[0];
+        if (!file || !activeMemoWidgetIdExported) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+            try {
+                const notes = normalizeMemoNotesExported(JSON.parse(reader.result));
+                saveMemoNotesExported(activeMemoWidgetIdExported, notes);
+                selectMemoExported(notes[0]?.id);
+                refreshMemoCardsExported(activeMemoWidgetIdExported);
+                showExportDialog(tExported('memoImported'));
+            } catch (error) {
+                showExportDialog(tExported('memoImportFailed'));
+            }
+            memoImportInput.value = '';
+        };
+        reader.readAsText(file);
+    });
 
     let currentSearchMode = data.searchMode || 'web';
     const DEFAULT_SEARCH_ENGINE = 'google';
@@ -9745,6 +11249,7 @@ ${heroMarkup}
     container.addEventListener('scroll', () => {
         if (document.body.classList.contains('layout-paged')) syncScreenPagerExported();
     });
+    container.addEventListener('wheel', handlePagedWheelExported, { passive: false });
 
     window.addEventListener('DOMContentLoaded', () => {
         scheduleCategoryTitleOffsetsExported();
@@ -9904,6 +11409,88 @@ ${heroMarkup}
             renderSearchEngineTags();
         });
         addSiteBtn.addEventListener('click', () => openModal(siteModal, 'add-site'));
+        addWidgetBtn.addEventListener('click', () => openWidgetModal('add-widget'));
+        cancelWidgetModalBtn.addEventListener('click', () => closeModal(widgetModal));
+        widgetForm.addEventListener('submit', handleWidgetFormSubmit);
+        widgetTypeSelect.addEventListener('change', () => {
+            if (widgetTypeSelect.value === 'memo' && !widgetIdInput.value) {
+                widgetSizeSelect.value = '1x1';
+            }
+            syncWidgetTypeSettings();
+        });
+        widgetTimezoneSignSelect.addEventListener('change', syncTimezoneInputFromControls);
+        widgetTimezoneHourSelect.addEventListener('change', syncTimezoneInputFromControls);
+        memoCloseBtn.addEventListener('click', () => {
+            persistActiveMemo(false);
+            closeModal(memoModal);
+        });
+        memoSearchInput.addEventListener('input', renderMemoList);
+        memoList.addEventListener('click', e => {
+            const pinBtn = e.target.closest('.memo-pin-btn');
+            if (pinBtn && activeMemoWidgetId) {
+                persistActiveMemo(false);
+                const notes = loadMemoNotes(activeMemoWidgetId);
+                const note = notes.find(item => item.id === pinBtn.dataset.id);
+                if (note) note.pinned = !note.pinned;
+                saveMemoNotes(activeMemoWidgetId, notes);
+                renderMemoList();
+                return;
+            }
+            const deleteBtn = e.target.closest('.memo-delete-note-btn');
+            if (deleteBtn && activeMemoWidgetId) {
+                showConfirm('memoDeleteConfirm').then(ok => {
+                    if (!ok) return;
+                    const notes = loadMemoNotes(activeMemoWidgetId).filter(note => note.id !== deleteBtn.dataset.id);
+                    saveMemoNotes(activeMemoWidgetId, notes);
+                    if (activeMemoId === deleteBtn.dataset.id) selectMemo(notes[0]?.id);
+                    else renderMemoList();
+                    renderNavigationLayout(navigationContainer, StateManager.state, true);
+                });
+                return;
+            }
+            const item = e.target.closest('.memo-list-item');
+            if (item) selectMemo(item.dataset.id);
+        });
+        memoAddBtn.addEventListener('click', () => {
+            if (!activeMemoWidgetId) return;
+            const notes = loadMemoNotes(activeMemoWidgetId);
+            const note = createMemoNote();
+            notes.push(note);
+            saveMemoNotes(activeMemoWidgetId, notes);
+            selectMemo(note.id);
+        });
+        memoTitleInput.addEventListener('input', autoSaveMemo);
+        memoBodyInput.addEventListener('input', autoSaveMemo);
+        memoExportBtn.addEventListener('click', () => {
+            if (!activeMemoWidgetId) return;
+            const data = JSON.stringify(loadMemoNotes(activeMemoWidgetId), null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `navicube-memos-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        memoImportBtn.addEventListener('click', () => memoImportInput.click());
+        memoImportInput.addEventListener('change', e => {
+            const file = e.target.files?.[0];
+            if (!file || !activeMemoWidgetId) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const notes = normalizeMemoNotes(JSON.parse(reader.result));
+                    saveMemoNotes(activeMemoWidgetId, notes);
+                    selectMemo(notes[0]?.id);
+                    renderNavigationLayout(navigationContainer, StateManager.state, true);
+                    showToast(t('memoImported'), 'success');
+                } catch (error) {
+                    showToast(t('memoImportFailed'), 'error');
+                }
+                memoImportInput.value = '';
+            };
+            reader.readAsText(file);
+        });
         cancelSiteModalBtn.addEventListener('click', () => {
             siteModal.style.pointerEvents = 'auto';
             siteModal.style.opacity = '1';
@@ -10166,6 +11753,7 @@ ${heroMarkup}
             const quickAddBtn = e.target.closest('.quick-add-site-btn');
             const editBtn = e.target.closest('.edit-site-btn');
             const deleteBtn = e.target.closest('.delete-site-btn');
+            const memoWidget = e.target.closest('.memo-widget');
             const fixLink = e.target.matches('.fix-failed-link');
             
             if (quickAddBtn) {
@@ -10174,9 +11762,14 @@ ${heroMarkup}
                 openModal(siteModal, 'add-site', { categoryId: categoryId });
             } else if (editBtn) { 
                 const s = StateManager.state.sites.find(s => s.id === editBtn.dataset.id); 
-                if (s) openModal(siteModal, 'edit-site', s); 
+                if (s) {
+                    if (isWidgetItem(s)) openWidgetModal('edit-widget', s);
+                    else openModal(siteModal, 'edit-site', s);
+                }
             } else if (deleteBtn) { 
                 deleteSite(deleteBtn.dataset.id); 
+            } else if (memoWidget) {
+                openMemoModal(memoWidget.dataset.widgetId);
             } else if (fixLink) {
                 const card = e.target.closest('.site-card');
                 if (card && card.dataset.id) {
@@ -10356,6 +11949,7 @@ ${heroMarkup}
             };
 
             if (isAll) {
+                StateManager.state.sites.filter(item => item.type === 'widget' && item.widgetId === 'memo').forEach(item => removeMemoNotes(item.id));
                 StateManager.state = defaults;
                 clearLinkCheckArtifacts();
                 StateManager.exportedFileUrl = null;
@@ -10365,6 +11959,7 @@ ${heroMarkup}
                 searchInput.value = '';
             } else {
                 if (isCategoriesSites) {
+                    StateManager.state.sites.filter(item => item.type === 'widget' && item.widgetId === 'memo').forEach(item => removeMemoNotes(item.id));
                     StateManager.state.categories = [];
                     StateManager.state.sites = [];
                     StateManager.lastCreatedCategoryId = null;
@@ -10645,6 +12240,7 @@ ${heroMarkup}
             navigationContainer.addEventListener('scroll', () => {
                 if (mainContent?.classList.contains('layout-paged')) syncScreenPager();
             });
+            navigationContainer.addEventListener('wheel', handlePagedWheel, { passive: false });
         }
         
         smartTidyBtn.addEventListener('click', startSmartTidy);
@@ -10679,14 +12275,15 @@ ${heroMarkup}
         // ========================================================================
         
         loadState();
+        setInterval(() => updateClockWidgets(navigationContainer), 1000);
         (async () => {
             try {
-                updateApiManagementUI();
-                await checkApiStatus(); 
                 renderAll();
                 checkForMobile();
                 checkForResume(); 
                 checkBackupReminder();
+                updateApiManagementUI();
+                checkApiStatus().catch(e => console.warn('API status check failed:', e));
             } catch (e) {
                 console.error('Initialization error:', e);
             }
